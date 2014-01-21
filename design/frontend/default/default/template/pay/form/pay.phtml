@@ -11,12 +11,9 @@
 		var conektaSuccessResponseHandler = function(response) {
 			var $form = $("#payment_form_<?php echo $_code ?>");
 			var token_id = response.id;
-			$form.append($('<input type="hidden" name="payment[cc_tokenid]" id="pay_cc_tokenid" />').val(token_id));
+			$form.find('#pay_cc_tokenid').val(token_id);
+			$form.find('.card-errors').text("");
 			payment.save();
-			$('#payment-buttons-container .button').unbind('click');
-			$('#payment-buttons-container .button').click(function() {
-				payment.save();
-			});
 		};
 		var conektaErrorResponseHandler = function(response) {
 			var $form = $("#payment_form_<?php echo $_code ?>");
@@ -24,20 +21,13 @@
 		};
 		
 		$('#payment-buttons-container .button').unbind('click');
+		$('#payment-buttons-container .button').attr('onclick','');
 		$('#payment-buttons-container .button').click(function() {
 			var $form = $("#payment_form_<?php echo $_code ?>");
-			$form.append($('<input type="hidden" name="payment[cc_nombre]" id="pay_cc_nombre" />').val(
-				$("#pay_cc_owner").val()
-			));
-			$form.append($('<input type="hidden" name="payment[cc_numero]" id="pay_cc_numero" />').val(
-				$("#pay_cc_number").val()
-			));
-			$form.append($('<input data-conekta="card[exp_month]" type="hidden" name="payment[cc_mes]" id="pay_cc_mes" />').val(
-				$("#pay_expiration").val()
-			));
-			$form.append($('<input data-conekta="card[exp_year]" type="hidden" name="payment[cc_anio]" id="pay_cc_anio" />').val(
-				$("#pay_expiration_yr").val()
-			));
+			$form.find('#pay_cc_nombre').val($("#pay_cc_owner").val());
+			$form.find('#pay_cc_numero').val($("#pay_cc_number").val());
+			$form.find('#pay_cc_mes').val($("#pay_expiration").val());
+			$form.find('#pay_cc_anio').val($("#pay_expiration_yr").val());
 			Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
 			return false;
 		});
@@ -46,24 +36,29 @@
 
 <ul style="display:none;" id="payment_form_<?php echo $_code ?>" class="form-list">
 	<li>
-		<label class="card-errors"></label>
+		<label class="card-errors" style="color:red;"></label>
 	</li>
+	<input type="hidden" name="payment[cc_nombre]" id="pay_cc_nombre" />
+	<input type="hidden" name="payment[cc_numero]" id="pay_cc_numero" />
+	<input data-conekta="card[exp_month]" type="hidden" name="payment[cc_mes]" id="pay_cc_mes" />
+	<input data-conekta="card[exp_year]" type="hidden" name="payment[cc_anio]" id="pay_cc_anio" />
+	<input type="hidden" name="payment[cc_tokenid]" id="pay_cc_tokenid" />
 	<li>
 		<label class="required" for="pay_cc_owner"><em>*</em>Name on Card</label>
 		<div class="input-box">
-			<input data-conekta="card[name]" type="text" value="Mau" name="payment[cc_owner]" id="pay_cc_owner" class="input-text required-entry" title="Name on Card" autocomplete="off">
+			<input data-conekta="card[name]" type="text" value="" name="payment[cc_owner]" id="pay_cc_owner" class="input-text required-entry" title="Name on Card" autocomplete="off">
 		</div>
 	</li>
 	<li>
 		<label class="required" for="pay_cc_number"><em>*</em>Credit Card Number</label>
 		<div class="input-box">
-			<input data-conekta="card[number]" type="text" value="4111111111111111" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="pay_cc_number" autocomplete="off">
+			<input data-conekta="card[number]" type="text" value="" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="pay_cc_number" autocomplete="off">
 		</div>
 	</li>
 	<li>
 		<label class="required" for="pay_cc_cvc"><em>*</em>CVC</label>
 		<div class="input-box">
-			<input data-conekta="card[cvc]" type="text" value="123" name="payment[cc_cvc]" id="pay_cc_cvc" class="input-text required-entry" title="CVC" autocomplete="off">
+			<input data-conekta="card[cvc]" type="text" value="" name="payment[cc_cvc]" id="pay_cc_cvc" class="input-text required-entry" title="CVC" autocomplete="off">
 		</div>
 	</li>
 	
@@ -90,18 +85,18 @@
 			<div class="v-fix">
 				<select class="year required-entry" name="payment[cc_exp_year]" id="pay_expiration_yr" autocomplete="off">
 					<option selected="selected" value="">Year</option>
-					<option value="2019">2019</option>
-					<option value="2013">2013</option>
 					<option value="2014">2014</option>
 					<option value="2015">2015</option>
 					<option value="2016">2016</option>
 					<option value="2017">2017</option>
 					<option value="2018">2018</option>
-					
+					<option value="2019">2019</option>
 					<option value="2020">2020</option>
 					<option value="2021">2021</option>
 					<option value="2022">2022</option>
 					<option value="2023">2023</option>
+					<option value="2024">2024</option>
+					<option value="2025">2025</option>
 				</select>
 			</div>
 		</div>
