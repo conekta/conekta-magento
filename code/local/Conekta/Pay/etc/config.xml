@@ -33,6 +33,18 @@
     <global>
     	<fieldsets>
     		 <sales_convert_quote_payment>
+				 <cc_number>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_number>
+    		 	<cc_owner>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_owner>
+    		 	<cc_exp_month>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_exp_month>
+    		 	<cc_exp_year>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_exp_year>
     		 	<cc_auth_code>
     		 		<to_order_payment>*</to_order_payment>
     		 	</cc_auth_code>

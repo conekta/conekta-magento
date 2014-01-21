@@ -11,8 +11,7 @@
 		var conektaSuccessResponseHandler = function(response) {
 			var $form = $("#payment_form_<?php echo $_code ?>");
 			var token_id = response.id;
-			alert(token_id);
-			$form.append($('<input type="text" name="payment[cc_tokenid]" id="pay_cc_tokenid" />').val(token_id));
+			$form.append($('<input type="hidden" name="payment[cc_tokenid]" id="pay_cc_tokenid" />').val(token_id));
 			payment.save();
 			$('#payment-buttons-container .button').unbind('click');
 			$('#payment-buttons-container .button').click(function() {
@@ -27,6 +26,18 @@
 		$('#payment-buttons-container .button').unbind('click');
 		$('#payment-buttons-container .button').click(function() {
 			var $form = $("#payment_form_<?php echo $_code ?>");
+			$form.append($('<input type="hidden" name="payment[cc_nombre]" id="pay_cc_nombre" />').val(
+				$("#pay_cc_owner").val()
+			));
+			$form.append($('<input type="hidden" name="payment[cc_numero]" id="pay_cc_numero" />').val(
+				$("#pay_cc_number").val()
+			));
+			$form.append($('<input data-conekta="card[exp_month]" type="hidden" name="payment[cc_mes]" id="pay_cc_mes" />').val(
+				$("#pay_expiration").val()
+			));
+			$form.append($('<input data-conekta="card[exp_year]" type="hidden" name="payment[cc_anio]" id="pay_cc_anio" />').val(
+				$("#pay_expiration_yr").val()
+			));
 			Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
 			return false;
 		});
@@ -44,18 +55,6 @@
 		</div>
 	</li>
 	<li>
-		<label class="required" for="pay_cc_type"><em>*</em>Credit Card Type</label>
-		<div class="input-box">
-			<select class="required-entry validate-cc-type-select" title="Credit Card Type" name="payment[cc_type]" id="pay_cc_type" autocomplete="off">
-				<option value="VI">Visa</option>
-				<option value="AE">American Express</option>
-				<option value="">--Please Select--</option>
-				<option value="MC">MasterCard</option>
-				<option value="DI">Discover</option>
-			</select>
-		</div>
-	</li>
-	<li>
 		<label class="required" for="pay_cc_number"><em>*</em>Credit Card Number</label>
 		<div class="input-box">
 			<input data-conekta="card[number]" type="text" value="4111111111111111" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="pay_cc_number" autocomplete="off">
@@ -68,17 +67,13 @@
 		</div>
 	</li>
 	
-	<input data-conekta="card[exp_month]" type="text" value="01" name="payment[cc_exp_month]" class="input-text required-entry" autocomplete="off">
-	<input data-conekta="card[exp_year]" type="text" value="2016" name="payment[cc_exp_year]"  class="input-text required-entry" autocomplete="off">
-	
-	<!--<li>
+	<li>
 		<label class="required" for="pay_expiration"><em>*</em>Expiration Date</label>
 		<div class="input-box">
 			<div class="v-fix">
 				<select class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="pay_expiration" autocomplete="off">
-					<option value="1">01 - January</option>
 					<option selected="selected" value="">Month</option>
-					
+					<option value="1">01 - January</option>
 					<option value="2">02 - February</option>
 					<option value="3">03 - March</option>
 					<option value="4">04 - April</option>
@@ -94,8 +89,8 @@
 			</div>
 			<div class="v-fix">
 				<select class="year required-entry" name="payment[cc_exp_year]" id="pay_expiration_yr" autocomplete="off">
-					<option value="2019">2019</option>
 					<option selected="selected" value="">Year</option>
+					<option value="2019">2019</option>
 					<option value="2013">2013</option>
 					<option value="2014">2014</option>
 					<option value="2015">2015</option>
@@ -110,7 +105,7 @@
 				</select>
 			</div>
 		</div>
-	</li>-->
+	</li>
 	
 	
 </ul>

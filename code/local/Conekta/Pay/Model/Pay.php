@@ -12,16 +12,16 @@ class Conekta_Pay_Model_Pay extends Mage_Payment_Model_Method_Abstract
         }
         $info = $this->getInfoInstance();
         $info->setCcType($data->getCcType())
-            ->setCcOwner($data->getCcOwner())
-            ->setCcLast4(substr($data->getCcNumber(), -4))
+            ->setCcOwner($data->getCcNombre())
+            ->setCcLast4(substr($data->getCcNumero(), -4))
             ->setCcNumber($data->getCcNumber())
             ->setCcCid($data->getCcCid())
-            ->setCcExpMonth($data->getCcExpMonth())
-            ->setCcExpYear($data->getCcExpYear())
+            ->setCcExpMonth($data->getCcMes())
+            ->setCcExpYear($data->getCcAnio())
             ->setCcSsIssue($data->getCcSsIssue())
             ->setCcSsStartMonth($data->getCcSsStartMonth())
             ->setCcSsStartYear($data->getCcSsStartYear())
-            ->setCcAuthCode($data->getCcAuthCode())
+            ->setCcAuthCode("34566473")
             ;
         return $this;
     }

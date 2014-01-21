@@ -25,7 +25,7 @@
 */
 
 require_once 'Mage/Checkout/controllers/OnepageController.php';
-class Conekta_Oxxo_OnepageController extends Mage_Checkout_OnepageController
+class Conekta_Pay_OnepageController extends Mage_Checkout_OnepageController
 {
 
 	public function saveOrderAction()
