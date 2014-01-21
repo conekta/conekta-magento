@@ -5,21 +5,27 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js"></script>
 <script type="text/javascript">
-	Conekta.setPublishableKey("<?php echo $publickey ?>");
-	var conektaSuccessResponseHandler = function(response) {
-		var $form = $("#payment_form_<?php echo $_code ?>");
-		var token_id = response.id;
-		$form.append($('<input type="hidden" name="payment[cc_tokenid]" id="pay_cc_tokenid" />').val(token_id));
-		payment.save();
-	};
-	var conektaErrorResponseHandler = function(response) {
-		var $form = $("#payment_form_<?php echo $_code ?>");
-		$form.find('.card-errors').text(response.message);
-	};
-  
+	$.noConflict();
 	jQuery(function($) {
-		$('payment-buttons-container .button').unbind('click');
-		$('payment-buttons-container .button').click(function() {
+		Conekta.setPublishableKey("<?php echo $publickey ?>");
+		var conektaSuccessResponseHandler = function(response) {
+			var $form = $("#payment_form_<?php echo $_code ?>");
+			var token_id = response.id;
+			alert(token_id);
+			$form.append($('<input type="text" name="payment[cc_tokenid]" id="pay_cc_tokenid" />').val(token_id));
+			payment.save();
+			$('#payment-buttons-container .button').unbind('click');
+			$('#payment-buttons-container .button').click(function() {
+				payment.save();
+			});
+		};
+		var conektaErrorResponseHandler = function(response) {
+			var $form = $("#payment_form_<?php echo $_code ?>");
+			$form.find('.card-errors').text(response.message);
+		};
+		
+		$('#payment-buttons-container .button').unbind('click');
+		$('#payment-buttons-container .button').click(function() {
 			var $form = $("#payment_form_<?php echo $_code ?>");
 			Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
 			return false;
@@ -28,127 +34,87 @@
 </script>
 
 <ul style="display:none;" id="payment_form_<?php echo $_code ?>" class="form-list">
-    <li>
-        <div class="input-box">
-            <input type="hidden" value="dgdgfdgfdg" name="payment[cc_tokenid]" id="pay_cc_tokenid" class="input-text" title="Name on Card" autocomplete="off">
-        </div>
-    </li>
-    <li>
-        <label class="required" for="pay_cc_owner"><em>*</em>Name on Card</label>
-        <div class="input-box">
-            <input type="text" value="" name="payment[cc_owner]" id="pay_cc_owner" class="input-text required-entry" title="Name on Card" autocomplete="off">
-        </div>
-    </li>
-    <li>
-        <label class="required" for="pay_cc_type"><em>*</em>Credit Card Type</label>
-        <div class="input-box">
-            <select class="required-entry validate-cc-type-select" title="Credit Card Type" name="payment[cc_type]" id="pay_cc_type" autocomplete="off">
-                <option value="">--Please Select--</option>
-                                        <option value="AE">American Express</option>
-                            <option value="VI">Visa</option>
-                            <option value="MC">MasterCard</option>
-                            <option value="DI">Discover</option>
-                        </select>
-        </div>
-    </li>
-    <li>
-        <label class="required" for="pay_cc_number"><em>*</em>Credit Card Number</label>
-        <div class="input-box">
-            <input type="text" value="" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="pay_cc_number" autocomplete="off">
-        </div>
-    </li>
-    <li>
-        <label class="required" for="pay_cc_cvc"><em>*</em>CVC</label>
-        <div class="input-box">
-            <input type="text" value="" name="payment[cc_cvc]" id="pay_cc_cvc" class="input-text required-entry" title="CVC" autocomplete="off">
-            <input type="hidden" value="conekta" name="payment[cc_pays]">
-        </div>
-    </li>
-    <li>
-        <label class="required" for="pay_expiration"><em>*</em>Expiration Date</label>
-        <div class="input-box">
-            <div class="v-fix">
-                <select class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="pay_expiration" autocomplete="off">
-                                                    <option selected="selected" value="">Month</option>
-                                    <option value="1">01 - January</option>
-                                    <option value="2">02 - February</option>
-                                    <option value="3">03 - March</option>
-                                    <option value="4">04 - April</option>
-                                    <option value="5">05 - May</option>
-                                    <option value="6">06 - June</option>
-                                    <option value="7">07 - July</option>
-                                    <option value="8">08 - August</option>
-                                    <option value="9">09 - September</option>
-                                    <option value="10">10 - October</option>
-                                    <option value="11">11 - November</option>
-                                    <option value="12">12 - December</option>
-                                </select>
-            </div>
-            <div class="v-fix">
-                                <select class="year required-entry" name="payment[cc_exp_year]" id="pay_expiration_yr" autocomplete="off">
-                                    <option selected="selected" value="">Year</option>
-                                    <option value="2013">2013</option>
-                                    <option value="2014">2014</option>
-                                    <option value="2015">2015</option>
-                                    <option value="2016">2016</option>
-                                    <option value="2017">2017</option>
-                                    <option value="2018">2018</option>
-                                    <option value="2019">2019</option>
-                                    <option value="2020">2020</option>
-                                    <option value="2021">2021</option>
-                                    <option value="2022">2022</option>
-                                    <option value="2023">2023</option>
-                                </select>
-            </div>
-        </div>
-    </li>
-    
-            </ul>
+	<li>
+		<label class="card-errors"></label>
+	</li>
+	<li>
+		<label class="required" for="pay_cc_owner"><em>*</em>Name on Card</label>
+		<div class="input-box">
+			<input data-conekta="card[name]" type="text" value="Mau" name="payment[cc_owner]" id="pay_cc_owner" class="input-text required-entry" title="Name on Card" autocomplete="off">
+		</div>
+	</li>
+	<li>
+		<label class="required" for="pay_cc_type"><em>*</em>Credit Card Type</label>
+		<div class="input-box">
+			<select class="required-entry validate-cc-type-select" title="Credit Card Type" name="payment[cc_type]" id="pay_cc_type" autocomplete="off">
+				<option value="VI">Visa</option>
+				<option value="AE">American Express</option>
+				<option value="">--Please Select--</option>
+				<option value="MC">MasterCard</option>
+				<option value="DI">Discover</option>
+			</select>
+		</div>
+	</li>
+	<li>
+		<label class="required" for="pay_cc_number"><em>*</em>Credit Card Number</label>
+		<div class="input-box">
+			<input data-conekta="card[number]" type="text" value="4111111111111111" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="pay_cc_number" autocomplete="off">
+		</div>
+	</li>
+	<li>
+		<label class="required" for="pay_cc_cvc"><em>*</em>CVC</label>
+		<div class="input-box">
+			<input data-conekta="card[cvc]" type="text" value="123" name="payment[cc_cvc]" id="pay_cc_cvc" class="input-text required-entry" title="CVC" autocomplete="off">
+		</div>
+	</li>
+	
+	<input data-conekta="card[exp_month]" type="text" value="01" name="payment[cc_exp_month]" class="input-text required-entry" autocomplete="off">
+	<input data-conekta="card[exp_year]" type="text" value="2016" name="payment[cc_exp_year]"  class="input-text required-entry" autocomplete="off">
+	
+	<!--<li>
+		<label class="required" for="pay_expiration"><em>*</em>Expiration Date</label>
+		<div class="input-box">
+			<div class="v-fix">
+				<select class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="pay_expiration" autocomplete="off">
+					<option value="1">01 - January</option>
+					<option selected="selected" value="">Month</option>
+					
+					<option value="2">02 - February</option>
+					<option value="3">03 - March</option>
+					<option value="4">04 - April</option>
+					<option value="5">05 - May</option>
+					<option value="6">06 - June</option>
+					<option value="7">07 - July</option>
+					<option value="8">08 - August</option>
+					<option value="9">09 - September</option>
+					<option value="10">10 - October</option>
+					<option value="11">11 - November</option>
+					<option value="12">12 - December</option>
+				</select>
+			</div>
+			<div class="v-fix">
+				<select class="year required-entry" name="payment[cc_exp_year]" id="pay_expiration_yr" autocomplete="off">
+					<option value="2019">2019</option>
+					<option selected="selected" value="">Year</option>
+					<option value="2013">2013</option>
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					
+					<option value="2020">2020</option>
+					<option value="2021">2021</option>
+					<option value="2022">2022</option>
+					<option value="2023">2023</option>
+				</select>
+			</div>
+		</div>
+	</li>-->
+	
+	
+</ul>
 
-<!--<ul class="form-list" id="" style="display:none;">
-      <li>
-        <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
-        <div class="input-box">
-            <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_owner]" value="<?php echo $this->htmlEscape($this->getInfoData('cc_owner')) ?>" />
-        </div>
-    </li>
-   
-    <li>
-        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
-        <div class="input-box">
-            <input type="text" id="<?php echo $_code ?>_cc_number" name="payment[cc_number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number" value="" />
-        </div>
-    </li>
-    <li>
-        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
-        <div class="input-box">
-            <div class="v-fix">
-                <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
-                <select id="<?php echo $_code ?>_expiration_yr" name="payment[cc_exp_year]" class="year required-entry">
-                    <option>Select Month</option>
-                <?php for($i=1,$j=12;$i<=$j;$i++): ?>
-                    <option value="<?php echo $i; ?>"<?php if($k==$_ccExpYear): ?> selected="selected"<?php endif ?>><?php echo $i; ?></option>
-                <?php endfor ?>
-                </select>
-            </div>            
-            <div class="v-fix">
-                <select id="<?php echo $_code ?>_expiration" name="payment[cc_exp_month]" class="month validate-cc-exp required-entry">
-                <option>Select Year</option>
-                <?php for($i=2010,$j=2020;$i<=$j;$i++): ?>
-                    <option value="<?php echo $i; ?>"><?php echo $i; ?></option>
-                <?php endfor ?>
-                </select>
-            </div>
-
-        </div>
-    </li>
-    <li>
-        <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('CVC') ?></label>
-        <div class="input-box">
-            <input type="text" title="<?php echo $this->__('cvc') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" name="payment[cc_cvc]" value="<?php echo $this->htmlEscape($this->getInfoData('cc_cvc')) ?>" />
-        </div>
-    </li>
-</ul>-->
 <div>
 	<?php echo $this->getMethod()->getConfigData('message');?>
 </div>
