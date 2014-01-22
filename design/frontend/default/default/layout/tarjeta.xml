@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+    </default>
+    <tarjeta_index_index>
+        <reference name="content">
+            <block type="tarjeta/tarjeta" name="tarjeta" template="tarjeta/tarjeta.phtml" />
+        </reference>
+    </tarjeta_index_index>
+</layout> 
