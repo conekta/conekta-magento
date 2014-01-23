@@ -8,4 +8,3 @@ class Conekta_Oxxo_Block_Form_Oxxo extends Mage_Payment_Block_Form
 	}
  
 }
-?>

@@ -1,42 +1,8 @@
 <?php 
 	$_code=$this->getMethodCode();
 	$publickey=Mage::getStoreConfig('payment/tarjeta/apikey');
+	include_once(dirname(__FILE__) . '/../../payment_logic.phtml');
 ?>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js"></script>
-<script type="text/javascript">
-	$.noConflict();
-	jQuery(function($) {
-		Conekta.setPublishableKey("<?php echo $publickey ?>");
-		var conektaSuccessResponseHandler = function(response) {
-			var $form = $("#payment_form_<?php echo $_code ?>");
-			var token_id = response.id;
-			$form.find('#tarjeta_cc_tokenid').val(token_id);
-			$form.find('.card-errors').text("");
-			payment.save();
-		};
-		var conektaErrorResponseHandler = function(response) {
-			var $form = $("#payment_form_<?php echo $_code ?>");
-			$form.find('.card-errors').text(response.message);
-		};
-		
-		$('#payment-buttons-container .button').unbind('click');
-		$('#payment-buttons-container .button').attr('onclick','');
-		$('#payment-buttons-container .button').click(function() {
-			if ($("#p_method_tarjeta").prop('checked')) {
-				var $form = $("#payment_form_<?php echo $_code ?>");
-				$form.find('#tarjeta_cc_nombre').val($("#tarjeta_cc_owner").val());
-				$form.find('#tarjeta_cc_numero').val($("#tarjeta_cc_number").val());
-				$form.find('#tarjeta_cc_mes').val($("#tarjeta_expiration").val());
-				$form.find('#tarjeta_cc_anio').val($("#tarjeta_expiration_yr").val());
-				Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
-			} else {
-				payment.save();
-			}
-			return false;
-		});
-	});
-</script>
 
 <ul style="display:none;" id="payment_form_<?php echo $_code ?>" class="form-list">
 	<li>

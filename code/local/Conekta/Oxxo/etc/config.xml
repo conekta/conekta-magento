@@ -33,6 +33,9 @@
     <global>
     	<fieldsets>
     		 <sales_convert_quote_payment>
+				 <codigo_barras>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</codigo_barras>
     		 </sales_convert_quote_payment>
     	</fieldsets>
         <models>
