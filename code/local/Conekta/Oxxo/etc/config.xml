@@ -17,7 +17,7 @@
             <checkout>
                 <args>
                 <modules>
-                <Conekta_Oxxo before="Mage_Checkout">Conekta_Oxxo</Conekta_Oxxo>
+					<Conekta_Oxxo before="Mage_Checkout">Conekta_Oxxo</Conekta_Oxxo>
                 </modules>
                 </args>
             </checkout>

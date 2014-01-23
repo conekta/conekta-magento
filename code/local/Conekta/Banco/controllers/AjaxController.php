@@ -1,10 +1,10 @@
 <?php
-class Conekta_Oxxo_AjaxController extends Mage_Core_Controller_Front_Action {
+class Conekta_Banco_AjaxController extends Mage_Core_Controller_Front_Action {
 
     public function indexAction() {
-		$key=Mage::getStoreConfig('payment/oxxo/apikey');
+		$key=Mage::getStoreConfig('payment/banco/apikey');
 		$quote = Mage::getSingleton('checkout/cart')->getQuote();
-		$currency=Mage::getStoreConfig('payment/oxxo/currency');
+		$currency=Mage::getStoreConfig('payment/banco/currency');
 		$grandTotal = $quote->getGrandTotal();
 		$exploded_val=explode(".",$grandTotal);
 		$exploded_val=$exploded_val['0']*100;
@@ -57,8 +57,8 @@ class Conekta_Oxxo_AjaxController extends Mage_Core_Controller_Front_Action {
 			  "description"=>"Compra en Magento de " . $b_info['email'],
 			  "amount"=> $exploded_val,
 			  "currency"=> $currency,
-			  "cash"=>array(
-				"type"=>"oxxo"
+			  "bank"=>array(
+				"type"=>"banorte"
 			  ),
 			  "details"=> array(
 				"name"=> preg_replace('!\s+!', ' ', $b_info['firstname'] . ' ' . $b_info['middlename'] . ' ' . $b_info['firstname']),
@@ -79,7 +79,7 @@ class Conekta_Oxxo_AjaxController extends Mage_Core_Controller_Front_Action {
 				"shipment"=> $shipment
 			  )
 			);
-			echo '{"barcode":"' . $charge->payment_method->barcode_url . '"}';
+			echo '{ "banco":"' . $charge->payment_method->type . '", "numero_servicio":"' . $charge->payment_method->service_number . '", "nombre_servicio":"' . $charge->payment_method->service_name . '", "referencia":"' . $charge->payment_method->reference . '" }';
 		} catch (Conekta_Error $e) {
 			echo '{"error":"' . $e->getMessage() . '"}';
 		}

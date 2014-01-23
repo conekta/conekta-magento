@@ -24,8 +24,10 @@
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
-require_once 'Mage/Checkout/controllers/OnepageController.php';
-class Conekta_Oxxo_OnepageController extends Mage_Checkout_OnepageController
+//require_once 'Mage/Checkout/controllers/OnepageController.php';
+//require_once '/../local/Conekta/Oxxo/controllers/OnepageController.php';
+require_once(dirname(__FILE__) . '/../../Oxxo/controllers/OnepageController.php');
+class Conekta_Banco_OnepageController extends Conekta_Oxxo_OnepageController
 {
 	public function savePaymentAction()
     {
@@ -68,16 +70,18 @@ class Conekta_Oxxo_OnepageController extends Mage_Checkout_OnepageController
             $result['error'] = $this->__('Unable to set Payment Method.');
         }
         
-        if ($data['codigo_barras']) {
+        if ($data['numero_servicio']) {
+			$result = $this->setBankReceipt($result, $data);
+		} else if ($data['codigo_barras']) {
 			$result = $this->setOxxoReceipt($result, $data);
 		}
 		
         $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
     }
     
-    public function setOxxoReceipt($result, $data) {
+    public function setBankReceipt($result, $data) {
 		$pattern = "</tfoot>";
-		$new_html = '<tr><td style="padding:5px;" class="a-left" colspan="4"><p>Tu pago será procesado hasta las 10 AM del siguiente día hábil en que realizaste el pago. En ese momento, recibirás un correo electrónico confirmando tu pago. Esta ficha de pago no tiene ningún valor comercial, fiscal o monetario. Es una referencia que contiene los datos necesarios para que quien haya realizado una compra y pueda realizar el pago o transferencia bancaria.</p><img id="codigo_barras" src="'. $data['codigo_barras'] .'" alt="'. $data['codigo_barras'] .'" /></td></tr><tfoot>';
+		$new_html = '<tr><td style="padding:5px;" class="a-left" colspan="4"><p>Banco: '. $data['banco'] .'</p><p>N&uacute;mero de servicio: '. $data['numero_servicio'] .'</p><p>Nombre de servicio: '. $data['nombre_servicio'] .'</p><p>N&uacutemero de referencia: '. $data['referencia'] .'</p></td></tr><tfoot>';
 		$html = str_replace($pattern, $new_html, $result['update_section']['html']);
 		$result['update_section']['html'] = $html;
 		return $result;

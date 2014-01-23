@@ -51,34 +51,6 @@
 						$form.find('.oxxo-errors').text("Método de pago no disponible, intente más tarde.");
 					}
 				});
-      } else if ($("#p_method_banco").prop('checked')) {
-				$.ajax({
-					type: "POST",
-					url: "<?php echo $this->getUrl('banco/ajax', array('_secure'=>true)); ?>",
-					dataType: "text",
-					data: "",
-					async: false,
-					success: function (data) {
-						var $form = $("#payment_form_banco");
-						data = $.parseJSON(data);
-						if (data.error) {
-							$form.find('.banco-errors').text(data.error);
-						} else if (data.numero_servicio) {
-							$form.find('.oxxo-errors').text("");
-							$form.find('#numero_servicio').val(data.numero_servicio);
-							$form.find('#nombre_servicio').val(data.nombre_servicio);
-							$form.find('#banco').val(data.banco);
-							$form.find('#referencia').val(data.referencia);
-							payment.save();
-						} else {
-							$form.find('.banco-errors').text("Método de pago no disponible, intente más tarde.");
-						}
-					},
-					error: function (textStatus, errorThrown) {
-						var $form = $("#payment_form_banco");
-						$form.find('.banco-errors').text("Método de pago no disponible, intente más tarde.");
-					}
-				});
 			} else {
 				payment.save();
 			}

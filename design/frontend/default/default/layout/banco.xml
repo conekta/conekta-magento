@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<banco_ajax_index>
+		<block type="banco/banco" name="banco" template="banco/banco.phtml" />
+	</banco_ajax_index>
+    <default>
+    </default>
+    <banco_index_index>
+        <reference name="content">
+            <block type="banco/banco" name="banco" template="banco/banco.phtml" />
+        </reference>
+    </banco_index_index>
+</layout> 
