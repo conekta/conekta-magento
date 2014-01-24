@@ -3,6 +3,9 @@
 	<banco_ajax_index>
 		<block type="banco/banco" name="banco" template="banco/banco.phtml" />
 	</banco_ajax_index>
+	<banco_ajax_listener>
+		<block type="banco/banco" name="banco" template="banco/banco.phtml" />
+	</banco_ajax_listener>
     <default>
     </default>
     <banco_index_index>

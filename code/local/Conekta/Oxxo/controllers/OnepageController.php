@@ -24,57 +24,9 @@
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
-require_once 'Mage/Checkout/controllers/OnepageController.php';
-class Conekta_Oxxo_OnepageController extends Mage_Checkout_OnepageController
+require_once(dirname(__FILE__) . '/../../Shared/controllers/ReceiptController.php');
+class Conekta_Oxxo_OnepageController extends Receipt_Controller
 {
-	public function savePaymentAction()
-    {
-        if ($this->_expireAjax()) {
-            return;
-        }
-        try {
-            if (!$this->getRequest()->isPost()) {
-                $this->_ajaxRedirectResponse();
-                return;
-            }
-
-            // set payment to quote
-            $result = array();
-            $data = $this->getRequest()->getPost('payment', array());
-            $result = $this->getOnepage()->savePayment($data);
-
-            // get section and redirect data
-            $redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
-            if (empty($result['error']) && !$redirectUrl) {
-                $this->loadLayout('checkout_onepage_review');
-                $result['goto_section'] = 'review';
-                $result['update_section'] = array(
-                    'name' => 'review',
-                    'html' => $this->_getReviewHtml()
-                );
-            }
-            if ($redirectUrl) {
-                $result['redirect'] = $redirectUrl;
-            }
-        } catch (Mage_Payment_Exception $e) {
-            if ($e->getFields()) {
-                $result['fields'] = $e->getFields();
-            }
-            $result['error'] = $e->getMessage();
-        } catch (Mage_Core_Exception $e) {
-            $result['error'] = $e->getMessage();
-        } catch (Exception $e) {
-            Mage::logException($e);
-            $result['error'] = $this->__('Unable to set Payment Method.');
-        }
-        
-        if ($data['codigo_barras']) {
-			$result = $this->setOxxoReceipt($result, $data);
-		}
-		
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-    }
-    
     public function setOxxoReceipt($result, $data) {
 		$pattern = "</tfoot>";
 		$new_html = '<tr><td style="padding:5px;" class="a-left" colspan="4"><p>Tu pago será procesado hasta las 10 AM del siguiente día hábil en que realizaste el pago. En ese momento, recibirás un correo electrónico confirmando tu pago. Esta ficha de pago no tiene ningún valor comercial, fiscal o monetario. Es una referencia que contiene los datos necesarios para que quien haya realizado una compra y pueda realizar el pago o transferencia bancaria.</p><img id="codigo_barras" src="'. $data['codigo_barras'] .'" alt="'. $data['codigo_barras'] .'" /></td></tr><tfoot>';
@@ -82,5 +34,4 @@ class Conekta_Oxxo_OnepageController extends Mage_Checkout_OnepageController
 		$result['update_section']['html'] = $html;
 		return $result;
 	}
-	
 }

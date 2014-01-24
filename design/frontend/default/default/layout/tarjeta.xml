@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
+	<banco_ajax_listener>
+		<block type="tarjeta/tarjeta" name="tarjeta" template="tarjeta/tarjeta.phtml" />
+	</banco_ajax_listener>
     <default>
     </default>
     <tarjeta_index_index>

@@ -1,5 +1,6 @@
 <?php
-class Conekta_Banco_Model_Banco extends Mage_Payment_Model_Method_Abstract
+require_once(dirname(__FILE__) . '/../../Shared/Model/PaymentMethod.php');
+class Conekta_Banco_Model_Banco extends Payment_Method
 {
 	protected $_code = 'banco';
 	protected $_formBlockType = 'banco/form_banco';
@@ -10,11 +11,11 @@ class Conekta_Banco_Model_Banco extends Mage_Payment_Model_Method_Abstract
         if (!($data instanceof Varien_Object)) {
             $data = new Varien_Object($data);
         }
-        $info = $this->getInfoInstance();
-        $info->setNumeroServicio($data->getNumeroServicio());
-        $info->setNombreServicio($data->getNombreServicio());
-        $info->setReferencia($data->getReferencia());
-        $info->setBanco($data->getBanco());
+        $info = $this->newInFoInstance();
+        $info->setNumeroServicio($data->getNumeroServicio())
+			->setNombreServicio($data->getNombreServicio())
+			->setReferencia($data->getReferencia())
+			->setBanco($data->getBanco());
         return $this;
     }
 }

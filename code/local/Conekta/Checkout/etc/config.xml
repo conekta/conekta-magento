@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <conekta_checkout>
+            <version>1.0</version>
+        </conekta_checkout>
+    </modules>
+    <global>
+        <models>
+            <conekta_checkout>Conekta_Checkout_Model</conekta_checkout>
+            <checkout>
+                <rewrite>
+                    <type_onepage>Conekta_Checkout_Model_Type_Onepage</type_onepage>
+                </rewrite>
+            </checkout>
+        </models>
+    </global>
+</config>

@@ -34,11 +34,10 @@ class Conekta_Tarjeta_OnepageController extends Mage_Checkout_OnepageController
 		$quote = Mage::getSingleton('checkout/cart')->getQuote();
 		$publickey=Mage::getStoreConfig('payment/tarjeta/apikey');
 		$privatekey=Mage::getStoreConfig('payment/tarjeta/apiprivatekey');
-		if($publickey !=null)
-		{
-			$key=$publickey;
-		} else {
+		if($privatekey !=null) {
 			$key=$privatekey;
+		} else {
+			$key=$publickey;
 		}
 		$currency=Mage::getStoreConfig('payment/tarjeta/currency');
 		$token_id=$data['cc_tokenid'];
@@ -49,13 +48,13 @@ class Conekta_Tarjeta_OnepageController extends Mage_Checkout_OnepageController
 		Conekta::setApiKey($key);
 		$s_info = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getData();
 		$b_info = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getData();
-		$p_info = $this->getOnepage()->getQuote()->getItemsCollection();
+		$p_info = $this->getOnepage()->getQuote()->getItemsCollection(array(), true);
 		$n_items = count($p_info->getColumnValues('sku'));
 		$line_items = array();
 		for ($i = 0; $i < $n_items; $i ++) {
 			$name = $p_info->getColumnValues('name');
 			$name = $name[$i];
-			$sku = $p_info->getColumnValues('sku');
+			$sku = $p_info->getColumnValues('id');
 			$sku = $sku[$i];
 			$price = $p_info->getColumnValues('price');
 			$price = $price[$i];
@@ -89,11 +88,13 @@ class Conekta_Tarjeta_OnepageController extends Mage_Checkout_OnepageController
 			  )
 			);
 		}
+		$reference_id = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getId();
 		try {
 			$charge = Conekta_Charge::create(array(
 			  "description"=>"Compra en Magento de " . $b_info['email'],
 			  "amount"=> $exploded_val,
 			  "currency"=> $currency,
+			  "reference_id" => $reference_id,
 			  "card"=> $token_id,
 			  "details"=> array(
 				"name"=> preg_replace('!\s+!', ' ', $b_info['firstname'] . ' ' . $b_info['middlename'] . ' ' . $b_info['firstname']),

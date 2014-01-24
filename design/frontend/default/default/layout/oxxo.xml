@@ -3,6 +3,9 @@
 	<oxxo_ajax_index>
 		<block type="oxxo/oxxo" name="oxxo" template="oxxo/oxxo.phtml" />
 	</oxxo_ajax_index>
+	<oxxo_ajax_listener>
+		<block type="oxxo/oxxo" name="oxxo" template="oxxo/oxxo.phtml" />
+	</oxxo_ajax_listener>
     <default>
     </default>
     <oxxo_index_index>

@@ -1,5 +1,6 @@
 <?php
-class Conekta_Tarjeta_Model_Tarjeta extends Mage_Payment_Model_Method_Abstract
+require_once(dirname(__FILE__) . '/../../Shared/Model/PaymentMethod.php');
+class Conekta_Tarjeta_Model_Tarjeta extends Payment_Method
 {
 	protected $_code = 'tarjeta';
 	protected $_formBlockType = 'tarjeta/form_tarjeta';
@@ -10,18 +11,11 @@ class Conekta_Tarjeta_Model_Tarjeta extends Mage_Payment_Model_Method_Abstract
         if (!($data instanceof Varien_Object)) {
             $data = new Varien_Object($data);
         }
-        $info = $this->getInfoInstance();
-        $info->setCcType($data->getCcType())
-            ->setCcOwner($data->getCcNombre())
+        $info = $this->newInFoInstance();
+        $info->setCcOwner($data->getCcNombre())
             ->setCcLast4(substr($data->getCcNumero(), -4))
-            ->setCcNumber($data->getCcNumber())
-            ->setCcCid($data->getCcCid())
             ->setCcExpMonth($data->getCcMes())
-            ->setCcExpYear($data->getCcAnio())
-            ->setCcSsIssue($data->getCcSsIssue())
-            ->setCcSsStartMonth($data->getCcSsStartMonth())
-            ->setCcSsStartYear($data->getCcSsStartYear())
-            ;
+            ->setCcExpYear($data->getCcAnio());
         return $this;
     }
 }

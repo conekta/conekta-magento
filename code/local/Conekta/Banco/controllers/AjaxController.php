@@ -1,8 +1,9 @@
 <?php
-class Conekta_Banco_AjaxController extends Mage_Core_Controller_Front_Action {
+require_once(dirname(__FILE__) . '/../../Shared/controllers/AjaxController.php');
+class Conekta_Banco_AjaxController extends Ajax_Controller {
 
     public function indexAction() {
-		$key=Mage::getStoreConfig('payment/banco/apikey');
+		$key=Mage::getStoreConfig('payment/banco/apiprivatekey');
 		$quote = Mage::getSingleton('checkout/cart')->getQuote();
 		$currency=Mage::getStoreConfig('payment/banco/currency');
 		$grandTotal = $quote->getGrandTotal();
@@ -12,13 +13,13 @@ class Conekta_Banco_AjaxController extends Mage_Core_Controller_Front_Action {
 		Conekta::setApiKey($key);
 		$s_info = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getData();
 		$b_info = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getData();
-		$p_info = Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection();
+		$p_info = Mage::getSingleton('checkout/session')->getQuote()->getItemsCollection(array(), true);
 		$n_items = count($p_info->getColumnValues('sku'));
 		$line_items = array();
 		for ($i = 0; $i < $n_items; $i ++) {
 			$name = $p_info->getColumnValues('name');
 			$name = $name[$i];
-			$sku = $p_info->getColumnValues('sku');
+			$sku = $p_info->getColumnValues('id');
 			$sku = $sku[$i];
 			$price = $p_info->getColumnValues('price');
 			$price = $price[$i];
@@ -52,11 +53,13 @@ class Conekta_Banco_AjaxController extends Mage_Core_Controller_Front_Action {
 			  )
 			);
 		}
+		$reference_id = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getId();
 		try {
 			$charge = Conekta_Charge::create(array(
 			  "description"=>"Compra en Magento de " . $b_info['email'],
 			  "amount"=> $exploded_val,
 			  "currency"=> $currency,
+			  "reference_id" => $reference_id,
 			  "bank"=>array(
 				"type"=>"banorte"
 			  ),
