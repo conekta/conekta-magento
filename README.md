@@ -1,7 +1,7 @@
 magento_plugin
 ==============
 
-= Instalación
+#Instalación
 
 1.- Copiar el folder app y pegarlo en donde tienes instalado magento para que se una con el folder app de Magento.
 2.- En el admin de Magento deberás ir a System->Cache Management. Seleccionarás todos los Cache Types y los deshabilitarás. También tienes que vaciar el cache de Magento haciendo clic en "Flush Magento Cache" y "Flush Cache Storage". Esto es para empezar a probar el plugin.
