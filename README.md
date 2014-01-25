@@ -3,10 +3,10 @@ magento_plugin
 
 #Instalación
 
-*#Copiar el folder app y pegarlo en donde tienes instalado magento para que se una con el folder app de Magento.
-2.- En el admin de Magento deberás ir a System->Cache Management. Seleccionarás todos los Cache Types y los deshabilitarás. También tienes que vaciar el cache de Magento haciendo clic en "Flush Magento Cache" y "Flush Cache Storage". Esto es para empezar a probar el plugin.
-3.- En la sección de System->Configuration, hay una sección de Payment Methods en la barra de navegación izquierda, tienes que dar clic ahí. En el listado de métodos de pago que se te muestra, tiene que aparecer "Pago con Tarjeta de Débito / Crédito", "Pago con Oxxo", "Pago con Transferencia Bancaria". Si no aparecen estos métodos de pago, revisa que magento tenga permisos suficientes para accesar los folders que uniste con los de Magento.
-4.- En cada uno de los métodos de pago de Conekta debe estar la opción de "Enabled" en "Yes" y las opciones de "Api Keys" puedes usar llaves de prueba:
+    * Copiar el folder app y pegarlo en donde tienes instalado magento para que se una con el folder app de Magento.
+    * En el admin de Magento deberás ir a System->Cache Management. Seleccionarás todos los Cache Types y los deshabilitarás. También tienes que vaciar el cache de Magento haciendo clic en "Flush Magento Cache" y "Flush Cache Storage". Esto es para empezar a probar el plugin.
+    * En la sección de System->Configuration, hay una sección de Payment Methods en la barra de navegación izquierda, tienes que dar clic ahí. En el listado de métodos de pago que se te muestra, tiene que aparecer "Pago con Tarjeta de Débito / Crédito", "Pago con Oxxo", "Pago con Transferencia Bancaria". Si no aparecen estos métodos de pago, revisa que magento tenga permisos suficientes para accesar los folders que uniste con los de Magento.
+    * En cada uno de los métodos de pago de Conekta debe estar la opción de "Enabled" en "Yes" y las opciones de "Api Keys" puedes usar llaves de prueba:
     Api Public Key: EpnQNGMghzDrytvfpqtG
     Api Private Key: 1tv5yJp3xnVZ7eK67m4h
 
