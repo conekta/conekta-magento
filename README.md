@@ -9,23 +9,23 @@ magento_plugin
   * En cada uno de los métodos de pago de Conekta debe estar la opción de "Enabled" en "Yes" y las opciones de "Api Keys" puedes usar llaves de prueba:
     
 Api Public Key: 
-    EpnQNGMghzDrytvfpqtG
+    `EpnQNGMghzDrytvfpqtG`
 Api Private Key: 
-    1tv5yJp3xnVZ7eK67m4h
+    `1tv5yJp3xnVZ7eK67m4h`
 
 
 Al realizar estos pasos, los métodos de pago de Conekta ya deberían estar disponibles en el Checkout para que los pruebes.
 
-= Inventario
+#Inventario
 
 El inventario del producto que se compre por medio de los métodos de pago de Conekta NO será decrementado al completar el checkout hasta que Conekta envíe notificación a tu servidor de Magento de que el pedido ha sido pagado.
 
-= Dependencias
+== Dependencias
 
 Los módulos que incluye este plugin son:
-  Conekta_Banco
-  Conekta_Oxxo
-  Conekta_Tarjeta
-  Conekta_Checkout
+  * Conekta_Banco
+  * Conekta_Oxxo
+  * Conekta_Tarjeta
+  * Conekta_Checkout
   
 El módulo de Conekta_Checkout debe estar habilitado para que la lógica de Inventario funcione adecuadamente. De lo contrario, el inventario se decrementará al completar el checkout independientemente si el estatus del pedido es de pagado en Conekta o no.
