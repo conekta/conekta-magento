@@ -13,6 +13,7 @@ Api Public Key:
 Api Private Key: 
     1tv5yJp3xnVZ7eK67m4h
 
+
 Al realizar estos pasos, los métodos de pago de Conekta ya deberían estar disponibles en el Checkout para que los pruebes.
 
 = Inventario
