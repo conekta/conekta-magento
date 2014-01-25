@@ -1,7 +1,8 @@
 magento_plugin
 ==============
 
-#Instalación
+Instalación
+-----------
 
   * Copiar el folder app y pegarlo en donde tienes instalado magento para que se una con el folder app de Magento.
   * En el admin de Magento deberás ir a System->Cache Management. Seleccionarás todos los Cache Types y los deshabilitarás. También tienes que vaciar el cache de Magento haciendo clic en "Flush Magento Cache" y "Flush Cache Storage". Esto es para empezar a probar el plugin.
@@ -16,11 +17,13 @@ Api Private Key:
 
 Al realizar estos pasos, los métodos de pago de Conekta ya deberían estar disponibles en el Checkout para que los pruebes.
 
-#Inventario
+Inventario
+-----------
 
 El inventario del producto que se compre por medio de los métodos de pago de Conekta NO será decrementado al completar el checkout hasta que Conekta envíe notificación a tu servidor de Magento de que el pedido ha sido pagado.
 
-== Dependencias
+Dependencias
+-----------
 
 Los módulos que incluye este plugin son:
   * Conekta_Banco
