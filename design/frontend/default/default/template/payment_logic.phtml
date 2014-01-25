@@ -64,7 +64,7 @@
 						if (data.error) {
 							$form.find('.banco-errors').text(data.error);
 						} else if (data.numero_servicio) {
-							$form.find('.oxxo-errors').text("");
+							$form.find('.banco-errors').text("");
 							$form.find('#numero_servicio').val(data.numero_servicio);
 							$form.find('#nombre_servicio').val(data.nombre_servicio);
 							$form.find('#banco').val(data.banco);

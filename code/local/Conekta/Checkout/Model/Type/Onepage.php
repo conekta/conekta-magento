@@ -17,10 +17,14 @@ class Conekta_Checkout_Model_Type_Onepage extends Mage_Checkout_Model_Type_Onepa
                 $this->_prepareCustomerQuote();
                 break;
         }
-
-		$quote = $this->getQuote();
-		# Ref: Mage_CatalogInventory_Model_Observer::subtractQuoteInventory
-		$quote->setInventoryProcessed(true);
+		
+		$name = get_class(Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getMethodInstance());
+		$names = array("Conekta_Oxxo_Model_Oxxo" => 1, "Conekta_Banco_Model_Banco" => 1, "Conekta_Tarjeta_Model_Tarjeta" => 1);
+		if (isset($names[$name])) {
+			$quote = $this->getQuote();
+			# Ref: Mage_CatalogInventory_Model_Observer::subtractQuoteInventory
+			$quote->setInventoryProcessed(true);
+		}
         $service = Mage::getModel('sales/service_quote', $this->getQuote());
         $service->submitAll();
 

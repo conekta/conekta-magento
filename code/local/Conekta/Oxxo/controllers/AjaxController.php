@@ -9,7 +9,7 @@ class Conekta_Oxxo_AjaxController extends Ajax_Controller {
 		$grandTotal = $quote->getGrandTotal();
 		$exploded_val=explode(".",$grandTotal);
 		$exploded_val=$exploded_val['0']*100;
-		require(dirname(__FILE__) . '/../../conekta-php/lib/Conekta.php');
+		require_once(dirname(__FILE__) . '/../../conekta-php/lib/Conekta.php');
 		Conekta::setApiKey($key);
 		$s_info = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getData();
 		$b_info = Mage::getSingleton('checkout/session')->getQuote()->getBillingAddress()->getData();
@@ -19,7 +19,7 @@ class Conekta_Oxxo_AjaxController extends Ajax_Controller {
 		for ($i = 0; $i < $n_items; $i ++) {
 			$name = $p_info->getColumnValues('name');
 			$name = $name[$i];
-			$sku = $p_info->getColumnValues('id');
+			$sku = $p_info->getColumnValues('sku');
 			$sku = $sku[$i];
 			$price = $p_info->getColumnValues('price');
 			$price = $price[$i];
@@ -53,7 +53,7 @@ class Conekta_Oxxo_AjaxController extends Ajax_Controller {
 			  )
 			);
 		}
-		$reference_id = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getId();
+		$reference_id = Mage::getSingleton('checkout/session')->getQuote()->getId();
 		try {
 			$charge = Conekta_Charge::create(array(
 			  "description"=>"Compra en Magento de " . $b_info['email'],
