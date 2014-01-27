@@ -23,54 +23,20 @@
             </updates>
         </layout>
     </frontend>
-    <admin>
-        <routers>
-			<custom>
-				<use>admin</use>
-				<args>
-					<module>Excellence_Custom</module>
-					<frontName>custom</frontName>
-				</args>
-			</custom>
-        </routers>
-    </admin>
-    <adminhtml>
-		<layout>
-			<updates>
-				<custom>
-					<file>custom.xml</file>
-				</custom>
-			</updates>
-		</layout>
-    </adminhtml>   
     <global>
-        <models>
+    	<rewrite>
+	        <test_cart> <!--This can be any unique id -->
+	            <from><![CDATA[#^/checkout/onepage/#]]></from>  <!-- the URL which u want to override-->
+	            <to>/custom/onepage/</to>  <!-- destination url -->
+	        </test_cart>
+	    </rewrite>
+    	<models>
         	<checkout>
 	            <rewrite>
 	                <type_onepage>Excellence_Custom_Model_Checkout_Type_Onepage</type_onepage>
 	            </rewrite>
 	        </checkout>
         </models>
-        <resources>
-            <custom_setup>
-                <setup>
-                    <module>Excellence_Custom</module>
-                </setup>
-                <connection>
-                    <use>core_setup</use>
-                </connection>
-            </custom_setup>
-            <custom_write>
-                <connection>
-                    <use>core_write</use>
-                </connection>
-            </custom_write>
-            <custom_read>
-                <connection>
-                    <use>core_read</use>
-                </connection>
-            </custom_read>
-        </resources>
         <blocks>
         	<checkout>
         		<rewrite>

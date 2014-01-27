@@ -2,43 +2,43 @@
 require_once 'Mage/Checkout/controllers/OnepageController.php';
 class Excellence_Custom_OnepageController extends  Mage_Checkout_OnepageController{
 
-	//public function savePaymentAction()
-	//{
-		//if ($this->_expireAjax()) {
-			//return;
-		//}
-		//try {
-			//if (!$this->getRequest()->isPost()) {
-				//$this->_ajaxRedirectResponse();
-				//return;
-			//}
+	public function savePaymentAction()
+	{
+		if ($this->_expireAjax()) {
+			return;
+		}
+		try {
+			if (!$this->getRequest()->isPost()) {
+				$this->_ajaxRedirectResponse();
+				return;
+			}
 
-			//// set payment to quote
-			//$result = array();
-			//$data = $this->getRequest()->getPost('payment', array());
-			//$result = $this->getOnepage()->savePayment($data);
+			// set payment to quote
+			$result = array();
+			$data = $this->getRequest()->getPost('payment', array());
+			$result = $this->getOnepage()->savePayment($data);
 
-			//if (empty($result['error'])) {
-				//$result['goto_section'] = 'excellence3';
-				//$result['update_section'] = array(
-                    //'name' => 'excellence3',
-                    //'html' => $this->_getExcellence3Html()
-				//);
-			//}
+			if (empty($result['error'])) {
+				$result['goto_section'] = 'excellence3';
+				$result['update_section'] = array(
+                    'name' => 'excellence3',
+                    'html' => $this->_getExcellence3Html()
+				);
+			}
 
-		//} catch (Mage_Payment_Exception $e) {
-			//if ($e->getFields()) {
-				//$result['fields'] = $e->getFields();
-			//}
-			//$result['error'] = $e->getMessage();
-		//} catch (Mage_Core_Exception $e) {
-			//$result['error'] = $e->getMessage();
-		//} catch (Exception $e) {
-			//Mage::logException($e);
-			//$result['error'] = $this->__('Unable to set Payment Method.');
-		//}
-		//$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-	//}
+		} catch (Mage_Payment_Exception $e) {
+			if ($e->getFields()) {
+				$result['fields'] = $e->getFields();
+			}
+			$result['error'] = $e->getMessage();
+		} catch (Mage_Core_Exception $e) {
+			$result['error'] = $e->getMessage();
+		} catch (Exception $e) {
+			Mage::logException($e);
+			$result['error'] = $this->__('Unable to set Payment Method.');
+		}
+		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+	}
 	public function saveExcellence3Action(){
 		if ($this->_expireAjax()) {
 			return;
