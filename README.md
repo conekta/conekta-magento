@@ -1,4 +1,4 @@
-magento_plugin
+conekta-magento
 ==============
 
 Installation
