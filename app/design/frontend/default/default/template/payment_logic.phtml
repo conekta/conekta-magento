@@ -41,6 +41,8 @@
 						} else if (data.barcode) {
 							$form.find('.oxxo-errors').text("");
 							$form.find('#codigo_barras').val(data.barcode);
+							$form.find('#referencia').val(data.referencia);
+							$form.find('#codigo').val(data.codigo);
 							payment.save();
 						} else {
 							$form.find('.oxxo-errors').text("Método de pago no disponible, intente más tarde.");

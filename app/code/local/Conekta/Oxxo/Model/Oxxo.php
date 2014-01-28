@@ -12,7 +12,9 @@ class Conekta_Oxxo_Model_Oxxo extends Payment_Method
             $data = new Varien_Object($data);
         }
         $info = $this->newInFoInstance();
-        $info->setCodigoBarras($data->getCodigoBarras());
+        $info->setCodigoBarras($data->getCodigoBarras())
+        ->setReferencia($data->getReferencia())
+        ->setCodigo($data->getCodigo());
         return $this;
     }
 }

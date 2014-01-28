@@ -23,7 +23,7 @@
 * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
-require_once(dirname(__FILE__) . '/../../Shared/controllers/ReceiptController.php');
-class Conekta_Tarjeta_OnepageController extends Receipt_Controller
+require_once(dirname(__FILE__) . '/../../Ficha/controllers/OnepageController.php');
+class Conekta_Tarjeta_OnepageController extends Conekta_Ficha_OnepageController
 {
 }

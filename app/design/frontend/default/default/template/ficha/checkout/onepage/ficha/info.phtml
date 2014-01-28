@@ -12,9 +12,16 @@
 					echo "Tu navegador debe permitir pop-ups de este sitio para que puedas imprimir tu recibo.";
 					$string = "<tr style='height:80px;'>"
 							  . "<td>CÓDIGO DE BARRAS</td>"
-							  . "<td class='highlight'><img style='margin-right:-10px;' src='". $quote->getData('codigo_barras') ."'/><div name='test'></div></td>"
+							  . "<td class='highlight'><img style='margin-right:-10px;' src='". $quote->getData('codigo_barras') ."'/><div name='test'>". $quote->getData('codigo') ."</div></td>"
 							  . "</tr>"
-							  . "<tr>";
+							  . "<tr>"
+							  . "<tr>"
+							  . "<td>Número de Referencia</td>"
+							  . "<td class='highlight'>" . $quote->getData('referencia') . "</td>"
+							  . "</tr>";
+					$icon = "<span class='left' id='seller-co-logo'>"
+					        ."<img src='https://s3.amazonaws.com/pagalo/oxxo_logo.png' style='height:80px;padding-left:20px;'>"
+					        ."</span>";
 					break;
 				case 'banco':
 					echo "Tu navegador debe permitir pop-ups de este sitio para que puedas imprimir tu recibo.";
@@ -34,6 +41,9 @@
 							  . "<td>Número de Referencia</td>"
 							  . "<td class='highlight'>" . $quote->getData('referencia') . "</td>"
 							  . "</tr>";
+							  $icon = "<span class='left' id='seller-co-logo'>"
+					        ."<img src='https://s3.amazonaws.com/conekta/static/v6/assets/images/banorte.png' style='height:80px;padding-left:20px;'>"
+					        ."</span>";
 					break;
 				default:
 					$display = false;
@@ -96,7 +106,6 @@ var w = window.open();
  + ""
  + "    <div id='print'>"
  + ""
- + "          <span class='left enhance' id='status'>Hemos enviado una copia de esta ficha de pago a <span class='highlight'>_correo_ </span></span><a class='right buttons' onclick='print();'>IMPRIMIR FICHA DE PAGO</a>"
  + ""
  + "        <div class='clear'></div>"
  + "      </div>"
@@ -104,9 +113,9 @@ var w = window.open();
  + "        <div id='po-wrapper'>"
  + "            <div id='po-header'>"
  + "              <span class='left' id='pagalo-co-logo'>"
- 
+ +                  "<img id='logo' src='https://s3.amazonaws.com/conekta/v5/img/conekta-brand.png' style='max-width:250px;max-height:100px;'>"
  + "              </span>"
- + "              <span class='left' id='seller-co-logo'><img src='https://s3.amazonaws.com/pagalo/oxxo_logo.png' style='height:80px;padding-left:20px;'></span>"
+ + "<?php echo $icon; ?>"
  + "              <h1 class='right'>FICHA DE PAGO<br />PARA DEPÓSITO O<br />OXXO</h1>"
  + "              <div class='clear'></div>"
  + "            </div>"
@@ -120,7 +129,7 @@ var w = window.open();
  + "                                <td>IMPORTE</td>"
  + "                                <td class='highlight'>$ "
  + ""
- + "<?php echo Mage::helper('core')->currency($grandtotal , true, false); ?>"
+ + "<?php echo money_format('%i', $grandtotal); ?>"
  + ""
  + "</td>"
  + "                            </tr>"
@@ -136,7 +145,7 @@ var w = window.open();
  + "                </div>"
  + "            </div>"
  + "            <div id='po-footnote'>"
- + "              <p>Esta ficha de pago no tiene ningún valor comercial, fiscal o monetario. Es una referencia que contiene los datos necesarios para que quien haya realizado una compra en un sitio <span class='enhance'> el sitio </span>  y pueda realizar el pago o transferencia bancaria.</p>"
+ + "              <p>Esta ficha de pago no tiene ningún valor comercial, fiscal o monetario. Es una referencia que contiene los datos necesarios para que quien haya realizado una compra en este sitio  pueda realizar el pago o transferencia bancaria.</p>"
  + "            </div>"
  + "        </div>"
  + "    </div>"
