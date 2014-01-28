@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Conekta_Ficha>
+            <version>0.1.0</version>
+        </Conekta_Ficha>
+    </modules>
+    <frontend>
+        <routers>
+            <ficha>
+                <use>standard</use>
+                <args>
+                    <module>Conekta_Ficha</module>
+                    <frontName>ficha</frontName>
+                </args>
+            </ficha>
+        </routers>
+        <layout>
+            <updates>
+                <ficha>
+                    <file>ficha.xml</file>
+                </ficha>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+    	<rewrite>
+	        <test_cart> <!--This can be any unique id -->
+	            <from><![CDATA[#^/checkout/onepage/#]]></from>  <!-- the URL which u want to override-->
+	            <to>/ficha/onepage/</to>  <!-- destination url -->
+	        </test_cart>
+	    </rewrite>
+    	<models>
+        	<checkout>
+	            <rewrite>
+	                <type_onepage>Conekta_Ficha_Model_Checkout_Type_Onepage</type_onepage>
+	            </rewrite>
+	        </checkout>
+        </models>
+        <blocks>
+        	<checkout>
+        		<rewrite>
+        			<onepage>Conekta_Ficha_Block_Checkout_Onepage</onepage>
+        		</rewrite>
+        	</checkout>
+            <ficha>
+                <class>Conekta_Ficha_Block</class>
+            </ficha>
+        </blocks>
+        <helpers>
+            <ficha>
+                <class>Conekta_Ficha_Helper</class>
+            </ficha>
+        </helpers>
+    </global>
+</config>

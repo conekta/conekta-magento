@@ -1,0 +1,80 @@
+<?php 
+	$_code=$this->getMethodCode();
+	$publickey=Mage::getStoreConfig('payment/tarjeta/apikey');
+	include_once(dirname(__FILE__) . '/../../payment_logic.phtml');
+?>
+
+<ul style="display:none;" id="payment_form_<?php echo $_code ?>" class="form-list">
+	<li>
+		<label class="card-errors" style="color:red;"></label>
+	</li>
+	<input type="hidden" name="payment[cc_nombre]" id="tarjeta_cc_nombre" />
+	<input type="hidden" name="payment[cc_numero]" id="tarjeta_cc_numero" />
+	<input data-conekta="card[exp_month]" type="hidden" name="payment[cc_mes]" id="tarjeta_cc_mes" />
+	<input data-conekta="card[exp_year]" type="hidden" name="payment[cc_anio]" id="tarjeta_cc_anio" />
+	<input type="hidden" name="payment[cc_tokenid]" id="tarjeta_cc_tokenid" />
+	<li>
+		<label class="required" for="tarjeta_cc_owner"><em>*</em>Nombre del tarjetahabiente</label>
+		<div class="input-box">
+			<input data-conekta="card[name]" type="text" value="" name="payment[cc_owner]" id="tarjeta_cc_owner" class="input-text required-entry" title="Name on Card" autocomplete="off">
+		</div>
+	</li>
+	<li>
+		<label class="required" for="tarjeta_cc_number"><em>*</em>N&uacute;mero de la tarjeta</label>
+		<div class="input-box">
+			<input data-conekta="card[number]" type="text" value="" class="input-text validate-cc-number validate-cc-type" title="Credit Card Number" name="payment[cc_number]" id="tarjeta_cc_number" autocomplete="off">
+		</div>
+	</li>
+	<li>
+		<label class="required" for="tarjeta_cc_cvc"><em>*</em>CVC (c&oacute;digo de seguridad)</label>
+		<div class="input-box">
+			<input data-conekta="card[cvc]" type="text" value="" name="payment[cc_cvc]" id="tarjeta_cc_cvc" class="input-text required-entry" title="CVC" autocomplete="off">
+		</div>
+	</li>
+	
+	<li>
+		<label class="required" for="tarjeta_expiration"><em>*</em>Fecha de expiraci&oacute;n</label>
+		<div class="input-box">
+			<div class="v-fix">
+				<select class="month validate-cc-exp required-entry" name="payment[cc_exp_month]" id="tarjeta_expiration" autocomplete="off">
+					<option selected="selected" value="">Month</option>
+					<option value="1">01 - January</option>
+					<option value="2">02 - February</option>
+					<option value="3">03 - March</option>
+					<option value="4">04 - April</option>
+					<option value="5">05 - May</option>
+					<option value="6">06 - June</option>
+					<option value="7">07 - July</option>
+					<option value="8">08 - August</option>
+					<option value="9">09 - September</option>
+					<option value="10">10 - October</option>
+					<option value="11">11 - November</option>
+					<option value="12">12 - December</option>
+				</select>
+			</div>
+			<div class="v-fix">
+				<select class="year required-entry" name="payment[cc_exp_year]" id="tarjeta_expiration_yr" autocomplete="off">
+					<option selected="selected" value="">Year</option>
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+					<option value="2021">2021</option>
+					<option value="2022">2022</option>
+					<option value="2023">2023</option>
+					<option value="2024">2024</option>
+					<option value="2025">2025</option>
+				</select>
+			</div>
+		</div>
+	</li>
+	
+	
+</ul>
+
+<div>
+	<?php echo $this->getMethod()->getConfigData('message');?>
+</div>

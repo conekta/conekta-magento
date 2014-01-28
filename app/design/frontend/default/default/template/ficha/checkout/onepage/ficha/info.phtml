@@ -1,0 +1,153 @@
+<fieldset>
+        <?php
+			$method = Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getData('method');
+			$quoteid = Mage::getSingleton('checkout/session')->getQuote()->getId();
+			$quote= Mage::getModel('sales/quote_payment')->load($quoteid);
+			$totals = Mage::getSingleton('checkout/session')->getQuote()->getTotals();
+			$grandtotal = round($totals["grand_total"]->getValue());
+			$display = true;
+			switch($method) 
+			{
+				case 'oxxo':
+					echo "Tu navegador debe permitir pop-ups de este sitio para que puedas imprimir tu recibo.";
+					$string = "<tr style='height:80px;'>"
+							  . "<td>CÓDIGO DE BARRAS</td>"
+							  . "<td class='highlight'><img style='margin-right:-10px;' src='". $quote->getData('codigo_barras') ."'/><div name='test'></div></td>"
+							  . "</tr>"
+							  . "<tr>";
+					break;
+				case 'banco':
+					echo "Tu navegador debe permitir pop-ups de este sitio para que puedas imprimir tu recibo.";
+					$string =  "<tr>"
+							  . "<td>NOMBRE DEL BANCO</td>"
+							  . "<td class='highlight'>" . $quote->getData('banco') . "</td>"
+							  . "</tr>"
+							  . "<tr>"
+							  . "<td>Nombre del Servicio</td>"
+ 							  . "<td class='highlight'>" . $quote->getData('nombre_servicio') . "</td>"
+							  . "</tr>"
+							  . "<tr>"
+							  . "<td>Número de Servicio</td>"
+ 							  . "<td class='highlight'>" . $quote->getData('numero_servicio') . "</td>"
+							  . "</tr>"
+							  . "<tr>"
+							  . "<td>Número de Referencia</td>"
+							  . "<td class='highlight'>" . $quote->getData('referencia') . "</td>"
+							  . "</tr>";
+					break;
+				default:
+					$display = false;
+					echo "Este método de compra no tiene ficha de pago. Da clic en continuar.";
+			}
+        ?>
+            
+</fieldset>
+
+<script type="text/javascript">
+<?php if ($display) { ?>
+var w = window.open();
+              
+ w.document.write( "<!DOCTYPE HTML>"
+ + "<html lang='es'>"
+ + "<head>"
+ + ""
+ + "    <meta charset='UTF-8'>"
+ + "    <title>Págalo - Tu ficha de pago</title>"
+ + "    <meta name='description' content='' />"
+ + "    <meta name='google-site-verification' content='' />"
+ + "    <meta name='msvalidate.01' content='' />"
+ + ""
+ + "    <link rel='stylesheet' href='https://s3.amazonaws.com/conekta/stylesheets/oxxo.css' type='text/css' charset='utf-8'/>"
+ + ""
+
+ + "    <style>"
+ + "      @media print"
+ + "      {"
+ + "        body * { visibility: hidden; }"
+ + "        #po-wrapper * { visibility: visible; }"
+ + "        #po-wrapper { position: absolute; top: 40px; left: 30px; }"
+ + "        div, span, td, h1, h2, h3{color:#000000;}"
+ + "      }"
+ + "      #print, #po-footer {"
+ + "        text-shadow:none;"
+ + "      }"
+ + "      #po-body-wrapper tr:nth-child(odd){"
+ + "        background:#FFFFFF ! important;"
+ + "      }"
+ + "      #po-body-wrapper tr:nth-child(even){"
+ + "        background: #F7F8F8;"
+ + "      }"
+ + "      #po-body h2.highlight:first{"
+ + "        padding-bottom:11px;"
+ + "      }"
+ + "      #po-header span{"
+ + "        width:250px ! important;"
+ + "      }"
+ + "    </style>"
+ + "</head>"
+ + ""
+ + ""
+ + ""
+ + "<body style='background-image: url(https://s3.amazonaws.com/publiy/company_resources/original/6a867e4dbde1893de206af9e3fe286fa.png);background-attachment: fixed;background-size:100%;'> "
+ + "  <style>"
+ + "    body{background:url(/images/cart/blue.png) #F6FAFC;}"
+ + "  </style>"
+ + ""
+ + ""
+ + "    <div id='print'>"
+ + ""
+ + "          <span class='left enhance' id='status'>Hemos enviado una copia de esta ficha de pago a <span class='highlight'>_correo_ </span></span><a class='right buttons' onclick='print();'>IMPRIMIR FICHA DE PAGO</a>"
+ + ""
+ + "        <div class='clear'></div>"
+ + "      </div>"
+ + "    <div id='payment-order'>"
+ + "        <div id='po-wrapper'>"
+ + "            <div id='po-header'>"
+ + "              <span class='left' id='pagalo-co-logo'>"
+ 
+ + "              </span>"
+ + "              <span class='left' id='seller-co-logo'><img src='https://s3.amazonaws.com/pagalo/oxxo_logo.png' style='height:80px;padding-left:20px;'></span>"
+ + "              <h1 class='right'>FICHA DE PAGO<br />PARA DEPÓSITO O<br />OXXO</h1>"
+ + "              <div class='clear'></div>"
+ + "            </div>"
+ + "            <div id='po-body'>"
+ + "                <div id='po-body-wrapper' style='padding: 30px 20px'>"
+ + "                    <div class='left'>"
+ + "                        <h2 class='highlight'>INFORMACIÓN DE PAGO</h2>"
+ + "                        <table>"
+ + "<?php echo $string; ?>"
+ + "                            <tr>"
+ + "                                <td>IMPORTE</td>"
+ + "                                <td class='highlight'>$ "
+ + ""
+ + "<?php echo Mage::helper('core')->currency($grandtotal , true, false); ?>"
+ + ""
+ + "</td>"
+ + "                            </tr>"
+ + "                        </table>"
+ + "                    </div>"
+ + "                    <div class='right'>"
+ + "                        <div class='wrapper'>"
+ + "                            <h3 class='highlight'>SIGUIENTE PASO</h3>"
+ + "                            <p class='enhance'>Tu pago será procesado hasta las 10 AM del siguiente día hábil en que realizaste el pago. En ese momento, recibirás un correo electrónico confirmando tu pago.</span></p>"
+ + "                        </div>"
+ + "                    </div>"
+ + "                    <div class='clear'></div>"
+ + "                </div>"
+ + "            </div>"
+ + "            <div id='po-footnote'>"
+ + "              <p>Esta ficha de pago no tiene ningún valor comercial, fiscal o monetario. Es una referencia que contiene los datos necesarios para que quien haya realizado una compra en un sitio <span class='enhance'> el sitio </span>  y pueda realizar el pago o transferencia bancaria.</p>"
+ + "            </div>"
+ + "        </div>"
+ + "    </div>"
+ + "    <div class='enhance' id='po-footer'>"
+ + "        <div class='clear'></div>"
+ + "    </div>"
+ + "</body>"
+ + "</html>");
+ //w.print();
+
+  w.document.close();
+  //w.close();
+<?php } ?>
+ </script>
