@@ -98,7 +98,7 @@
                 <active>1</active>
                 <model>bank/bank</model>
                 <order_status>processing</order_status>
-                <title>Pago con Bank</title>
+                <title>Pago con Banco</title>
                 <message></message>
             </bank>
          </payment>

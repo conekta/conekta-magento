@@ -98,7 +98,7 @@
                 <active>1</active>
                 <model>card/card</model>
                 <order_status>processing</order_status>
-                <title>Pago con Card</title>
+                <title>Pago con Tarjeta</title>
                 <message></message>
             </card>
          </payment>

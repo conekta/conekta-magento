@@ -1,20 +1,20 @@
 <?php
 require_once 'Mage/Checkout/controllers/OnepageController.php';
-class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController {
-	
+class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController 
+{	
 	public function saveOrderAction()
 	{
 		$data = $this->getRequest()->getPost('payment', array());	
-		if (strpos($data['method'], 'tarjeta') !== false) {
+		if (strpos($data['method'], 'card') !== false) {
 			$quote = Mage::getSingleton('checkout/cart')->getQuote();
-			$publickey=Mage::getStoreConfig('payment/tarjeta/apikey');
-			$privatekey=Mage::getStoreConfig('payment/tarjeta/apiprivatekey');
+			$publickey=Mage::getStoreConfig('payment/card/apikey');
+			$privatekey=Mage::getStoreConfig('payment/card/apiprivatekey');
 			if($privatekey !=null) {
 				$key=$privatekey;
 			} else {
 				$key=$publickey;
 			}
-			$currency=Mage::getStoreConfig('payment/tarjeta/currency');
+			$currency=Mage::getStoreConfig('payment/card/currency');
 			$token_id=$data['cc_tokenid'];
 			$grandTotal = $quote->getGrandTotal();
 			$exploded_val=explode(".",$grandTotal);

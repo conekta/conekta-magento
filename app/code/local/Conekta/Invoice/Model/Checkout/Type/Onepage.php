@@ -19,7 +19,7 @@ class Conekta_Invoice_Model_Checkout_Type_Onepage extends Mage_Checkout_Model_Ty
         }
 		
 		$name = get_class(Mage::getSingleton('checkout/session')->getQuote()->getPayment()->getMethodInstance());
-		$names = array("Conekta_Oxxo_Model_Oxxo" => 1, "Conekta_Banco_Model_Banco" => 1, "Conekta_Tarjeta_Model_Tarjeta" => 1);
+		$names = array("Conekta_Oxxo_Model_Oxxo" => 1, "Conekta_Bank_Model_Bank" => 1, "Conekta_Card_Model_Card" => 1);
 		if (isset($names[$name])) {
 			$quote = $this->getQuote();
 			# Ref: Mage_CatalogInventory_Model_Observer::subtractQuoteInventory
