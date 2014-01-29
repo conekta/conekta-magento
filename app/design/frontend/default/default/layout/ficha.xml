@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
+	<ficha_ajax_index>
+		<block type="ficha/ficha" name="ficha" template="ficha/ficha.phtml" />
+	</ficha_ajax_index>
     <checkout_onepage_index> <!-- Adding our new step to onepage block  -->
     	<reference name='checkout.onepage'>
     		 <action method='setTemplate'><template>ficha/checkout/onepage.phtml</template></action>
