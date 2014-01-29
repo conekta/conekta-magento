@@ -26,9 +26,10 @@ Dependency Notes
 -----------
 
 Included modules for the plugin include:
-  * Conekta_Banco
+  * Conekta_Bank
   * Conekta_Oxxo
-  * Conekta_Tarjeta
-  * Conekta_Ficha
-  
-The Conekta_Ficha module must be enabled for inventory adjustments to work correctly.  If not enabled, the inventory will be decremented regardless of successful payments or not.
+  * Conekta_Card
+  * Conekta_Invoice
+
+The Conekta_Invoice must be enabled because it cointains basic logic shared with the rest of the modules that allow the plugin to work correctly.
+It also handles inventory logic.  Without it, the inventory of each product purchased will be decremented even if the purchase was not successful.

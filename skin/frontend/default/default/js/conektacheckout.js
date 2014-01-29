@@ -1,8 +1,8 @@
-var Ficha = Class.create(Checkout, {
+var Invoice = Class.create(Checkout, {
 	initialize: function($super,accordion, urls){
 		$super(accordion, urls);
 		//New Code Addded
-		this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment','ficha', 'review'];
+		this.steps = ['login', 'billing', 'shipping', 'shipping_method', 'payment','invoice', 'review'];
 	},
 	setMethod: function(){
 	    if ($('login:guest') && $('login:guest').checked) {
@@ -30,8 +30,8 @@ var Ficha = Class.create(Checkout, {
 	}
 });
 
-var FichaMethod = Class.create();
-FichaMethod.prototype = {
+var InvoiceMethod = Class.create();
+InvoiceMethod.prototype = {
     initialize: function(saveUrl){
         this.saveUrl = saveUrl;
         this.onSave = this.nextStep.bindAsEventListener(this);
@@ -40,7 +40,7 @@ FichaMethod.prototype = {
     save: function(){
 
         if (checkout.loadWaiting!=false) return;
-            checkout.setLoadWaiting('ficha');
+            checkout.setLoadWaiting('invoice');
             var request = new Ajax.Request(
                 this.saveUrl,
                 {

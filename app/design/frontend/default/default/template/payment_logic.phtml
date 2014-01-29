@@ -5,26 +5,26 @@
 	jQuery(function($) {
 		Conekta.setPublishableKey("<?php echo $publickey ?>");
 		var conektaSuccessResponseHandler = function(response) {
-			var $form = $("#payment_form_tarjeta");
+			var $form = $("#payment_form_card");
 			var token_id = response.id;
-			$form.find('#tarjeta_cc_tokenid').val(token_id);
+			$form.find('#card_cc_tokenid').val(token_id);
 			$form.find('.card-errors').text("");
 			payment.save();
 		};
 		var conektaErrorResponseHandler = function(response) {
-			var $form = $("#payment_form_tarjeta");
+			var $form = $("#payment_form_card");
 			$form.find('.card-errors').text(response.message);
 		};
 		
 		$('#payment-buttons-container .button').unbind('click');
 		$('#payment-buttons-container .button').attr('onclick','');
 		$('#payment-buttons-container .button').click(function() {
-			if ($("#p_method_tarjeta").prop('checked')) {
-				var $form = $("#payment_form_tarjeta");
-				$form.find('#tarjeta_cc_nombre').val($("#tarjeta_cc_owner").val());
-				$form.find('#tarjeta_cc_numero').val($("#tarjeta_cc_number").val());
-				$form.find('#tarjeta_cc_mes').val($("#tarjeta_expiration").val());
-				$form.find('#tarjeta_cc_anio').val($("#tarjeta_expiration_yr").val());
+			if ($("#p_method_card").prop('checked')) {
+				var $form = $("#payment_form_card");
+				$form.find('#card_cc_nombre').val($("#card_cc_owner").val());
+				$form.find('#card_cc_numero').val($("#card_cc_number").val());
+				$form.find('#card_cc_mes').val($("#card_expiration").val());
+				$form.find('#card_cc_anio').val($("#card_expiration_yr").val());
 				Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
 			} else if ($("#p_method_oxxo").prop('checked')) {
 				$.ajax({
@@ -53,32 +53,32 @@
 						$form.find('.oxxo-errors').text("Método de pago no disponible, intente más tarde.");
 					}
 				});
-      } else if ($("#p_method_banco").prop('checked')) {
+      } else if ($("#p_method_bank").prop('checked')) {
 				$.ajax({
 					type: "POST",
-					url: "<?php echo $this->getUrl('banco/ajax', array('_secure'=>true)); ?>",
+					url: "<?php echo $this->getUrl('bank/ajax', array('_secure'=>true)); ?>",
 					dataType: "text",
 					data: "",
 					async: false,
 					success: function (data) {
-						var $form = $("#payment_form_banco");
+						var $form = $("#payment_form_bank");
 						data = $.parseJSON(data);
 						if (data.error) {
-							$form.find('.banco-errors').text(data.error);
+							$form.find('.bank-errors').text(data.error);
 						} else if (data.numero_servicio) {
-							$form.find('.banco-errors').text("");
+							$form.find('.bank-errors').text("");
 							$form.find('#numero_servicio').val(data.numero_servicio);
 							$form.find('#nombre_servicio').val(data.nombre_servicio);
-							$form.find('#banco').val(data.banco);
+							$form.find('#bank').val(data.bank);
 							$form.find('#referencia').val(data.referencia);
 							payment.save();
 						} else {
-							$form.find('.banco-errors').text("Método de pago no disponible, intente más tarde.");
+							$form.find('.bank-errors').text("Método de pago no disponible, intente más tarde.");
 						}
 					},
 					error: function (textStatus, errorThrown) {
-						var $form = $("#payment_form_banco");
-						$form.find('.banco-errors').text("Método de pago no disponible, intente más tarde.");
+						var $form = $("#payment_form_bank");
+						$form.find('.bank-errors').text("Método de pago no disponible, intente más tarde.");
 					}
 				});
 			} else {

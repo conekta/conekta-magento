@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Conekta_Card>
+            <active>true</active>
+            <codePool>local</codePool>
+        </Conekta_Card>
+    </modules>
+</config> 

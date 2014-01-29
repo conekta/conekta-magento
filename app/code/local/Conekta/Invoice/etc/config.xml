@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Conekta_Invoice>
+            <version>0.1.0</version>
+        </Conekta_Invoice>
+    </modules>
+    <frontend>
+        <routers>
+            <invoice>
+                <use>standard</use>
+                <args>
+                    <module>Conekta_Invoice</module>
+                    <frontName>invoice</frontName>
+                </args>
+            </invoice>
+        </routers>
+        <layout>
+            <updates>
+                <invoice>
+                    <file>invoice.xml</file>
+                </invoice>
+            </updates>
+        </layout>
+    </frontend>
+    <global>
+    	<rewrite>
+	        <test_cart> <!--This can be any unique id -->
+	            <from><![CDATA[#^/checkout/onepage/#]]></from>  <!-- the URL which u want to override-->
+	            <to>/invoice/onepage/</to>  <!-- destination url -->
+	        </test_cart>
+	    </rewrite>
+    	<models>
+        	<checkout>
+	            <rewrite>
+	                <type_onepage>Conekta_Invoice_Model_Checkout_Type_Onepage</type_onepage>
+	            </rewrite>
+	        </checkout>
+        </models>
+        <blocks>
+        	<checkout>
+        		<rewrite>
+        			<onepage>Conekta_Invoice_Block_Checkout_Onepage</onepage>
+        		</rewrite>
+        	</checkout>
+            <invoice>
+                <class>Conekta_Invoice_Block</class>
+            </invoice>
+        </blocks>
+        <helpers>
+            <invoice>
+                <class>Conekta_Invoice_Helper</class>
+            </invoice>
+        </helpers>
+    </global>
+</config>
