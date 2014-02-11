@@ -1,0 +1,21 @@
+<form id="co-invoice-form" action="">
+<fieldset>
+    <ul class="form-list">
+    <li id="checkout-invoice-load">  <!-- This id format is very important -->
+    	<?php echo $this->getChildHtml('info');?>
+     </li>
+    </ul>
+    <div class="buttons-set" id="invoice-buttons-container">
+        <p class="required"><?php echo $this->__('* Required Fields') ?></p>
+        <button type="button" title="<?php echo $this->__('Continue') ?>" class="button" onclick="invoice.save()"><span><span><?php echo $this->__('Continue') ?></span></span></button>
+        <span class="please-wait" id="invoice-please-wait" style="display:none;">
+            <img src="<?php echo $this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?php echo $this->__('Loading next step...') ?>" title="<?php echo $this->__('Loading next step...') ?>" class="v-middle" /> <?php echo $this->__('Loading next step...') ?>
+        </span>
+    </div>
+</fieldset>
+</form>
+<script type="text/javascript">
+//<![CDATA[
+    var invoice = new InvoiceMethod('<?php echo $this->getUrl('invoice/onepage/saveInvoice') ?>');
+//]]>
+</script>
