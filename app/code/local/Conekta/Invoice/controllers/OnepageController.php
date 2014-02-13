@@ -124,6 +124,20 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 
 	public function savePaymentAction()
 	{
+		try {
+			$data = $this->getRequest()->getPost('payment', array());
+			if (strpos($data['method'], 'card') !== false || strpos($data['method'], 'oxxo') !== false || strpos($data['method'], 'bank') !== false) {
+				$this->conektaSavePaymentAction();
+			} else {
+				parent::savePaymentAction();
+			}
+		}  catch (Exception $e) {
+			Mage::logException($e);
+			$result['error'] = $this->__('Unable to set Payment Method.');
+		}
+	}
+	
+	public function conektaSavePaymentAction() {
 		if ($this->_expireAjax()) {
 			return;
 		}
@@ -138,21 +152,12 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 			$data = $this->getRequest()->getPost('payment', array());
 			$result = $this->getOnepage()->savePayment($data);
 
-			if (empty($result['error'])) {
-				if (true) {
-					$result['goto_section'] = 'invoice';
-					$result['update_section'] = array(
-						'name' => 'invoice',
-						'html' => $this->_getInvoiceHtml()
-					);
-				} else {
-					$this->loadLayout('checkout_onepage_review');
-					$result['goto_section'] = 'review';
-					$result['update_section'] = array(
-						'name' => 'review',
-						'html' => $this->_getReviewHtml()
-					);
-				}
+			if (empty($result['error'])) {				
+				$result['goto_section'] = 'invoice';
+				$result['update_section'] = array(
+					'name' => 'invoice',
+					'html' => $this->_getInvoiceHtml()
+				);
 			}
 
 		} catch (Mage_Payment_Exception $e) {
@@ -168,6 +173,7 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 		}
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	}
+	
 	public function saveInvoiceAction(){
 		if ($this->_expireAjax()) {
 			return;
