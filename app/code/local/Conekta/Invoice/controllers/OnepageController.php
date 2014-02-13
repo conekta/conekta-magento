@@ -126,7 +126,7 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 	{
 		try {
 			$data = $this->getRequest()->getPost('payment', array());
-			if (strpos($data['method'], 'card') !== false || strpos($data['method'], 'oxxo') !== false || strpos($data['method'], 'bank') !== false) {
+			if (strpos($data['method'], 'oxxo') !== false || strpos($data['method'], 'bank') !== false) {
 				$this->conektaSavePaymentAction();
 			} else {
 				parent::savePaymentAction();
