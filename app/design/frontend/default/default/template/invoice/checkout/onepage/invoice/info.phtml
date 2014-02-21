@@ -39,7 +39,7 @@
 			<p>Utiliza esta ficha para realizar el pago en la tienda OXXO más cercana antes del día <strong>27/03/2014</strong>. <span class="fade">Si intentas realizar el pago después de esta necesitarás un nuevo código de barras</span>.</p>
 			<div class="ficha barcode">
 				<h3>Ficha de Pago para OXXO</h3>
-				<?php echo "<img src='". $quote->getData('codigo_barras') ."' width='450' height='75' alt='Código de Barras 40958735093 para OXXO'/>" ?>
+				<?php echo "<img src='". $quote->getData('codigo_barras') ."' width='450' height='75' alt='Código de Barras para OXXO'/>" ?>
 				<p><span>Monto: $ <?php echo number_format($grandtotal,2);?></span><span><?php echo $quote->getData('referencia'); ?></span></p>
 			</div>
 		</div>
