@@ -45,11 +45,13 @@
 			jqui.type = 'text/javascript';
 			jqui.src = "//code.jquery.com/ui/1.10.4/jquery-ui.js";
 			document.getElementsByTagName('head')[0].appendChild(jqui);
+		}
+		if (!window.jQuery.ui) {
 			var jq = document.createElement('script');
 			jq.type = 'text/javascript';
 			jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
 			document.getElementsByTagName('head')[0].appendChild(jq);
-		}	
+		}
 		var p = document.createElement('script');
 		p.type = 'text/javascript';
 		p.src = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>' + '/conekta.js';
