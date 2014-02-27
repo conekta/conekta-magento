@@ -1,31 +1,8 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<invoice_ajax_index>
+	<invoice_ajax_listener>
 		<block type="invoice/invoice" name="invoice" template="invoice/invoice.phtml" />
-	</invoice_ajax_index>
-    <checkout_onepage_index> <!-- Adding our new step to onepage block  -->
-    	<reference name='checkout.onepage'>
-    		 <action method='setTemplate'><template>invoice/checkout/onepage.phtml</template></action>
-    		 <block type="invoice/checkout_onepage_invoice" name="checkout.onepage.invoice" as="invoice" template="invoice/checkout/onepage/invoice.phtml">
-    		 		<block type="invoice/checkout_onepage_invoice" name="checkout.onepage.invoice.info" as="invoice.info" template="invoice/checkout/onepage/invoice/info.phtml" />
-    		 </block>
-    	</reference>
-    	<reference name='checkout.progress'> <!-- Change the template of progress block -->
-    	      <action method='setTemplate'><template>invoice/checkout/onepage/progress.phtml</template></action>
-    	</reference>
-    </checkout_onepage_index>
-    <checkout_onepage_progress>  <!-- Change the template of progress block -->
-    	<reference name='root'>
-    		<action method='setTemplate'><template>invoice/checkout/onepage/progress.phtml</template></action>
-    	</reference>
-    </checkout_onepage_progress>
-    
-    <checkout_onepage_invoice>
-        <!-- Mage_Checkout -->
-        <remove name="right"/>
-        <remove name="left"/>
-
-        <block type="invoice/checkout_onepage_invoice" name="root" output="toHtml" template="invoice/checkout/onepage/invoice/info.phtml"/>
-    </checkout_onepage_invoice>
-    
+	</invoice_ajax_listener>
+    <default>
+    </default>
 </layout> 

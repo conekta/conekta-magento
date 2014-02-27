@@ -24,7 +24,7 @@
 * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 
-require_once(dirname(__FILE__) . '/../../Invoice/controllers/OnepageController.php');
+require_once(dirname(__FILE__) . '/../../Shared/controllers/OnepageController.php');
 class Conekta_Oxxo_OnepageController extends Conekta_Invoice_OnepageController
 {
 }

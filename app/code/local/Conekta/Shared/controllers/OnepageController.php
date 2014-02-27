@@ -124,86 +124,87 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 
 	public function savePaymentAction()
 	{
-		try {
-			$data = $this->getRequest()->getPost('payment', array());
-			if (strpos($data['method'], 'oxxo') !== false || strpos($data['method'], 'bank') !== false) {
-				$this->conektaSavePaymentAction();
-			} else {
-				parent::savePaymentAction();
-			}
-		}  catch (Exception $e) {
-			Mage::logException($e);
-			$result['error'] = $this->__('Unable to set Payment Method.');
-		}
+		parent::savePaymentAction();
+		//try {
+			//$data = $this->getRequest()->getPost('payment', array());
+			//if (strpos($data['method'], 'oxxo') !== false || strpos($data['method'], 'bank') !== false) {
+				//$this->conektaSavePaymentAction();
+			//} else {
+				//parent::savePaymentAction();
+			//}
+		//}  catch (Exception $e) {
+			//Mage::logException($e);
+			//$result['error'] = $this->__('Unable to set Payment Method.');
+		//}
 	}
 	
-	public function conektaSavePaymentAction() {
-		if ($this->_expireAjax()) {
-			return;
-		}
-		try {
-			if (!$this->getRequest()->isPost()) {
-				$this->_ajaxRedirectResponse();
-				return;
-			}
+	//public function conektaSavePaymentAction() {
+		//if ($this->_expireAjax()) {
+			//return;
+		//}
+		//try {
+			//if (!$this->getRequest()->isPost()) {
+				//$this->_ajaxRedirectResponse();
+				//return;
+			//}
 
-			// set payment to quote
-			$result = array();
-			$data = $this->getRequest()->getPost('payment', array());
-			$result = $this->getOnepage()->savePayment($data);
+			//// set payment to quote
+			//$result = array();
+			//$data = $this->getRequest()->getPost('payment', array());
+			//$result = $this->getOnepage()->savePayment($data);
 
-			if (empty($result['error'])) {				
-				$result['goto_section'] = 'invoice';
-				$result['update_section'] = array(
-					'name' => 'invoice',
-					'html' => $this->_getInvoiceHtml()
-				);
-			}
+			//if (empty($result['error'])) {				
+				//$result['goto_section'] = 'invoice';
+				//$result['update_section'] = array(
+					//'name' => 'invoice',
+					//'html' => $this->_getInvoiceHtml()
+				//);
+			//}
 
-		} catch (Mage_Payment_Exception $e) {
-			if ($e->getFields()) {
-				$result['fields'] = $e->getFields();
-			}
-			$result['error'] = $e->getMessage();
-		} catch (Mage_Core_Exception $e) {
-			$result['error'] = $e->getMessage();
-		} catch (Exception $e) {
-			Mage::logException($e);
-			$result['error'] = $this->__('Unable to set Payment Method.');
-		}
-		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-	}
+		//} catch (Mage_Payment_Exception $e) {
+			//if ($e->getFields()) {
+				//$result['fields'] = $e->getFields();
+			//}
+			//$result['error'] = $e->getMessage();
+		//} catch (Mage_Core_Exception $e) {
+			//$result['error'] = $e->getMessage();
+		//} catch (Exception $e) {
+			//Mage::logException($e);
+			//$result['error'] = $this->__('Unable to set Payment Method.');
+		//}
+		//$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+	//}
 	
-	public function saveInvoiceAction(){
-		if ($this->_expireAjax()) {
-			return;
-		}
+	//public function saveInvoiceAction(){
+		//if ($this->_expireAjax()) {
+			//return;
+		//}
 
-		// get section and redirect data
-		$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
+		//// get section and redirect data
+		//$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
 
-		if (!isset($result['error'])) {
-			$this->loadLayout('checkout_onepage_review');
-			$result['goto_section'] = 'review';
-			$result['update_section'] = array(
-                    'name' => 'review',
-                    'html' => $this->_getReviewHtml()
-			);
-		}
-		if ($redirectUrl) {
-			$result['redirect'] = $redirectUrl;
-		}
+		//if (!isset($result['error'])) {
+			//$this->loadLayout('checkout_onepage_review');
+			//$result['goto_section'] = 'review';
+			//$result['update_section'] = array(
+                    //'name' => 'review',
+                    //'html' => $this->_getReviewHtml()
+			//);
+		//}
+		//if ($redirectUrl) {
+			//$result['redirect'] = $redirectUrl;
+		//}
 
-		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
-	}
-	protected function _getInvoiceHtml()
-	{
-		$layout = $this->getLayout();
-		$update = $layout->getUpdate();
-		$update->load('checkout_onepage_invoice');
-		$layout->generateXml();
-		$layout->generateBlocks();
-		$output = $layout->getOutput();
-		return $output;
-	}
+		//$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+	//}
+	//protected function _getInvoiceHtml()
+	//{
+		//$layout = $this->getLayout();
+		//$update = $layout->getUpdate();
+		//$update->load('checkout_onepage_invoice');
+		//$layout->generateXml();
+		//$layout->generateBlocks();
+		//$output = $layout->getOutput();
+		//return $output;
+	//}
 }

@@ -1,90 +1,69 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<script type="text/javascript" src="https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js"></script>
+<script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+<style type="text/css">
+	@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro);
+	.ckta::after { content: ".";display: block; height: 0px;clear: both;visibility: hidden; }
+	.ckta .col-1 { float: left;width: 452px; }
+	.ckta .col-2 { float: right;width: 152px; }
+	.ckta h3 { height: 24px;border-bottom: 1px solid #e4e4e4;padding-bottom: 2px; }
+	.ckta .fade { -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";filter: alpha(opacity=50);-moz-opacity: 0.5;-khtml-opacity: 0.5;opacity: 0.5; }
+	.ckta .ficha { position: relative;padding: 10px 0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;margin: 2px 0 6px 0;border: 1px solid #B6B6B6;background: white; }
+	.ckta .ficha::after { content: ".";display: block; height: 0px;clear: both;visibility: hidden; }
+	.ckta .ficha  h3 { display: none;font-size: 16px;padding: 0;border: none;margin-left: 16px; }
+	.ckta .ficha p::after { content: ".";display: block; height: 0px;clear: both;visibility: hidden; }
+	.ckta .ficha dl { margin-left: 16px; }
+	.ckta .barcode p span:first-child { float: left; }
+	.ckta .barcode p span:last-child { float: right; }
+	.ckta .button { display: block; }
+	.ckta.ficha-oxxo h4 { margin-top: 77px; }
+	.ckta.ficha-oxxo .ficha p { font-family: 'Source Code Pro', sans-serif;font-size: 12px;margin: 1px 15px 0 16px; }
+	.ckta.ficha-banco h4 { margin-top: 59px;}
+	.ckta.ficha-banco .ficha p { }
+	.ckta.ficha-banco .ficha .dl-box { width: 200px; }
+	.ckta.ficha-banco .ficha dl dt { float: left;width: 110px;font-weight: bold; }
+	.ckta.ficha-banco .ficha dl dd { float: left; }
+	.ckta.ficha-banco .ficha .ammount { position: absolute;top: 10px;right: 15px; }
+</style>
+  
 <script type="text/javascript">
-  $.noConflict();
-	jQuery(function($) {
-		Conekta.setPublishableKey("<?php echo $publickey ?>");
-		var conektaSuccessResponseHandler = function(response) {
-			var $form = $("#payment_form_card");
-			var token_id = response.id;
-			$form.find('#card_cc_tokenid').val(token_id);
-			$form.find('.card-errors').text("");
-			payment.save();
-		};
-		var conektaErrorResponseHandler = function(response) {
-			var $form = $("#payment_form_card");
-			$form.find('.card-errors').text(response.message);
-		};
+	var key = "<?php echo $publickey ?>";
+	function printInvoice() {
+		window.print();
+		payment.save();
+		return false;
+	}	
+	
+	if (!window.Conekta) {
+		var p = document.createElement('script');
+		p.type = 'text/javascript';
+		p.src = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>' + '/conekta.js';
+		document.getElementsByTagName('head')[0].appendChild(p);
 		
-		$('#payment-buttons-container .button').unbind('click');
-		$('#payment-buttons-container .button').attr('onclick','');
-		$('#payment-buttons-container .button').click(function() {
-			if ($("#p_method_card").prop('checked')) {
-				var $form = $("#payment_form_card");
-				$form.find('#card_cc_nombre').val($("#card_cc_owner").val());
-				$form.find('#card_cc_numero').val($("#card_cc_number").val());
-				$form.find('#card_cc_mes').val($("#card_expiration").val());
-				$form.find('#card_cc_anio').val($("#card_expiration_yr").val());
-				Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
-			} else if ($("#p_method_oxxo").prop('checked')) {
-				$.ajax({
-					type: "POST",
-					url: "<?php echo $this->getUrl('oxxo/ajax', array('_secure'=>true)); ?>",
-					dataType: "text",
-					data: "",
-					async: false,
-					success: function (data) {
-						var $form = $("#payment_form_oxxo");
-						data = $.parseJSON(data);
-						if (data.error) {
-							$form.find('.oxxo-errors').text(data.error);
-						} else if (data.barcode) {
-							$form.find('.oxxo-errors').text("");
-							$form.find('#codigo_barras').val(data.barcode);
-							$form.find('#referencia').val(data.referencia);
-							$form.find('#codigo').val(data.codigo);
-							payment.save();
-						} else {
-							$form.find('.oxxo-errors').text("Método de pago no disponible, intente más tarde.");
-						}
-					},
-					error: function (textStatus, errorThrown) {
-						var $form = $("#payment_form_oxxo");
-						$form.find('.oxxo-errors').text("Método de pago no disponible, intente más tarde.");
-					}
-				});
-      } else if ($("#p_method_bank").prop('checked')) {
-				$.ajax({
-					type: "POST",
-					url: "<?php echo $this->getUrl('bank/ajax', array('_secure'=>true)); ?>",
-					dataType: "text",
-					data: "",
-					async: false,
-					success: function (data) {
-						var $form = $("#payment_form_bank");
-						data = $.parseJSON(data);
-						if (data.error) {
-							$form.find('.bank-errors').text(data.error);
-						} else if (data.numero_servicio) {
-							$form.find('.bank-errors').text("");
-							$form.find('#numero_servicio').val(data.numero_servicio);
-							$form.find('#nombre_servicio').val(data.nombre_servicio);
-							$form.find('#bank').val(data.bank);
-							$form.find('#referencia').val(data.referencia);
-							payment.save();
-						} else {
-							$form.find('.bank-errors').text("Método de pago no disponible, intente más tarde.");
-						}
-					},
-					error: function (textStatus, errorThrown) {
-						var $form = $("#payment_form_bank");
-						$form.find('.bank-errors').text("Método de pago no disponible, intente más tarde.");
-					}
-				});
-			} else {
-				payment.save();
+		var c = document.createElement('script');
+		c.type = 'text/javascript';
+		c.src = 'https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js';
+		document.getElementsByTagName('head')[0].appendChild(c);
+		
+		if (!window.JQuery) {
+			if ($) {
+				$.noConflict();
 			}
-			return false;
-		});
-	});
+			var jq = document.createElement('script');
+			jq.type = 'text/javascript';
+			jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
+			document.getElementsByTagName('head')[0].appendChild(jq);
+			var jqui = document.createElement('script');
+			jqui.type = 'text/javascript';
+			jqui.src = "//code.jquery.com/ui/1.10.4/jquery-ui.js";
+			document.getElementsByTagName('head')[0].appendChild(jqui);
+		}
+		
+		var variables = document.createElement('script');
+		variables.type = 'text/javascript';
+		variables.innerHTML = "var conektaKey = '<?php echo $publickey ?>'; var oxxoUrl = '<?php echo $this->getUrl('oxxo/ajax', array('_secure'=>true)); ?>'; var bankUrl = '<?php echo $this->getUrl('bank/ajax', array('_secure'=>true)); ?>';";
+		document.getElementsByTagName('head')[0].appendChild(variables);
+	}
+	
 </script>
+

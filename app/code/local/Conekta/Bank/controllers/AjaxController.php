@@ -82,7 +82,7 @@ class Conekta_Bank_AjaxController extends Ajax_Controller {
 				"shipment"=> $shipment
 			  )
 			);
-			echo '{ "bank":"' . $charge->payment_method->type . '", "numero_servicio":"' . $charge->payment_method->service_number . '", "nombre_servicio":"' . $charge->payment_method->service_name . '", "referencia":"' . $charge->payment_method->reference . '" }';
+			echo '{ "bank":"' . $charge->payment_method->type . '", "numero_servicio":"' . $charge->payment_method->service_number . '", "nombre_servicio":"' . $charge->payment_method->service_name . '", "referencia":"' . $charge->payment_method->reference . '", "amount":"' . $charge->amount . '" }';
 		} catch (Conekta_Error $e) {
 			echo '{"error":"' . $e->getMessage() . '"}';
 		}

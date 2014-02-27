@@ -15,7 +15,12 @@ Api Private Key:
     `1tv5yJp3xnVZ7eK67m4h`
 
 
-You will also need to configure payment notifications for your server.  Within https://admin.conekta.io#developers.webhooks, create a new url which points to your server (e.g. http://www.my_domain.com/magento-store.com/public/index.php/tarjeta/ajax/listener).  After having completed these steps the payment methods should be enabled for testing.
+You will also need to configure payment notifications for your server.  Within https://admin.conekta.io#developers.webhooks, create a new url which points to your server.
+If your server has mod_rewrite enabled, the url for your webhook will be:
+    `http://mydomain.com/invoice/ajax/listener`
+Otherwise, your url for your webhook will be:
+    `http://mydomain.com/index.php/invoice/ajax/listener`
+After having completed these steps the payment methods should be enabled for testing.
 
 Inventory Notes
 ---------------

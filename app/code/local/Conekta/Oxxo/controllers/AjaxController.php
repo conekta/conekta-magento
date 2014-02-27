@@ -82,7 +82,7 @@ class Conekta_Oxxo_AjaxController extends Ajax_Controller {
 				"shipment"=> $shipment
 			  )
 			);
-			echo '{"barcode":"' . $charge->payment_method->barcode_url . '", "referencia":"' . $charge->payment_method->barcode . '", "codigo":"' . $charge->payment_method->barcode . '" }';
+			echo '{"barcode":"' . $charge->payment_method->barcode_url . '", "referencia":"' . $charge->payment_method->barcode . '", "codigo":"' . $charge->payment_method->barcode . '", "amount":"' . $charge->amount . '" }';
 		} catch (Conekta_Error $e) {
 			echo '{"error":"' . $e->getMessage() . '"}';
 		}
