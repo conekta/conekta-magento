@@ -1,5 +1,10 @@
+<script>
+	var conektaKey = '<?php echo $publickey ?>'; var oxxoUrl = '<?php echo $this->getUrl('oxxo/ajax', array('_secure'=>true)); ?>'; var bankUrl = '<?php echo $this->getUrl('bank/ajax', array('_secure'=>true)); ?>';
+</script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script type="text/javascript" src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+<script type="text/javascript" src='<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>/conekta.js'></script>
+<script type="text/javascript" src="https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 <style type="text/css">
 	@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro);
@@ -35,6 +40,16 @@
 	}	
 	
 	if (!window.Conekta) {
+		if (!window.jQuery) {
+			var jq = document.createElement('script');
+			jq.type = 'text/javascript';
+			jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
+			document.getElementsByTagName('head')[0].appendChild(jq);
+			var jqui = document.createElement('script');
+			jqui.type = 'text/javascript';
+			jqui.src = "//code.jquery.com/ui/1.10.4/jquery-ui.js";
+			document.getElementsByTagName('head')[0].appendChild(jqui);
+		}	
 		var p = document.createElement('script');
 		p.type = 'text/javascript';
 		p.src = '<?php echo Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS); ?>' + '/conekta.js';
@@ -44,20 +59,6 @@
 		c.type = 'text/javascript';
 		c.src = 'https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js';
 		document.getElementsByTagName('head')[0].appendChild(c);
-		
-		if (!window.JQuery) {
-			if ($) {
-				$.noConflict();
-			}
-			var jq = document.createElement('script');
-			jq.type = 'text/javascript';
-			jq.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js';
-			document.getElementsByTagName('head')[0].appendChild(jq);
-			var jqui = document.createElement('script');
-			jqui.type = 'text/javascript';
-			jqui.src = "//code.jquery.com/ui/1.10.4/jquery-ui.js";
-			document.getElementsByTagName('head')[0].appendChild(jqui);
-		}
 		
 		var variables = document.createElement('script');
 		variables.type = 'text/javascript';
