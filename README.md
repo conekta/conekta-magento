@@ -4,6 +4,7 @@ conekta-magento
 Magento Version Compatibility
 -----------
 The plugin has been tested for Magento 1.7 and 1.8. Conflicts can be found if installed in non tested Magento versions.
+If you are using http://www.onestepcheckout.com/ or other third party checkout, be sure that Conekta templates are loading properly. Conekta templates are found in /app/design/frontend/default/default.
 
 Installation
 -----------
