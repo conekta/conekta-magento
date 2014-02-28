@@ -9,6 +9,7 @@ If you are using http://www.onestepcheckout.com/ or other third party checkout, 
 Installation
 -----------
 
+  * If you are using a checkout different from Magento's default, be sure that /js/conekta_pm_logic.js is set properly. It uses payment.save() function and payment-buttons-container div which are used in Magento's default template. Change them accordingly to the template of your preference.
   * Go to your page.xml and add the following lines to the head section:
 `<action method="addJs"><script>jquery.js</script></action>`
 `<action method="addJs"><script>jquery-ui.js</script></action>`
