@@ -17,8 +17,7 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 			$currency=Mage::getStoreConfig('payment/card/currency');
 			$token_id=$data['cc_tokenid'];
 			$grandTotal = $quote->getGrandTotal();
-			$exploded_val=explode(".",$grandTotal);
-			$exploded_val=$exploded_val['0']*100;
+			$grandTotal= (int) ($grandTotal*100);
 			require_once(dirname(__FILE__) . '/../../conekta-php/lib/Conekta.php');
 			Conekta::setApiKey($key);
 			$s_info = Mage::getSingleton('checkout/session')->getQuote()->getShippingAddress()->getData();
@@ -67,7 +66,7 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 			try {
 				$charge = Conekta_Charge::create(array(
 				  "description"=>"Compra en Magento de " . $b_info['email'],
-				  "amount"=> $exploded_val,
+				  "amount"=> $grandTotal,
 				  "currency"=> $currency,
 				  "reference_id" => $reference_id,
 				  "card"=> $token_id,
