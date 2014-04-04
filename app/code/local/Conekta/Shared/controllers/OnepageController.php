@@ -90,6 +90,7 @@ class Conekta_Invoice_OnepageController extends  Mage_Checkout_OnepageController
 				  )
 				);
 				parent::saveOrderAction();
+				$this->_getOrder()->setState(Mage_Sales_Model_Order::STATE_COMPLETE, true)->save();
 			} catch (Conekta_Error $e) {
 				Mage::logException($e);
 				Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
