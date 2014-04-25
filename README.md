@@ -11,16 +11,19 @@ Installation
   * If you are using a checkout different from Magento's default, be sure that /js/Conketa/conekta_pm_logic.js is set properly. It uses payment.save() function and payment-buttons-container div which are used in Magento's default template. Change them accordingly to the checkout of your preference.
 
 `// Depending on the checkout, buttonAction and button must be changed`
+
 `var buttonAction = function() {`
 `payment.save();`
 `};`
 
 `// This is the button that saves the payment method, or completes the checkout if it has only one step.`
+
 `var button = $(":button[onclick='payment.save()']");`  
 
   * If your Magento installation does not have JQuery, add to your page.xml the following lines before prototype is defined:
 
 `<action method="addItem"><type>js</type><name>Conekta/jquery.js</name></action>`
+
 `<action method="addItem"><type>js</type><name>Conekta/jquery-ui.js</name></action>`
   * Copy the folder and paste it in the folder where you have installed Magento.
   * In the Magento admin, navigate to 'System-Cache Management'. Select and disable all Cache Types.  Additionally, click "Flush Magento Cache" and "Flush Cache Storage".  These steps will allow you to start testing the plugin.
