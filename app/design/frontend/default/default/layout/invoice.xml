@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-<layout version="0.1.0">
-	<invoice_ajax_listener>
-		<block type="invoice/invoice" name="invoice" template="invoice/invoice.phtml" />
-	</invoice_ajax_listener>
-    <default>
-    </default>
-</layout> 
