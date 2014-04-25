@@ -4,10 +4,13 @@ function printInvoice() {
 }
 
 jQuery(function($) {
-  // Depending on the checkout, this function must be changed
-  var button = function() {
+  // Depending on the checkout, buttonAction and button must be changed
+  var buttonAction = function() {
 	  payment.save();
   };
+  // This is the button that saves the payment method, or completes the checkout if it has only one step.
+  var button = $(":button[onclick='payment.save()']");
+  
   var conektaSuccessResponseHandler = function(response) {
 	  var $form = $("#payment_form_card");
 	  var token_id = response.id;
@@ -25,7 +28,7 @@ jQuery(function($) {
 			  if (data.error) {
 				  $form.find('.card-errors').text(data.error);
 			  } else if (data.status == "paid") {
-				  button();
+				  buttonAction();
 			  } else {
 				  $form.find('.card-errors').text("Método de pago no disponible, intente más tarde.");
 			  }
@@ -123,13 +126,13 @@ jQuery(function($) {
 			  modal: true,
 			  width:'auto'
 	  }).bind('dialogclose', function(event) {
-		   button();
+		   buttonAction();
 	   });
   };
 
-  $('#payment-buttons-container .button').unbind('click');
-  $('#payment-buttons-container .button').attr('onclick','');
-  $('#payment-buttons-container .button').click(function() {
+  button.unbind('click');
+  button.attr('onclick','');
+  button.click(function() {
 	  if ($("#p_method_card").prop('checked')) {
 		  var $form = $("#payment_form_card");
 		  $form.find('#card_cc_nombre').val($("#card_cc_owner").val());
@@ -193,7 +196,7 @@ jQuery(function($) {
 			  }
 		  });
 	  } else {
-		  button();
+		  buttonAction();
 	  }
 	  return false;
   });

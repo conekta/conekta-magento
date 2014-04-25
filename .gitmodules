@@ -1,6 +1,3 @@
-[submodule "app/code/local/conekta-php"]
-	path = app/code/local/conekta-php
-	url = git@github.com:conekta/conekta-php.git
 [submodule "app/code/local/Conekta/conekta-php"]
 	path = app/code/local/Conekta/conekta-php
 	url = git@github.com:conekta/conekta-php.git
