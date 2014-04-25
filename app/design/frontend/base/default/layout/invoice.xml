@@ -1,8 +1,31 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
+	<onestepcheckout_index_index>
+		<reference name="head">
+			<action method="addItem"><type>js</type><name>Conekta/conekta.js</name></action>
+		</reference>
+	<onestepcheckout_index_index>
     <checkout_onepage_index>
         <reference name="head">
             <action method="addItem"><type>js</type><name>Conekta/conekta.js</name></action>
         </reference>
     </checkout_onepage_index>
+    <checkout_cart_index>
+        <reference name="head">
+			<action method="addItem"><type>js</type><name>Conekta/conekta.js</name></action>
+        </reference>
+    </checkout_cart_index>
+
+    <checkout_onepage_index>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>Conekta/conekta.js</name></action>
+        </reference>
+    </checkout_onepage_index>
+    
+    <checkout_multishipping>
+        <reference name="head">
+            <action method="addItem"><type>js</type><name>Conekta/conekta.js</name></action>
+        </reference>
+    </checkout_multishipping>
+
 </layout> 
