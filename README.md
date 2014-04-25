@@ -15,15 +15,14 @@ Installation
 			payment.save();
 		};
 
-`// This is the button that saves the payment method, or completes the checkout if it has only one step.`
-
-`var button = $(":button[onclick='payment.save()']");`  
+		// This is the button that saves the payment method, or completes the checkout if it has only one step.
+		var button = $(":button[onclick='payment.save()']");
 
   * If your Magento installation does not have JQuery, add to your page.xml the following lines before prototype is defined:
 
-`<action method="addItem"><type>js</type><name>Conekta/jquery.js</name></action>`
+		<action method="addItem"><type>js</type><name>Conekta/jquery.js</name></action>
+		<action method="addItem"><type>js</type><name>Conekta/jquery-ui.js</name></action>
 
-`<action method="addItem"><type>js</type><name>Conekta/jquery-ui.js</name></action>`
   * Copy the folder and paste it in the folder where you have installed Magento.
   * In the Magento admin, navigate to 'System-Cache Management'. Select and disable all Cache Types.  Additionally, click "Flush Magento Cache" and "Flush Cache Storage".  These steps will allow you to start testing the plugin.
   * In the 'System->Configuration' section, click the 'Payment Methods' link in the left hand navigation.  Check that the payment methods "Pago con Tarjeta de Débito / Crédito", "Pago con Oxxo" and "Pago con Transferencia Bancaria" appear. If these payment methods do not show up, check that your magento user has priviledges to access the Magento folder.
