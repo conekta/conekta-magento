@@ -10,15 +10,19 @@ Installation
 
   * If you are using a checkout different from Magento's default, be sure that /js/Conketa/conekta_pm_logic.js is set properly. It uses payment.save() function and payment-buttons-container div which are used in Magento's default template. Change them accordingly to the checkout of your preference.
 
-		// Depending on the checkout, buttonAction and button must be changed
-		var buttonAction = function() {
+		// Depending on the checkout, paymentButtonAction and paymentButton must be changed
+		var paymentButtonAction = function() {
 			payment.save();
 		};
+		var paymentButton = $("button[onclick^='payment.save()']");
 
-		// This is the button that saves the payment method, or completes the checkout if it has only one step.
-		var button = $(":button[onclick='payment.save()']");
+		// Depending on the checkout, orderButtonAction and orderButton must be changed
+		var orderButtonAction = function () {
+			review.save();
+		}
+		var orderButton = $("button[onclick^='review.save()']");
 
-  * If your Magento installation does not have JQuery, add to your page.xml the following lines before prototype is defined:
+  * If your Magento installation does not have JQuery, add to your layout.xml or page.xml the following lines before prototype is defined:
 
 		<action method="addItem"><type>js</type><name>Conekta/jquery.js</name></action>
 		<action method="addItem"><type>js</type><name>Conekta/jquery-ui.js</name></action>

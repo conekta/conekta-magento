@@ -4,40 +4,24 @@ function printInvoice() {
 }
 
 jQuery(function($) {
-  // Depending on the checkout, buttonAction and button must be changed
-  var buttonAction = function() {
+  // Depending on the checkout, paymentButtonAction and paymentButton must be changed
+  var paymentButtonAction = function() {
 	  payment.save();
   };
-  // This is the button that saves the payment method, or completes the checkout if it has only one step.
-  var button = $(":button[onclick='payment.save()']");
+  var paymentButton = $("button[onclick^='payment.save()']");
+  
+  // Depending on the checkout, orderButtonAction and orderButton must be changed
+  var orderButtonAction = function () {
+	  review.save();
+  }
+  var orderButton = $("button[onclick^='review.save()']");
   
   var conektaSuccessResponseHandler = function(response) {
 	  var $form = $("#payment_form_card");
 	  var token_id = response.id;
 	  $form.find('#card_cc_tokenid').val(token_id);
 	  $form.find('.card-errors').text("");
-	  $.ajax({
-		  type: "POST",
-		  url: cardUrl,
-		  dataType: "text",
-		  data: "token_id=" + token_id,
-		  async: false,
-		  success: function (data) {
-			  var $form = $("#payment_form_card");
-			  data = $.parseJSON(data);
-			  if (data.error) {
-				  $form.find('.card-errors').text(data.error);
-			  } else if (data.status == "paid") {
-				  buttonAction();
-			  } else {
-				  $form.find('.card-errors').text("Método de pago no disponible, intente más tarde.");
-			  }
-		  },
-		  error: function (textStatus, errorThrown) {
-			  var $form = $("#payment_form_card");
-			  $form.find('.card-errors').text("Método de pago no disponible, intente más tarde.");
-		  }
-	  });
+	  payment.save();
   };
   var conektaErrorResponseHandler = function(response) {
 	  var $form = $("#payment_form_card");
@@ -65,7 +49,7 @@ jQuery(function($) {
 				  + "			<h3></h3>"
 				  + "			<h4>Acciones</h4>"
 				  + "			<p>"
-				  + "				<a href='#' class='button' id='print' onclick='printInvoice();'>Imprimir ficha</a>"
+				  + "				<a href='#' class='paymentButton' id='print' onclick='printInvoice();'>Imprimir ficha</a>"
 				  + "			</p>"
 				  + "		</div>"
 				  + "	</li>"
@@ -111,7 +95,7 @@ jQuery(function($) {
 				  + "			<h3></h3>"
 				  + "			<h4>Acciones</h4>"
 				  + "			<p>"
-				  + "				<a href='#' class='button' id='print' onclick='printInvoice();'>Imprimir ficha</a>"
+				  + "				<a href='#' class='paymentButton' id='print' onclick='printInvoice();'>Imprimir ficha</a>"
 				  + "			</p>"
 				  + "		</div>"
 				  + "	</li>"
@@ -126,13 +110,47 @@ jQuery(function($) {
 			  modal: true,
 			  width:'auto'
 	  }).bind('dialogclose', function(event) {
-		   buttonAction();
+		   paymentButtonAction();
 	   });
   };
-
-  button.unbind('click');
-  button.attr('onclick','');
-  button.click(function() {
+  
+  
+  orderButton.unbind('click');
+  orderButton.attr('onclick','');
+  orderButton.click(function() {
+	  var $form = $("#payment_form_card");
+	  token_id = $form.find('#card_cc_tokenid').val();
+	  if ($("#p_method_card").prop('checked')) {
+		  $.ajax({
+			  type: "POST",
+			  url: cardUrl,
+			  dataType: "text",
+			  data: "token_id=" + token_id,
+			  async: false,
+			  success: function (data) {
+				  var $form = $("#payment_form_card");
+				  data = $.parseJSON(data);
+				  if (data.error) {
+					  $form.find('.card-errors').text(data.error);
+				  } else if (data.status == "paid") {
+					  orderButtonAction();
+				  } else {
+					  $form.find('.card-errors').text("Método de pago no disponible, intente más tarde.");
+				  }
+			  },
+			  error: function (textStatus, errorThrown) {
+				  var $form = $("#payment_form_card");
+				  $form.find('.card-errors').text("Método de pago no disponible, intente más tarde.");
+			  }
+		  });
+	  } else {
+		  orderButtonAction();
+	  }
+  });
+	  
+  paymentButton.unbind('click');
+  paymentButton.attr('onclick','');
+  paymentButton.click(function() {
 	  if ($("#p_method_card").prop('checked')) {
 		  var $form = $("#payment_form_card");
 		  $form.find('#card_cc_nombre').val($("#card_cc_owner").val());
@@ -196,7 +214,7 @@ jQuery(function($) {
 			  }
 		  });
 	  } else {
-		  buttonAction();
+		  paymentButtonAction();
 	  }
 	  return false;
   });

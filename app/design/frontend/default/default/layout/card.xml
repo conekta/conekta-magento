@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+	<card_ajax_index>
+		<block type="card/card" name="card" template="card/card.phtml" />
+	</card_ajax_index>
+	<card_ajax_listener>
+		<block type="card/card" name="card" template="card/card.phtml" />
+	</card_ajax_listener>
+    <default>
+    </default>
+    <card_index_index>
+        <reference name="content">
+            <block type="card/card" name="card" template="card/card.phtml" />
+        </reference>
+    </card_index_index>
+</layout>
