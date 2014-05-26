@@ -4,11 +4,12 @@
         <payment>
             <groups>
                 <card translate="label" module="card">
-                    <label>Pago con Tarjeta de Débito / Crédito </label>
-                    <sort_order>670</sort_order>
+                    <label>Conekta Card Payment Module</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1</sort_order>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
-                    <show_in_store>0</show_in_store>
+                    <show_in_store>1</show_in_store>
                     <fields>
                         <active translate="label">
                             <label>Enabled</label>
@@ -22,7 +23,7 @@
                         <order_status translate="label">
                             <label>New order status</label>
                             <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
                             <sort_order>2</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
@@ -36,39 +37,22 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </title>
-                        <message translate="label">
-                            <label>Displayed Message</label>
-			    <frontend_type>textarea</frontend_type>
-                            <sort_order>4</sort_order>
+                        <privatekey translate="label">
+                            <label>Private Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>23</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-			</message>
-                         <apikey translate="label">
-                            <label>Api Public Key</label>
+                        </privatekey>
+                        <publickey translate="label">
+                            <label>Public Key</label>
                             <frontend_type>text</frontend_type>
-                            <sort_order>5</sort_order>
+                            <sort_order>21</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </apikey>
-                        <apiprivatekey translate="label">
-                            <label>Api Private Key</label>
-                            <frontend_type>text</frontend_type>
-                            <sort_order>6</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </apiprivatekey>
-                         <currency translate="label">
-                            <label>Currency</label>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_Conektacurrency</source_model>
-                            <sort_order>7</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
-                        </currency>
+                            <show_in_store>1</show_in_store>
+                        </publickey>
                     </fields>
                 </card>
             </groups>

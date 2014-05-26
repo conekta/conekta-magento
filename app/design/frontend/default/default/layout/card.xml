@@ -1,11 +1,5 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-	<card_ajax_index>
-		<block type="card/card" name="card" template="card/card.phtml" />
-	</card_ajax_index>
-	<card_ajax_listener>
-		<block type="card/card" name="card" template="card/card.phtml" />
-	</card_ajax_listener>
     <default>
     </default>
     <card_index_index>
@@ -13,4 +7,9 @@
             <block type="card/card" name="card" template="card/card.phtml" />
         </reference>
     </card_index_index>
-</layout>
+    <checkout_onepage_index>
+        <reference name="head">
+						<action method="addExternalItem"><type>external_js</type><name>https://conektaapi.s3.amazonaws.com/v0.3.0/js/conekta.js</name><params/></action>
+        </reference>
+    </checkout_onepage_index>
+</layout> 

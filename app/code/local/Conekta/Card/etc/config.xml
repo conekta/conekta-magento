@@ -14,13 +14,6 @@
                     <frontName>card</frontName>
                 </args>
             </card>
-            <checkout>
-                <args>
-                <modules>
-                <Conekta_Card before="Mage_Checkout">Conekta_Card</Conekta_Card>
-                </modules>
-                </args>
-            </checkout>
         </routers>
         <layout>
             <updates>
@@ -31,20 +24,27 @@
         </layout>
     </frontend>
     <global>
+			<events>
+					<sales_order_payment_place_start>
+							<observers>
+									<charges>
+											<class>card/observer</class>
+											<method>processPayment</method>
+									</charges>
+							</observers>
+					</sales_order_payment_place_start>
+			</events>
     	<fieldsets>
     		 <sales_convert_quote_payment>
-				 <cc_last4>
+    		 	<card_token>
     		 		<to_order_payment>*</to_order_payment>
-    		 	</cc_last4>
-    		 	<cc_owner>
+    		 	</card_token>
+    		 	<charge_authorization>
     		 		<to_order_payment>*</to_order_payment>
-    		 	</cc_owner>
-    		 	<cc_exp_month>
+    		 	</charge_authorization>
+    		 	<charge_id>
     		 		<to_order_payment>*</to_order_payment>
-    		 	</cc_exp_month>
-    		 	<cc_exp_year>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</cc_exp_year>
+    		 	</charge_id>
     		 </sales_convert_quote_payment>
     	</fieldsets>
         <models>
@@ -85,6 +85,11 @@
             <card>
                 <class>Conekta_Card_Block</class>
             </card>
+            <page>
+                <rewrite>
+                    <html_head>Conekta_Card_Block_Page_Html_Head</html_head>
+                </rewrite>
+            </page>
         </blocks>
         <helpers>
             <card>
@@ -97,9 +102,8 @@
             <card>
                 <active>1</active>
                 <model>card/card</model>
-                <order_status>processing</order_status>
-                <title>Pago con Tarjeta</title>
-                <message></message>
+                <order_status>pending</order_status>
+                <title>Card Payment Method</title>
             </card>
          </payment>
     </default>
