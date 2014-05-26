@@ -21,9 +21,11 @@ Api Private Key:
 Inventory Notes
 ---------------
 
-Your product inventory will only be adjusted when your server receives a payment notification from Conekta, this allows for offline payment methods like Bank Deposits and Oxxo to be processed.
+For credit card purchases, the order status will change to complete everytime there is a successful purchase from Conekta. This is done using an Obsever inside the Card module and it can be changed to meet more specific requirements. You can also use the Webhook module to manage orders using the following url:
+    `http://mymagento-store.com/index.php/webhook/ajax/listener`
 
 Modules in this plugin
 -----------
 
   * Conekta_Card
+	* Conekta_Webhook
