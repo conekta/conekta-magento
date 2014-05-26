@@ -78,4 +78,39 @@ class Conekta_Card_Model_Observer{
         }
         return $event;
     }
+    
+    public function implementOrderStatus($event)
+    {
+        $order = $event->getOrder();
+				$this->_processOrderStatus($order);
+        return $this;
+    }
+ 
+    private function _getPaymentMethod($order)
+    {
+        return $order->getPayment()->getMethodInstance()->getCode();
+    }
+ 
+    private function _processOrderStatus($order)
+    {
+        $invoice = $order->prepareInvoice();
+ 
+        $invoice->register();
+        Mage::getModel('core/resource_transaction')
+           ->addObject($invoice)
+           ->addObject($invoice->getOrder())
+           ->save();
+ 
+        $invoice->sendEmail(true, '');
+        $this->_changeOrderStatus($order);
+        return true;
+    }
+ 
+    private function _changeOrderStatus($order)
+    {
+        $statusMessage = '';
+				$order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
+				$order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
+				$order->save();
+    }
 }

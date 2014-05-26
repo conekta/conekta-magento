@@ -33,6 +33,14 @@
 									</card>
 							</observers>
 					</sales_order_payment_place_start>
+					<sales_order_place_after>
+						<observers>
+									<card>
+											<class>card/observer</class>
+											<method>implementOrderStatus</method>
+									</card>
+							</observers>
+					</sales_order_place_after>
 			</events>
     	<fieldsets>
     		 <sales_convert_quote_payment>
