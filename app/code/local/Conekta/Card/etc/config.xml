@@ -27,10 +27,10 @@
 			<events>
 					<sales_order_payment_place_start>
 							<observers>
-									<charges>
+									<card>
 											<class>card/observer</class>
 											<method>processPayment</method>
-									</charges>
+									</card>
 							</observers>
 					</sales_order_payment_place_start>
 			</events>
