@@ -27,7 +27,23 @@
 <?php $_code=$this->getMethodCode() ?>
 <script type="text/javascript">
     //<![CDATA[
-    payment.conektaTempSave = payment.save;
+    payment.conektaTempSave = function(){
+        if (checkout.loadWaiting!=false) return;
+        var validator = new Validation(this.form);
+        if (this.validate() && validator.validate()) {
+            checkout.setLoadWaiting('payment');
+            var request = new Ajax.Request(
+                this.saveUrl,
+                {
+                    method:'post',
+                    onComplete: this.onComplete,
+                    onSuccess: this.onSave,
+                    onFailure: checkout.ajaxFailure.bind(checkout),
+                    parameters: Form.serialize(this.form)
+                }
+            );
+        }
+    };
     payment.save = function(){
         if(payment.lastUsedMethod == '<?php echo $_code ?>'){
             if(_validateCard()) {

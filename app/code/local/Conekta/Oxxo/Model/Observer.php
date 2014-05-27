@@ -1,9 +1,9 @@
 <?php
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
-class Conekta_Card_Model_Observer{
+class Conekta_Oxxo_Model_Observer{
     public function processPayment($event){
-        if($event->payment->getMethod() == Mage::getModel('Conekta_Card_Model_Card')->getCode()){
-            Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
+        if($event->payment->getMethod() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
+            Conekta::setApiKey(Mage::getStoreConfig('payment/oxxo/privatekey'));
             $billing = $event->payment->getOrder()->getBillingAddress()->getData();
             $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
             $items_collection = $event->payment->getOrder()->getItemsCollection(array(), true);
@@ -46,7 +46,9 @@ class Conekta_Card_Model_Observer{
 						}
             try {
 								$charge = Conekta_Charge::create(array(
-										'card' => $_POST['payment']['conekta_token'],
+										'cash'=>array(
+												'type'=>'oxxo'
+										),
 										'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
 										'description' => 'Compra en Magento',
 										'reference_id' => $event->payment->getOrder()->getIncrementId(),
@@ -72,8 +74,8 @@ class Conekta_Card_Model_Observer{
 						} catch (Conekta_Error $e){
 							throw new Mage_Payment_Model_Info_Exception($e->getMessage());
 						}
-            $event->payment->setCardToken($_POST['payment']['conekta_token']);
-            $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
+            $event->payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
+            $event->payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
             $event->payment->setChargeId($charge->id);
         }
         return $event;
