@@ -7,16 +7,12 @@ Features
 	* Online and offline payments.
 	* Automatic order status management.
 	* Email notifications on successful purchase.
+	![alt tag](https://raw.github.com/conekta/conekta-magento/master/invoice.png)
 	* Sandbox testing capability.
 	* Client side validation for credit cards.
+	![alt tag](https://raw.github.com/conekta/conekta-magento/master/validation.png)
 	* Card validation at Conekta's servers so you don't have to be PCI.
-
-Email notifications:
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/invoice.png)
-Client side validation:
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/validation.png)
-Validation at Conekta's servers:
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/server_validation_at_conekta.png)
+	![alt tag](https://raw.github.com/conekta/conekta-magento/master/server_validation_at_conekta.png)
 
 Magento Version Compatibility
 -----------
