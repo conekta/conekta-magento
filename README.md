@@ -1,23 +1,28 @@
-conekta-magento
-==============
+Conekta Plugin for Magento
+==========================
+
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
 
 Features
----------------
+--------
 
 	* Online and offline payments.
 	* Automatic order status management.
 	* Email notifications on successful purchase.
+
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/invoice.png)
 
 	* Sandbox testing capability.
 	* Client side validation for credit cards.
+
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/validation.png)
 
 	* Card validation at Conekta's servers so you don't have to be PCI.
+
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/server_validation_at_conekta.png)
 
 Magento Version Compatibility
------------
+-----------------------------
 The plugin has been tested for Magento 1.7 and 1.8. Conflicts can be found if installed in non tested Magento versions.
 
 Installation
