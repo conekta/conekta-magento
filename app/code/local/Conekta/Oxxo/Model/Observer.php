@@ -85,6 +85,7 @@ class Conekta_Oxxo_Model_Observer{
             $payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
             $payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
             $payment->setChargeId($charge->id);
+            $quote->collectTotals();
             $quote->save();
             $order->setQuote($quote);
             $order->save();
@@ -115,7 +116,7 @@ class Conekta_Oxxo_Model_Observer{
            ->save();
  
         $invoice->sendEmail(true, '');
-        $this->_changeOrderStatus($order);
+        //$this->_changeOrderStatus($order);
         return true;
     }
  

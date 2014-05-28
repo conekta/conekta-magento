@@ -1,9 +1,9 @@
 <?php
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
-class Conekta_Card_Model_Observer{
+class Conekta_Bank_Model_Observer{
     public function processPayment($event){
-        if($event->payment->getMethod() == Mage::getModel('Conekta_Card_Model_Card')->getCode()){
-            Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
+        if($event->payment->getMethod() == Mage::getModel('Conekta_Bank_Model_Bank')->getCode()){
+            Conekta::setApiKey(Mage::getStoreConfig('payment/bank/privatekey'));
             $billing = $event->payment->getOrder()->getBillingAddress()->getData();
             $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
             $items_collection = $event->payment->getOrder()->getItemsCollection(array(), true);
@@ -46,7 +46,9 @@ class Conekta_Card_Model_Observer{
 						}
             try {
 								$charge = Conekta_Charge::create(array(
-										'card' => $_POST['payment']['conekta_token'],
+										'bank'=>array(
+												'type'=>'banorte'
+										),
 										'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
 										'description' => 'Compra en Magento',
 										'reference_id' => $event->payment->getOrder()->getIncrementId(),
@@ -72,22 +74,20 @@ class Conekta_Card_Model_Observer{
 						} catch (Conekta_Error $e){
 							throw new Mage_Payment_Model_Info_Exception($e->getMessage());
 						}
-            $event->payment->setCardToken($_POST['payment']['conekta_token']);
-            $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
+            $event->payment->setBankServiceName($charge->payment_method->service_name);
+            $event->payment->setBankServiceNumber($charge->payment_method->service_number);
+            $event->payment->setBankName($charge->payment_method->type);
+            $event->payment->setBankReference($charge->payment_method->reference);
             $event->payment->setChargeId($charge->id);
-            $event->payment->setCcOwner($charge->payment_method->name);
-            $event->payment->setCcLast4($charge->payment_method->last4);
             
             //Update Quote
             $order = $event->payment->getOrder();
             $quote = $order->getQuote();
             $payment = $quote->getPayment();
-            $payment->setCardToken($_POST['payment']['conekta_token']);
-            $payment->setChargeAuthorization($charge->payment_method->auth_code);
-            
-            $payment->setCcOwner($charge->payment_method->name);
-            $payment->setCcLast4($charge->payment_method->last4);
-            
+            $payment->setBankServiceName($charge->payment_method->service_name);
+            $payment->setBankServiceNumber($charge->payment_method->service_number);
+            $payment->setBankName($charge->payment_method->type);
+            $payment->setBankReference($charge->payment_method->reference);
             $payment->setChargeId($charge->id);
             $quote->collectTotals();
             $quote->save();
@@ -120,7 +120,7 @@ class Conekta_Card_Model_Observer{
            ->save();
  
         $invoice->sendEmail(true, '');
-        $this->_changeOrderStatus($order);
+        //$this->_changeOrderStatus($order);
         return true;
     }
  

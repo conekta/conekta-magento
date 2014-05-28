@@ -1,0 +1,59 @@
+<?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2012 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+?>
+
+<?php if (!$this->getHideTitle()): ?>
+    <p><strong><?php echo $this->htmlEscape($this->getMethod()->getTitle())  ?></strong></p>
+<?php endif;?>
+
+<?php
+    $service_name = $this->getInfo()->getBankServiceName();
+    $service_number = $this->getInfo()->getBankServiceNumber();
+    $bank_name = $this->getInfo()->getBankName();
+    $reference = $this->getInfo()->getBankReference();
+    
+?>
+
+	<dl class="bank">
+		<dt><?php echo "Purchase Info:"; ?></dt>
+		<dd class="offset">
+		<table class="info-table">
+				<tbody>
+				<tr>
+<?php if (empty($reference) != true) {?>
+						<th>Service Name: <?php echo $service_name ?></th>
+						<th>Service Number: <?php echo $service_number ?></th>
+						<th>Bank Name: <?php echo $bank_name ?></th>
+						<th>Reference: <?php echo $reference ?></th>
+<?php } else { ?>
+						<th>You will receive an invoice via email.</th>
+				
+<?php } ?>
+					</tr>
+				</tbody>
+		</table>
+		</dd>
+	</dl>
