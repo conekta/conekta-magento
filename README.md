@@ -1,7 +1,9 @@
-Conekta Plugin for Magento
-==========================
-
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
+
+Magento Plugin v. 0.1.0
+=======================
+
+Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac.
 
 Features
 --------
@@ -10,16 +12,16 @@ Features
 	* Automatic order status management.
 	* Email notifications on successful purchase.
 
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/invoice.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/invoice.png)
 
 	* Sandbox testing capability.
 	* Client side validation for credit cards.
 
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/validation.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/validation.png)
 
 	* Card validation at Conekta's servers so you don't have to be PCI.
 
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/server_validation_at_conekta.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/server_validation_at_conekta.png)
 
 Magento Version Compatibility
 -----------------------------
@@ -40,7 +42,7 @@ Api Public Key:
 Api Private Key: 
     `key_eYvWV7gSDkNYXsmr`
     
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/admin.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/admin.png)
 
 Inventory Notes
 ---------------
@@ -58,3 +60,6 @@ Modules in this plugin
   * Conekta_Oxxo
   * Conekta_Webhook
 
+License
+-------
+[MIT License](LICENSE). © Conekta by [Mauricio Murga](http://twitter.com/shapiro).
