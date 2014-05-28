@@ -43,3 +43,7 @@ Modules in this plugin
   * Conekta_Card
   * Conekta_Oxxo
   * Conekta_Webhook
+
+Images
+-----------
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/admin.png)
