@@ -7,7 +7,7 @@ $installer->startSetup();
 $installer->getConnection()->addColumn($installer->getTable('sales/quote_payment'), 'charge_id', array(
     'type'    => Varien_Db_Ddl_Table::TYPE_TEXT,
     'length'  => '255',
-    'comment' => 'Card Id'
+    'comment' => 'Charge Id'
 ));
 $installer->getConnection()->addColumn($installer->getTable('sales/order_payment'), 'charge_id', array(
     'type'    => Varien_Db_Ddl_Table::TYPE_TEXT,
