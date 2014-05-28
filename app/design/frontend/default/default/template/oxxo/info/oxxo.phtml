@@ -31,6 +31,9 @@
 
 <?php
     $barcode = $this->getInfo()->getOxxoBarcodeUrl();
+    $expiry = $this->getInfo()->getOxxoExpiryDate();
+    $date = date_create_from_format('dmy', $expiry);
+    $date = date_format($date, 'd-M-Y');
 ?>
 
 	<dl class="oxxo">
@@ -41,6 +44,7 @@
 				<tr>
 <?php if (empty($barcode) != true) {?>
 						<th><img src='<?php echo $barcode ?>'/></th>
+						<th>Expiry Date: <?php echo $date ?></th>
 <?php } else { ?>
 						<th>You will receive an invoice via email.</th>
 				
