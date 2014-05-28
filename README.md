@@ -1,6 +1,14 @@
 conekta-magento
 ==============
 
+Features
+---------------
+
+	* Online and offline payments.
+	* Automatic order status management.
+	* Email notifications on successful purchase.
+	* Sandbox testing capability.
+
 Magento Version Compatibility
 -----------
 The plugin has been tested for Magento 1.7 and 1.8. Conflicts can be found if installed in non tested Magento versions.
@@ -21,11 +29,15 @@ Api Private Key:
 Inventory Notes
 ---------------
 
-For credit card purchases, the order status will change to complete everytime there is a successful purchase from Conekta. This is done using an Obsever inside the Card module and it can be changed to meet more specific requirements. You can also use the Webhook module to manage orders using the following url:
+For credit card purchases, the order status will change to complete everytime there is a successful purchase from Conekta. This is done using an Obsever inside the Card module and it can be changed to meet more specific requirements. 
+
+You can also use the Webhook module to manage orders for offline payments using the following url:
     `http://mymagento-store.com/index.php/webhook/ajax/listener`
 
 Modules in this plugin
 -----------
 
+	* Conekta_Bank
   * Conekta_Card
+  * Conekta_Oxxo
 	* Conekta_Webhook
