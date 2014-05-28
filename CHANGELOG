@@ -1,0 +1,7 @@
+=== 0.1.0 2014-05-28
+* Online and offline payments.
+* Automatic order status management.
+* Email notifications on successful purchase.
+* Sandbox testing capability.
+* Client side validation for credit cards.
+* Card validation at Conekta's servers so you don't have to be PCI.
