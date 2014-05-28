@@ -44,6 +44,12 @@
 			</events>
     	<fieldsets>
     		 <sales_convert_quote_payment>
+					 <cc_owner>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_owner>
+					 <cc_last4>
+    		 		<to_order_payment>*</to_order_payment>
+    		 	</cc_last4>
     		 	<card_token>
     		 		<to_order_payment>*</to_order_payment>
     		 	</card_token>

@@ -75,6 +75,21 @@ class Conekta_Card_Model_Observer{
             $event->payment->setCardToken($_POST['payment']['conekta_token']);
             $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
             $event->payment->setChargeId($charge->id);
+            
+            //Update Quote
+            $order = $event->payment->getOrder();
+            $quote = $order->getQuote();
+            $payment = $quote->getPayment();
+            $payment->setCardToken($_POST['payment']['conekta_token']);
+            $payment->setChargeAuthorization($charge->payment_method->auth_code);
+            
+            $payment->setCcOwner($charge->payment_method->name);
+            $payment->setCcLast4($charge->payment_method->last4);
+            
+            $payment->setChargeId($charge->id);
+            $quote->save();
+            $order->setQuote($quote);
+            $order->save();
         }
         return $event;
     }
