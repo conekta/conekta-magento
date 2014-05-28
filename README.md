@@ -37,7 +37,7 @@ You can also use the Webhook module to manage orders for offline payments using 
 Modules in this plugin
 -----------
 
-	- Conekta_Bank
-  - Conekta_Card
-  - Conekta_Oxxo
-	- Conekta_Webhook
+	* Bank
+  * Card
+  * Oxxo
+	* Webhook
