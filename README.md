@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
 
-Magento Plugin v. 0.1.0
+Magento Plugin v.0.1.0
 =======================
 
 Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac.
@@ -62,4 +62,4 @@ Modules in this plugin
 
 License
 -------
-[MIT License](LICENSE). © Conekta by [Mauricio Murga](http://twitter.com/shapiro).
+[MIT License](LICENSE). Developed by [Mauricio Murga](https://github.com/MauricioMurga) for [Conekta](http://twitter.com/conektaio).
