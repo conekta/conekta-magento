@@ -19,11 +19,11 @@ Current version features:
 * Sandbox testing capability.
 * Client side validation for credit cards.
 
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/validation.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/card_validation.png)
 
 * Card validation at Conekta's servers so you don't have to be PCI.
 
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/server_validation_at_conekta.png)
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/server_validation.png)
 
 Magento Version Compatibility
 -----------------------------
