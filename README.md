@@ -16,12 +16,12 @@ Current version features:
 
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/invoice.png)
 
-	* Sandbox testing capability.
-	* Client side validation for credit cards.
+* Sandbox testing capability.
+* Client side validation for credit cards.
 
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/validation.png)
 
-	* Card validation at Conekta's servers so you don't have to be PCI.
+* Card validation at Conekta's servers so you don't have to be PCI.
 
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/server_validation_at_conekta.png)
 
@@ -56,9 +56,9 @@ You can also use the Webhook module to manage orders for offline payments using 
 
 Included modules
 ----------------
-The current version includes the following modules:
+This version includes the following modules:
 
- 	* Conekta_Bank
+	* Conekta_Bank
  	* Conekta_Card
  	* Conekta_Oxxo
  	* Conekta_Webhook
