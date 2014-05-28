@@ -8,6 +8,15 @@ Features
 	* Automatic order status management.
 	* Email notifications on successful purchase.
 	* Sandbox testing capability.
+	* Client side validation for credit cards.
+	* Card validation at Conekta's servers so you don't have to be PCI.
+
+Email notifications:
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/invoice.png)
+Client side validation:
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/validation.png)
+Validation at Conekta's servers:
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/server_validation_at_conekta.png)
 
 Magento Version Compatibility
 -----------
@@ -27,6 +36,8 @@ Api Public Key:
     `key_KJysdbf6PotS2ut2`
 Api Private Key: 
     `key_eYvWV7gSDkNYXsmr`
+    
+![alt tag](https://raw.github.com/conekta/conekta-magento/master/admin.png)
 
 Inventory Notes
 ---------------
@@ -44,6 +55,3 @@ Modules in this plugin
   * Conekta_Oxxo
   * Conekta_Webhook
 
-Images
------------
-![alt tag](https://raw.github.com/conekta/conekta-magento/master/admin.png)
