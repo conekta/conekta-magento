@@ -2,9 +2,9 @@
 
 Magento Plugin v.0.1.0
 =======================
-This plugin is the first stable and official version of the Conekta Magento extension. With it, you can process credit card, bank and OXXO payments securely, and send email notifications to your customers when they complete a successful purchase.
+This plugin is an official and stable version of the Conekta Magento extension. It bundles functionality to process credit cards, bank and OXXO payments securely as well as send email notifications to your customers when they complete a successful purchase.
 
-Do not worry about managing your oders status. Whether the purchase included is an online or offline payment, the Conekta Magento Payment Module will manage your order status.
+Don't worry about managing the status of your orders, the plugin will automatically changes orders to paid as long as your webhooks are properly configured.
 
 Features
 --------
@@ -21,13 +21,13 @@ Current version features:
 
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/card_validation.png)
 
-* Card validation at Conekta's servers so you don't have to be PCI.
+* All card data is sent directly to Conekta's servers so you don't have to be PCI compliant.
 
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/server_validation.png)
 
 Magento Version Compatibility
 -----------------------------
-The plugin has been tested for Magento 1.7 and 1.8. Conflicts can be found if installed in non tested Magento versions.
+The plugin has been tested in Magento 1.7 and 1.8. Support is not guaranteed for untested versions.
 
 Installation
 -----------
