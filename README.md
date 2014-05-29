@@ -4,7 +4,7 @@ Magento Plugin v.0.1.0
 =======================
 This plugin is the first stable and official version of the Conekta Magento extension. With it, you can process credit card, bank and OXXO payments securely, and send email notifications to your customers when they complete a successful purchase.
 
-Do not worry about managing your oders status. Whether the purchase included an online or offline payment, the Conekta Magento Payment Module will manage your order status.
+Do not worry about managing your oders status. Whether the purchase included is an online or offline payment, the Conekta Magento Payment Module will manage your order status.
 
 Features
 --------
