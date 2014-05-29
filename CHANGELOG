@@ -5,3 +5,6 @@
 * Sandbox testing capability.
 * Client side validation for credit cards.
 * Card validation at Conekta's servers so you don't have to be PCI.
+=== 0.1.1 2014-05-29
+* Fix email notifications.
+* Fix offline payment order status.
