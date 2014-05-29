@@ -100,7 +100,10 @@ class Conekta_Card_Model_Observer{
     public function implementOrderStatus($event)
     {
         $order = $event->getOrder();
-				$this->_processOrderStatus($order);
+				if ($this->_getPaymentMethod($order) == Mage::getModel('Conekta_Card_Model_Card')->getCode()) {
+            if ($order->canInvoice())
+                $this->_processOrderStatus($order);
+        }
         return $this;
     }
  
@@ -111,16 +114,18 @@ class Conekta_Card_Model_Observer{
  
     private function _processOrderStatus($order)
     {
-        $invoice = $order->prepareInvoice();
- 
-        $invoice->register();
-        Mage::getModel('core/resource_transaction')
-           ->addObject($invoice)
-           ->addObject($invoice->getOrder())
-           ->save();
- 
-        $invoice->sendEmail(true, '');
-        $this->_changeOrderStatus($order);
+        if ($order->hasInvoices() != true) {
+					$invoice = $order->prepareInvoice();
+	 
+					$invoice->register();
+					Mage::getModel('core/resource_transaction')
+						 ->addObject($invoice)
+						 ->addObject($invoice->getOrder())
+						 ->save();
+	 
+					$invoice->sendEmail(true, '');
+					$this->_changeOrderStatus($order);
+				}
         return true;
     }
  
