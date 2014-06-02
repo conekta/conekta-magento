@@ -5,7 +5,9 @@ class Conekta_Oxxo_Model_Observer{
         if($event->payment->getMethod() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
             Conekta::setApiKey(Mage::getStoreConfig('payment/oxxo/privatekey'));
             $billing = $event->payment->getOrder()->getBillingAddress()->getData();
-            $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
+            if ($event->payment->getOrder()->getShippingAddress()) {
+							$shipping = $event->payment->getOrder()->getShippingAddress()->getData();
+						}
             $items_collection = $event->payment->getOrder()->getItemsCollection(array(), true);
 						$line_items = array();
 						for ($i = 0; $i < count($items_collection->getColumnValues('sku')); $i ++) {
@@ -30,7 +32,7 @@ class Conekta_Oxxo_Model_Observer{
 							);
 						}
 						$shipp = array();
-						if (true) {
+						if (empty($shipping) != true) {
 							$shipp = array(
 								'price' => $shipping['grand_total'],
 								'address' => array(
@@ -112,12 +114,25 @@ class Conekta_Oxxo_Model_Observer{
     {
 				if ($order->hasInvoices() != true) {
 					$invoice = $order->prepareInvoice();
-	 
-					$invoice->register();
-					Mage::getModel('core/resource_transaction')
-						 ->addObject($invoice)
-						 ->addObject($invoice->getOrder())
-						 ->save();
+					
+					// Check if order is virtual
+					$virtual = false;
+					$items_collection = $order->getItemsCollection(array(), true);
+					for ($i = 0; $i < count($items_collection->getColumnValues('sku')); $i ++) {
+						$product_type = $items_collection->getColumnValues('product_type');
+						if (strcmp($product_type, 'virtual') !== 0) {
+								$virtual = true;
+								break;
+						}
+					}
+					
+					if ($virtual != true) {
+						$invoice->register();
+						Mage::getModel('core/resource_transaction')
+							 ->addObject($invoice)
+							 ->addObject($invoice->getOrder())
+							 ->save();
+					}
 	 
 					$invoice->sendEmail(true, '');
 					$this->_changeOrderStatus($order);
