@@ -8,3 +8,5 @@
 === 0.1.1 2014-05-29
 * Fix email notifications.
 * Fix offline payment order status.
+=== 0.1.2 2014-06-02
+* Update observer logic to support virtual orders.
