@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
 
-Magento Plugin v.0.1.0
+Magento Plugin v.0.1.1
 =======================
 This plugin is an official and stable version of the Conekta Magento extension. It bundles functionality to process credit cards, bank and OXXO payments securely as well as send email notifications to your customers when they complete a successful purchase.
 
@@ -27,7 +27,7 @@ Current version features:
 
 Magento Version Compatibility
 -----------------------------
-The plugin has been tested in Magento 1.7 and 1.8. Support is not guaranteed for untested versions.
+The plugin has been tested in Magento 1.7, 1.8, and 1.9. Support is not guaranteed for untested versions.
 
 Installation
 -----------
