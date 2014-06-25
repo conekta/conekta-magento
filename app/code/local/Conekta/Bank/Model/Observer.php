@@ -3,7 +3,7 @@ include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conek
 class Conekta_Bank_Model_Observer{
     public function processPayment($event){
         if (!class_exists('Conekta')) {
-          error_log("Plugin miss Conekta PHP lib dependency. Go to lib/Conekta and run in your console 'git pull'", 0);
+          error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);
           throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
         }
         if($event->payment->getMethod() == Mage::getModel('Conekta_Bank_Model_Bank')->getCode()){
