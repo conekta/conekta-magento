@@ -2,6 +2,10 @@
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
 class Conekta_Card_Model_Observer{
     public function processPayment($event){
+        if (!class_exists('Conekta')) {
+          error_log("Plugin miss Conekta PHP lib dependency. Go to lib/Conekta and run in your console 'git pull'", 0);
+          throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
+        }
         if($event->payment->getMethod() == Mage::getModel('Conekta_Card_Model_Card')->getCode()){
             Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
             $billing = $event->payment->getOrder()->getBillingAddress()->getData();
