@@ -52,39 +52,39 @@ class Conekta_Oxxo_Model_Observer{
                 );
             }
             try {
-                    $charge = Conekta_Charge::create(array(
-                            'cash'=>array(
-                                    'type'=>'oxxo'
-                            ),
-                            'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
-                            'description' => 'Compra en Magento',
-                            'reference_id' => $event->payment->getOrder()->getIncrementId(),
-                            'details' => array(
-                                'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['firstname']),
-                                'email' => $email,
-                                'phone' => $billing['telephone'],
-                                'billing_address' => array(
-                                    'company_name' => $billing['company'],
-                                    'street1' => $billing['street'],
-                                    'city' =>$billing['city'],
-                                    'state' =>$billing['region'],
-                                    'country' =>$billing['country_id'],
-                                    'zip' =>$billing['postcode'],
-                                    'phone' =>$billing['telephone'],
-                                    'email' =>$email
-                                ),
-                                'line_items' => $line_items,
-                                'shipment' => $shipp
-                                )
-                            )
-                    );
+              $charge = Conekta_Charge::create(array(
+                'cash'=>array(
+                        'type'=>'oxxo'
+                ),
+                'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
+                'description' => 'Compra en Magento',
+                'reference_id' => $event->payment->getOrder()->getIncrementId(),
+                'details' => array(
+                    'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['firstname']),
+                    'email' => $email,
+                    'phone' => $billing['telephone'],
+                    'billing_address' => array(
+                        'company_name' => $billing['company'],
+                        'street1' => $billing['street'],
+                        'city' =>$billing['city'],
+                        'state' =>$billing['region'],
+                        'country' =>$billing['country_id'],
+                        'zip' =>$billing['postcode'],
+                        'phone' =>$billing['telephone'],
+                        'email' =>$email
+                    ),
+                    'line_items' => $line_items,
+                    'shipment' => $shipp
+                    )
+                )
+              );
             } catch (Conekta_Error $e){
                 throw new Mage_Payment_Model_Info_Exception($e->getMessage());
             }
             $event->payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
             $event->payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
             $event->payment->setChargeId($charge->id);
-            
+
             //Update Quote
             $order = $event->payment->getOrder();
             $quote = $order->getQuote();
@@ -99,29 +99,29 @@ class Conekta_Oxxo_Model_Observer{
         }
         return $event;
     }
-    
+
     public function implementOrderStatus($event)
     {
         $order = $event->getOrder();
-		if ($this->_getPaymentMethod($order) == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()) {
+    		if ($this->_getPaymentMethod($order) == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()) {
             if ($order->canInvoice())
                 $this->_processOrderStatus($order);
         }
         return $this;
     }
- 
+
     private function _getPaymentMethod($order)
     {
         return $order->getPayment()->getMethodInstance()->getCode();
     }
- 
+
     private function _processOrderStatus($order)
     {
         $order->sendNewOrderEmail();
         $this->_changeOrderStatus($order);
         return true;
     }
- 
+
     private function _changeOrderStatus($order)
     {
         $statusMessage = '';
