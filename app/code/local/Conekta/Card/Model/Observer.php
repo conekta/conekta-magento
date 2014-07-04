@@ -151,7 +151,6 @@ class Conekta_Card_Model_Observer{
  
     private function _changeOrderStatus($order)
     {
-        
         $statusMessage = '';
         $order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
         $order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
