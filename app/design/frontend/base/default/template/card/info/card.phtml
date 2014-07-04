@@ -26,31 +26,31 @@
 ?>
 
 <?php if (!$this->getHideTitle()): ?>
-    <p><strong><?php echo $this->htmlEscape($this->getMethod()->getTitle())  ?></strong></p>
+	<p><strong><?php echo $this->htmlEscape($this->getMethod()->getTitle())  ?></strong></p>
 <?php endif;?>
 
 <?php
-    $authNumber = $this->getInfo()->getChargeAuthorization();
-    $owner = $this->getInfo()->getCcOwner();
-    $card = $this->getInfo()->getCcLast4();
+$authNumber = $this->getInfo()->getChargeAuthorization();
+$owner = $this->getInfo()->getCcOwner();
+$card = $this->getInfo()->getCcLast4();
 ?>
 
-	<dl class="card">
-		<dt><?php echo "Purchase Info:"; ?></dt>
-		<dd class="offset">
+<dl class="card">
+	<dt><?php echo "Purchase Info:"; ?></dt>
+	<dd class="offset">
 		<table class="info-table">
-				<tbody>
+			<tbody>
 				<tr>
-<?php if (empty($authNumber) != true) {?>
-						<th>Cardholder: <?php echo $owner ?></th>
-						<th>Card: <?php echo $card ?></th>
-						<th>Authorization Number: <?php echo $authNumber ?></th>
-<?php } else { ?>
-						<th>You will receive an invoice via email.</th>
-				
-<?php } ?>
-					</tr>
-				</tbody>
+					<?php if (empty($authNumber) != true) {?>
+					<th>Cardholder: <?php echo $owner ?></th>
+					<th>Card: <?php echo $card ?></th>
+					<th>Authorization Number: <?php echo $authNumber ?></th>
+					<?php } else { ?>
+					<th>You will receive an invoice via email.</th>
+					
+					<?php } ?>
+				</tr>
+			</tbody>
 		</table>
-		</dd>
-	</dl>
+	</dd>
+</dl>

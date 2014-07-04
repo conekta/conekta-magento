@@ -24,43 +24,43 @@
         </layout>
     </frontend>
     <global>
-			<events>
-					<sales_order_payment_place_start>
-							<observers>
-									<bank>
-											<class>bank/observer</class>
-											<method>processPayment</method>
-									</bank>
-							</observers>
-					</sales_order_payment_place_start>
-					<sales_order_place_after>
-						<observers>
-									<bank>
-											<class>bank/observer</class>
-											<method>implementOrderStatus</method>
-									</bank>
-							</observers>
-					</sales_order_place_after>
-			</events>
-    	<fieldsets>
-    		 <sales_convert_quote_payment>
-    		 	<bank_service_name>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</bank_service_name>
-    		 	<bank_service_number>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</bank_service_number>
-    		 	<bank_name>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</bank_name>
-    		 	<bank_reference>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</bank_reference>
-    		 	<charge_id>
-    		 		<to_order_payment>*</to_order_payment>
-    		 	</charge_id>
-    		 </sales_convert_quote_payment>
-    	</fieldsets>
+        <events>
+            <sales_order_payment_place_start>
+                <observers>
+                    <bank>
+                        <class>bank/observer</class>
+                        <method>processPayment</method>
+                    </bank>
+                </observers>
+            </sales_order_payment_place_start>
+            <sales_order_place_after>
+                <observers>
+                    <bank>
+                        <class>bank/observer</class>
+                        <method>implementOrderStatus</method>
+                    </bank>
+                </observers>
+            </sales_order_place_after>
+        </events>
+        <fieldsets>
+            <sales_convert_quote_payment>
+                <bank_service_name>
+                    <to_order_payment>*</to_order_payment>
+                </bank_service_name>
+                <bank_service_number>
+                    <to_order_payment>*</to_order_payment>
+                </bank_service_number>
+                <bank_name>
+                    <to_order_payment>*</to_order_payment>
+                </bank_name>
+                <bank_reference>
+                    <to_order_payment>*</to_order_payment>
+                </bank_reference>
+                <charge_id>
+                    <to_order_payment>*</to_order_payment>
+                </charge_id>
+            </sales_convert_quote_payment>
+        </fieldsets>
         <models>
             <bank>
                 <class>Conekta_Bank_Model</class>
@@ -114,6 +114,6 @@
                 <order_status>pending</order_status>
                 <title>Bank Payment Method</title>
             </bank>
-         </payment>
+        </payment>
     </default>
 </config>

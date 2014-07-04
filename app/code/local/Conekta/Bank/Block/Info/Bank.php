@@ -4,8 +4,8 @@ class Conekta_Bank_Block_Info_Bank extends Mage_Payment_Block_Info
 	
 	protected function _construct()
 	{
-			parent::_construct();
-			$this->setTemplate('bank/info/bank.phtml');
+		parent::_construct();
+		$this->setTemplate('bank/info/bank.phtml');
 	}
 	
 	protected function _prepareSpecificInformation($transport = null)
@@ -21,7 +21,7 @@ class Conekta_Bank_Block_Info_Bank extends Mage_Payment_Block_Info
 			Mage::helper('payment')->__('Service Number') => $info->getBankServiceNumber(),
 			Mage::helper('payment')->__('Bank Name') => $info->getBankName(),
 			Mage::helper('payment')->__('Bank Name') => $info->getBankReference()
-		));
+			));
 		return $transport;
 	}
 }

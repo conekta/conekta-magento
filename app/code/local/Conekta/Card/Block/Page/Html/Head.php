@@ -95,21 +95,21 @@ class Conekta_Card_Block_Page_Html_Head extends Mage_Page_Block_Html_Head
         $href   = $itemName;
         switch ($itemType) {
             case 'rss':
-                $lines[$itemIf]['other'][] = sprintf('<link href="%s"%s rel="alternate" type="application/rss+xml" />',
-                    $href, $params
+            $lines[$itemIf]['other'][] = sprintf('<link href="%s"%s rel="alternate" type="application/rss+xml" />',
+                $href, $params
                 );
-                break;
+            break;
             case 'link_rel':
-                $lines[$itemIf]['other'][] = sprintf('<link%s href="%s" />', $params, $href);
-                break;
+            $lines[$itemIf]['other'][] = sprintf('<link%s href="%s" />', $params, $href);
+            break;
             
-           	case 'external_js':
-                $lines[$itemIf]['other'][] = sprintf('<script type="text/javascript" src="%s" %s></script>', $href, $params);
-                break;
-                            
-          	case 'external_css':
-                $lines[$itemIf]['other'][] = sprintf('<link rel="stylesheet" type="text/css" href="%s" %s/>', $href, $params);
-                break;
+            case 'external_js':
+            $lines[$itemIf]['other'][] = sprintf('<script type="text/javascript" src="%s" %s></script>', $href, $params);
+            break;
+            
+            case 'external_css':
+            $lines[$itemIf]['other'][] = sprintf('<link rel="stylesheet" type="text/css" href="%s" %s/>', $href, $params);
+            break;
         }
     }
 

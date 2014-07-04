@@ -29,121 +29,121 @@
     //<![CDATA[
     var conektaTempSave = payment.save;
     payment.save = function(){
-        if(payment.lastUsedMethod == '<?php echo $_code ?>'){
-            if(_validateCard()) {
-                checkout.setLoadWaiting('payment');
-								Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/card/publickey');?>');
-								var form = document.getElementById("payment_form_<?php echo $_code ?>");
-								
-								var exp_month = document.createElement('input');
-								exp_month.value = document.getElementById('<?php echo $_code ?>_expiration').value.toString();;
-								exp_month.type = 'hidden';
-								exp_month.setAttribute("data-conekta", "card[exp_month]");
-								form.appendChild(exp_month);
-								var exp_year = document.createElement('input');
-								exp_year.value = document.getElementById('<?php echo $_code ?>_expiration_yr').value.toString();;
-								exp_year.setAttribute("data-conekta", "card[exp_year]");
-								exp_year.type = 'hidden';
-								form.appendChild(exp_year);
-								
-								Conekta.token.create(form, successResponseHandler, errorResponseHandler);
-            } else {
-                conektaTempSave.apply(this);
-            }
+      if(payment.lastUsedMethod == '<?php echo $_code ?>'){
+        if(_validateCard()) {
+          checkout.setLoadWaiting('payment');
+          Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/card/publickey');?>');
+          var form = document.getElementById("payment_form_<?php echo $_code ?>");
+          
+          var exp_month = document.createElement('input');
+          exp_month.value = document.getElementById('<?php echo $_code ?>_expiration').value.toString();;
+          exp_month.type = 'hidden';
+          exp_month.setAttribute("data-conekta", "card[exp_month]");
+          form.appendChild(exp_month);
+          var exp_year = document.createElement('input');
+          exp_year.value = document.getElementById('<?php echo $_code ?>_expiration_yr').value.toString();;
+          exp_year.setAttribute("data-conekta", "card[exp_year]");
+          exp_year.type = 'hidden';
+          form.appendChild(exp_year);
+          
+          Conekta.token.create(form, successResponseHandler, errorResponseHandler);
         } else {
-            conektaTempSave.apply(this);
+          conektaTempSave.apply(this);
         }
+      } else {
+        conektaTempSave.apply(this);
+      }
     }
     
     var successResponseHandler = function(response) {
-			document.getElementById('<?php echo $_code ?>_card_token').value = response.id;
-			var request = new Ajax.Request(
-					payment.saveUrl,
-					{
-							method:'post',
-							onComplete: payment.onComplete,
-							onSuccess: payment.onSave,
-							onFailure: checkout.ajaxFailure.bind(checkout),
-							parameters: Form.serialize(payment.form)
-					}
-			);
-		}
-		var errorResponseHandler = function(response) {
-				alert(response.message);
-				payment.resetLoadWaiting();
-		}
+     document.getElementById('<?php echo $_code ?>_card_token').value = response.id;
+     var request = new Ajax.Request(
+       payment.saveUrl,
+       {
+         method:'post',
+         onComplete: payment.onComplete,
+         onSuccess: payment.onSave,
+         onFailure: checkout.ajaxFailure.bind(checkout),
+         parameters: Form.serialize(payment.form)
+       }
+       );
+   }
+   var errorResponseHandler = function(response) {
+    alert(response.message);
+    payment.resetLoadWaiting();
+  }
 
-    var _validateCard = function(){
-        var expMonth = document.getElementById('<?php echo $_code ?>_expiration').value;
-        var expYear = document.getElementById('<?php echo $_code ?>_expiration_yr').value;
-        var cardNumber = document.getElementById('<?php echo $_code ?>_cc_number').value;
-				var type = Conekta.card.getBrand(cardNumber);
-        return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
-    }
+  var _validateCard = function(){
+    var expMonth = document.getElementById('<?php echo $_code ?>_expiration').value;
+    var expYear = document.getElementById('<?php echo $_code ?>_expiration_yr').value;
+    var cardNumber = document.getElementById('<?php echo $_code ?>_cc_number').value;
+    var type = Conekta.card.getBrand(cardNumber);
+    return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
+  }
     //]]>
-</script>
-<ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
-	<input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
-    <li>
-        <div class="input-box">
-            <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
-            <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" data-conekta="card[name]" value="<?php echo $this->htmlEscape($this->getInfoData('cc_owner')) ?>" />
-        </div>
+    </script>
+    <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
+     <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
+     <li>
+      <div class="input-box">
+        <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
+        <input type="text" title="<?php echo $this->__('Name on Card') ?>" class="input-text required-entry" id="<?php echo $_code ?>_cc_owner" data-conekta="card[name]" value="<?php echo $this->htmlEscape($this->getInfoData('cc_owner')) ?>" />
+      </div>
     </li>
     <li>
-        <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
-        <div class="input-box">
-            <input type="text" id="<?php echo $_code ?>_cc_number" data-conekta="card[number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type required-entry" value="" />
-        </div>
+      <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
+      <div class="input-box">
+        <input type="text" id="<?php echo $_code ?>_cc_number" data-conekta="card[number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type required-entry" value="" />
+      </div>
     </li>
     <li id="<?php echo $_code ?>_cc_type_exp_div">
-        <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
-        <div class="input-box">
-            <div class="v-fix">
-								<select id="<?php echo $_code ?>_expiration" data-conekta="card[exp_month]" class="month validate-cc-exp required-entry">
-									<option selected="selected" value="">Month</option>
-									<option value="1">01 - January</option>
-									<option value="2">02 - February</option>
-									<option value="3">03 - March</option>
-									<option value="4">04 - April</option>
-									<option value="5">05 - May</option>
-									<option value="6">06 - June</option>
-									<option value="7">07 - July</option>
-									<option value="8">08 - August</option>
-									<option value="9">09 - September</option>
-									<option value="10">10 - October</option>
-									<option value="11">11 - November</option>
-									<option value="12">12 - December</option>
-								</select>
-            </div>
-            <div class="v-fix">
-                <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
-                <select id="<?php echo $_code ?>_expiration_yr" data-conekta="card[exp_year]" class="year required-entry">
-										<option selected="selected" value="">Year</option>
-										<option value="2014">2014</option>
-										<option value="2015">2015</option>
-										<option value="2016">2016</option>
-										<option value="2017">2017</option>
-										<option value="2018">2018</option>
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2023">2023</option>
-										<option value="2024">2024</option>
-										<option value="2025">2025</option>
-                </select>
-            </div>
-        </div>
-    </li>
-    <?php echo $this->getChildHtml() ?>
-    <li id="<?php echo $_code ?>_cc_type_cvv_div">
-        <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
-        <div class="input-box">
-            <div class="v-fix">
-                <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" data-conekta="card[cvc]" value="" />
-            </div>
-            <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
-        </div>
-    </li>
+      <label for="<?php echo $_code ?>_expiration" class="required"><em>*</em><?php echo $this->__('Expiration Date') ?></label>
+      <div class="input-box">
+        <div class="v-fix">
+          <select id="<?php echo $_code ?>_expiration" data-conekta="card[exp_month]" class="month validate-cc-exp required-entry">
+           <option selected="selected" value="">Month</option>
+           <option value="1">01 - January</option>
+           <option value="2">02 - February</option>
+           <option value="3">03 - March</option>
+           <option value="4">04 - April</option>
+           <option value="5">05 - May</option>
+           <option value="6">06 - June</option>
+           <option value="7">07 - July</option>
+           <option value="8">08 - August</option>
+           <option value="9">09 - September</option>
+           <option value="10">10 - October</option>
+           <option value="11">11 - November</option>
+           <option value="12">12 - December</option>
+         </select>
+       </div>
+       <div class="v-fix">
+        <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
+        <select id="<?php echo $_code ?>_expiration_yr" data-conekta="card[exp_year]" class="year required-entry">
+          <option selected="selected" value="">Year</option>
+          <option value="2014">2014</option>
+          <option value="2015">2015</option>
+          <option value="2016">2016</option>
+          <option value="2017">2017</option>
+          <option value="2018">2018</option>
+          <option value="2019">2019</option>
+          <option value="2020">2020</option>
+          <option value="2021">2021</option>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div>
+    </div>
+  </li>
+  <?php echo $this->getChildHtml() ?>
+  <li id="<?php echo $_code ?>_cc_type_cvv_div">
+    <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
+    <div class="input-box">
+      <div class="v-fix">
+        <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" data-conekta="card[cvc]" value="" />
+      </div>
+      <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+    </div>
+  </li>
 </ul>

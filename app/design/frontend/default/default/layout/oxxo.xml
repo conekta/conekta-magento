@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
-    <default>
-    </default>
-    <oxxo_index_index>
-        <reference name="content">
-            <block type="oxxo/oxxo" name="oxxo" template="oxxo/oxxo.phtml" />
-        </reference>
-    </oxxo_index_index>
+  <default>
+  </default>
+  <oxxo_index_index>
+    <reference name="content">
+      <block type="oxxo/oxxo" name="oxxo" template="oxxo/oxxo.phtml" />
+    </reference>
+  </oxxo_index_index>
 </layout> 

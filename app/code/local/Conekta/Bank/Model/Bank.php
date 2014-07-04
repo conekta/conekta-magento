@@ -12,12 +12,12 @@ class Conekta_Bank_Model_Bank extends Mage_Payment_Model_Method_Abstract
 		}
 		$info = $this->getInfoInstance();
 		$info->setBankServiceName($data->getBankServiceName())
-					->setBankServiceNumber($data->getBankServiceNumber())
-					->setBankName($data->getBankName())
-					->setBankReference($data->getBankReference())
+		->setBankServiceNumber($data->getBankServiceNumber())
+		->setBankName($data->getBankName())
+		->setBankReference($data->getBankReference())
 		;
 		return $this;
 	}
-   
+	
 }
 ?>

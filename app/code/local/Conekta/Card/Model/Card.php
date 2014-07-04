@@ -12,9 +12,9 @@ class Conekta_Card_Model_Card extends Mage_Payment_Model_Method_Abstract
 		}
 		$info = $this->getInfoInstance();
 		$info->setCardToken($data->getCardToken())
-					->setChargeAuthorization($data->getChargeAuthorization())
-					->setCcOwner($data->getCcOwner())
-					->setCcLast4($data->getCcLast4())
+			->setChargeAuthorization($data->getChargeAuthorization())
+			->setCcOwner($data->getCcOwner())
+			->setCcLast4($data->getCcLast4())
 		;
 		
 		return $this;
