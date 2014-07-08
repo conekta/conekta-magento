@@ -122,7 +122,7 @@ private function _getPaymentMethod($order)
 private function _processOrderStatus($order)
 {
     $order->sendNewOrderEmail();
-    $this->_changeOrderStatus($order);
+    //$this->_changeOrderStatus($order);
     return true;
 }
 

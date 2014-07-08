@@ -121,7 +121,8 @@ class Conekta_Card_Model_Observer{
  
     private function _processOrderStatus($order)
     {
-        if ($order->hasInvoices() != true) {
+        $order->sendNewOrderEmail();
+        /*if ($order->hasInvoices() != true) {
             $invoice = $order->prepareInvoice();
             
             // Check if order is virtual
@@ -145,7 +146,7 @@ class Conekta_Card_Model_Observer{
 
             $invoice->sendEmail(true, '');
             $this->_changeOrderStatus($order);
-        }
+        }*/
         return true;
     }
  

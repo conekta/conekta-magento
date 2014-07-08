@@ -16,9 +16,9 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
         ->save();
         $invoice->sendEmail(true, '');
       }
-      $order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
+      /*$order->addStatusToHistory(Mage_Sales_Model_Order::STATE_COMPLETE);
       $order->setData('state', Mage_Sales_Model_Order::STATE_COMPLETE);
-      $order->save();
+      $order->save();*/
     }
   }
 }
