@@ -1,4 +1,3 @@
-<b>Clone the module using git clone --recursive git@github.com:conekta/conekta-magento.git</b>
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
 
 Magento Plugin v.0.1.4
@@ -33,7 +32,7 @@ The plugin has been tested in Magento 1.7, 1.8, and 1.9. Support is not guarante
 Installation
 -----------
 
-Clone the module using git clone --recursive git@github.com:conekta/conekta-magento.git
+	Clone the module using git clone --recursive git@github.com:conekta/conekta-magento.git
 
 There is no custom installation for this plugin, just the default:
 
