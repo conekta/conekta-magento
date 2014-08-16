@@ -27,59 +27,99 @@
 <?php $_code=$this->getMethodCode() ?>
 <script type="text/javascript">
     //<![CDATA[
-    var conektaTempSave = payment.save;
-    payment.save = function(){
+    var processPayment = function() {
       if(payment.lastUsedMethod == '<?php echo $_code ?>'){
         if(_validateCard()) {
-          checkout.setLoadWaiting('payment');
           Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/card/publickey');?>');
+          document.getElementById('<?php echo $_code ?>_expiration').setAttribute("data-conekta", "card[exp_month]");
+          document.getElementById('<?php echo $_code ?>_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
           var form = document.getElementById("payment_form_<?php echo $_code ?>");
-          
-          var exp_month = document.createElement('input');
-          exp_month.value = document.getElementById('<?php echo $_code ?>_expiration').value.toString();;
-          exp_month.type = 'hidden';
-          exp_month.setAttribute("data-conekta", "card[exp_month]");
-          form.appendChild(exp_month);
-          var exp_year = document.createElement('input');
-          exp_year.value = document.getElementById('<?php echo $_code ?>_expiration_yr').value.toString();;
-          exp_year.setAttribute("data-conekta", "card[exp_year]");
-          exp_year.type = 'hidden';
-          form.appendChild(exp_year);
-          
           Conekta.token.create(form, successResponseHandler, errorResponseHandler);
         } else {
-          conektaTempSave.apply(this);
+          conektaTempSave();
         }
       } else {
-        conektaTempSave.apply(this);
+        conektaTempSave();
       }
     }
-    
+
     var successResponseHandler = function(response) {
      document.getElementById('<?php echo $_code ?>_card_token').value = response.id;
-     var request = new Ajax.Request(
-       payment.saveUrl,
-       {
-         method:'post',
-         onComplete: payment.onComplete,
-         onSuccess: payment.onSave,
-         onFailure: checkout.ajaxFailure.bind(checkout),
-         parameters: Form.serialize(payment.form)
-       }
-       );
-   }
-   var errorResponseHandler = function(response) {
-    alert(response.message);
-    payment.resetLoadWaiting();
-  }
+     if (window["IWD"] && IWD.OPC) {
+      conektaTempSave();
+      } else {
+        var request = new Ajax.Request(
+         payment.saveUrl,
+         {
+           method:'post',
+           onComplete: payment.onComplete,
+           onSuccess: payment.onSave,
+           onFailure: checkout.ajaxFailure.bind(checkout),
+           parameters: Form.serialize(payment.form)
+         }
+         );
+      }
+    }
 
-  var _validateCard = function(){
-    var expMonth = document.getElementById('<?php echo $_code ?>_expiration').value;
-    var expYear = document.getElementById('<?php echo $_code ?>_expiration_yr').value;
-    var cardNumber = document.getElementById('<?php echo $_code ?>_cc_number').value;
-    var type = Conekta.card.getBrand(cardNumber);
-    return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
-  }
+    var errorResponseHandler = function(response) {
+      alert(response.message);
+      if (window["IWD"] && IWD.OPC) {
+        IWD.OPC.Checkout.unlockPlaceOrder();
+      } else {
+        payment.resetLoadWaiting();
+      }
+    }
+  
+    var _validateCard = function(){
+      var expMonth = document.getElementById('<?php echo $_code ?>_expiration').value;
+      var expYear = document.getElementById('<?php echo $_code ?>_expiration_yr').value;
+      var cardNumber = document.getElementById('<?php echo $_code ?>_cc_number').value;
+      var type = Conekta.card.getBrand(cardNumber);
+      return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
+    }
+
+    if (window["IWD"] && IWD.OPC) {
+      var initSaveOrder = function() {   
+        IWD.OPC.saveOrderStatus = true;
+        IWD.OPC.Plugin.dispatch('saveOrderBefore');
+        if (IWD.OPC.Checkout.isVirtual===false){
+          IWD.OPC.Checkout.lockPlaceOrder();
+          IWD.OPC.Shipping.saveShippingMethod();
+        }else{
+          IWD.OPC.validatePayment();
+        }
+      }
+      var conektaTempSave = function () {
+        initSaveOrder();
+      }
+      IWD.OPC.initSaveOrder = function() {
+        $j(document).on('click', '.opc-btn-checkout', function(){
+          if (IWD.OPC.Checkout.disabledSave==true){
+            return;
+          }
+          var addressForm = new VarienForm('billing-new-address-form');
+          if (!addressForm.validator.validate()){       
+            return;
+          }
+          
+          if (!$j('input[name="billing[use_for_shipping]"]').prop('checked')){
+            var addressForm = new VarienForm('opc-address-form-shipping');
+            if (!addressForm.validator.validate()){       
+              return;
+            }
+          }
+          processPayment();
+        });
+      }
+    } else {
+      var conektaPaymentSave = payment.save;
+      var conektaTempSave = function () {
+        conektaPaymentSave.apply(this);
+      }
+      payment.save = function(){
+        processPayment();
+      }
+    }
     //]]>
     </script>
     <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
