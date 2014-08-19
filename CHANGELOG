@@ -21,3 +21,5 @@
 === 0.1.6 2014-07-08
 * Remove manual status changes from plugin, Magento does this automatically when invoice is generated.
 * Send new order e-mail from Observer and send invoice e-mail from webhook.
+=== 0.1.7 2014-07-08
+* Move plugin to community folder.
