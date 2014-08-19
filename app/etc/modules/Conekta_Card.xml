@@ -3,7 +3,7 @@
   <modules>
     <Conekta_Card>
       <active>true</active>
-      <codePool>local</codePool>
+      <codePool>community</codePool>
     </Conekta_Card>
   </modules>
 </config> 

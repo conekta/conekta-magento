@@ -3,7 +3,7 @@
   <modules>
     <Conekta_Webhook>
       <active>true</active>
-      <codePool>local</codePool>
+      <codePool>community</codePool>
     </Conekta_Webhook>
   </modules>
 </config> 
