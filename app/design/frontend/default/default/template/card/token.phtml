@@ -1,0 +1,137 @@
+<script type="text/javascript">
+    //<![CDATA[
+    var oneStepForm = document.getElementById("onestepcheckout-form");
+    var processPayment = function() {
+      var currentMethod = (oneStepForm != null) ? payment.currentMethod : payment.lastUsedMethod;
+      if(currentMethod == 'card'){
+        if(_validateCard()) {
+          document.getElementById('card_expiration').setAttribute("data-conekta", "card[exp_month]");
+          document.getElementById('card_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
+          var form = document.getElementById("payment_form_card");
+          Conekta.token.create(form, successResponseHandler, errorResponseHandler);
+        } else {
+          conektaTempSave();
+        }
+      } else {
+        conektaTempSave();
+      }
+    }
+
+    var successResponseHandler = function(response) {
+     document.getElementById('card_card_token').value = response.id;
+     if (window["IWD"] && IWD.OPC) {
+        conektaTempSave();
+      } else if (oneStepForm != null) {
+        conektaTempSave();
+      } else {
+        var request = new Ajax.Request(
+         payment.saveUrl,
+         {
+           method:'post',
+           onComplete: payment.onComplete,
+           onSuccess: payment.onSave,
+           onFailure: checkout.ajaxFailure.bind(checkout),
+           parameters: Form.serialize(payment.form)
+         }
+         );
+      }
+    }
+
+    var errorResponseHandler = function(response) {
+      alert(response.message);
+      if (window["IWD"] && IWD.OPC) {
+        IWD.OPC.Checkout.unlockPlaceOrder();
+      } else if (oneStepForm != null) {
+        already_placing_order = false;
+        var submitelement = $('onestepcheckout-place-order');
+        /* Disable button to avoid multiple clicks */
+        submitelement.removeClassName('grey').addClassName('orange');
+        submitelement.disabled = false;
+        submitelement.parentNode.lastChild.remove();
+        return false;
+      } else {
+        payment.resetLoadWaiting();
+      }
+    }
+  
+    var _validateCard = function(){
+      var expMonth = document.getElementById('card_expiration').value;
+      var expYear = document.getElementById('card_expiration_yr').value;
+      var cardNumber = document.getElementById('card_cc_number').value;
+      var type = Conekta.card.getBrand(cardNumber);
+      return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
+    }
+
+    if (window["IWD"] && IWD.OPC) {
+      var initSaveOrder = function() {   
+        IWD.OPC.saveOrderStatus = true;
+        IWD.OPC.Plugin.dispatch('saveOrderBefore');
+        if (IWD.OPC.Checkout.isVirtual===false){
+          IWD.OPC.Checkout.lockPlaceOrder();
+          IWD.OPC.Shipping.saveShippingMethod();
+        }else{
+          IWD.OPC.validatePayment();
+        }
+      }
+      var conektaTempSave = function () {
+        initSaveOrder();
+      }
+      IWD.OPC.initSaveOrder = function() {
+        $j(document).on('click', '.opc-btn-checkout', function(){
+          if (IWD.OPC.Checkout.disabledSave==true){
+            return;
+          }
+          var addressForm = new VarienForm('billing-new-address-form');
+          if (!addressForm.validator.validate()){       
+            return;
+          }
+          
+          if (!$j('input[name="billing[use_for_shipping]"]').prop('checked')){
+            var addressForm = new VarienForm('opc-address-form-shipping');
+            if (!addressForm.validator.validate()){       
+              return;
+            }
+          }
+          processPayment();
+        });
+      }
+    } else if (oneStepForm != null) {
+      var conektaTempSave = function() {
+        var form = new VarienForm('onestepcheckout-form');
+        if(form.validator.validate())  {
+          /* Submit the form */
+          $('onestepcheckout-form').submit();
+        } else {
+          already_placing_order = false;
+          var submitelement = $('onestepcheckout-place-order');
+          /* Disable button to avoid multiple clicks */
+          submitelement.removeClassName('grey').addClassName('orange');
+          submitelement.disabled = false;
+          submitelement.parentNode.lastChild.remove();
+        }
+      }
+      $$('.onestepcheckout-place-order').each(function(elem){
+        elem.observe('click', function(e) {
+          already_placing_order = true;
+          var submitelement = $('onestepcheckout-place-order');
+              /* Disable button to avoid multiple clicks */
+              submitelement.removeClassName('orange').addClassName('grey');
+              submitelement.disabled = true;
+          var loaderelement = new Element('span').
+              addClassName('onestepcheckout-place-order-loading').
+              update('Please wait, processing your order...');
+          submitelement.parentNode.appendChild(loaderelement);
+          processPayment();
+        });
+      });
+    } else {
+      var conektaPaymentSave = payment.save;
+      var conektaTempSave = function () {
+        conektaPaymentSave.apply(payment);
+      }
+      payment.save = function(){
+        processPayment();
+      }
+    }
+    //]]>
+</script>
