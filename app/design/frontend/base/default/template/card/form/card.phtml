@@ -25,6 +25,9 @@
  */
 ?>
 <?php $_code=$this->getMethodCode() ?>
+<script>
+  Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/card/publickey');?>');
+</script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
    <li>
