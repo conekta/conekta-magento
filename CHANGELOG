@@ -27,3 +27,5 @@
 * Add support for IWD OPC.
 * Add support for OneStepCheckout.
 * Separate JS tokenization logic from card template.
+=== 0.1.9 2014-09-03
+* Add Oxxo Reference to db and email notifications.

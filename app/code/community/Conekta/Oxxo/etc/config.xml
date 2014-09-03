@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.1.8</version>
+      <version>0.1.9</version>
     </Conekta_Oxxo>
   </modules>
   <frontend>
@@ -39,6 +39,9 @@
     <oxxo_barcode_url>
      <to_order_payment>*</to_order_payment>
    </oxxo_barcode_url>
+   <oxxo_barcode>
+     <to_order_payment>*</to_order_payment>
+   </oxxo_barcode>
    <oxxo_expiry_date>
      <to_order_payment>*</to_order_payment>
    </oxxo_expiry_date>

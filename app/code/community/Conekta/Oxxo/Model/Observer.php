@@ -83,6 +83,7 @@ class Conekta_Oxxo_Model_Observer{
       }
       $event->payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
       $event->payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
+      $event->payment->setOxxoBarcode($charge->payment_method->barcode);
       $event->payment->setChargeId($charge->id);
 
                   //Update Quote
@@ -91,6 +92,7 @@ class Conekta_Oxxo_Model_Observer{
       $payment = $quote->getPayment();
       $payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
       $payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
+      $payment->setOxxoBarcode($charge->payment_method->barcode);
       $payment->setChargeId($charge->id);
       $quote->collectTotals();
       $quote->save();

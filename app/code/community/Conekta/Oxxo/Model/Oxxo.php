@@ -13,6 +13,7 @@ class Conekta_Oxxo_Model_Oxxo extends Mage_Payment_Model_Method_Abstract
 		$info = $this->getInfoInstance();
 		$info->setOxxoExpiryDate($data->getOxxoExpiryDate())
 		->setOxxoBarcodeUrl($data->getOxxoBarcodeUrl())
+		->setOxxoBarcode($data->getOxxoBarcode())
 		;
 		return $this;
 	}
