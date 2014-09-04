@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.2.0</version>
+      <version>0.2.1</version>
     </Conekta_Oxxo>
   </modules>
   <frontend>
@@ -102,6 +102,7 @@
       <model>oxxo/oxxo</model>
       <order_status>pending</order_status>
       <webhook_notification_order_status>processing</webhook_notification_order_status>
+      <expiry_date></expiry_date>
       <title>Oxxo Payment Method</title>
     </oxxo>
   </payment>

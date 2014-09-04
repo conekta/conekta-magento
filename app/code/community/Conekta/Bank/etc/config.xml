@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Bank>
-      <version>0.2.0</version>
+      <version>0.2.1</version>
     </Conekta_Bank>
   </modules>
   <frontend>
@@ -42,6 +42,9 @@
         <bank_service_number>
           <to_order_payment>*</to_order_payment>
         </bank_service_number>
+        <bank_expiry_date>
+          <to_order_payment>*</to_order_payment>
+        </bank_expiry_date>
         <bank_name>
           <to_order_payment>*</to_order_payment>
         </bank_name>

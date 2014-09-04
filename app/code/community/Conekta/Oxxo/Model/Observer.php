@@ -51,10 +51,13 @@ class Conekta_Oxxo_Model_Observer{
             )
           );
       }
+      $expiry_date = date_create($event->payment->getMethodInstance()->getConfigData('my_date'));
+      $expiry_date = date_format($expiry_date, 'Y-m-d');
       try {
         $charge = Conekta_Charge::create(array(
           'cash'=>array(
-            'type'=>'oxxo'
+            'type'=>'oxxo',
+            'expires_at'=>$expiry_date
             ),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
@@ -80,17 +83,16 @@ class Conekta_Oxxo_Model_Observer{
         );
       } catch (Conekta_Error $e){
         throw new Mage_Payment_Model_Info_Exception($e->getMessage());
-      }
-      $event->payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
+      }    
+      $event->payment->setOxxoExpiryDate($expiry_date);
       $event->payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
       $event->payment->setOxxoBarcode($charge->payment_method->barcode);
       $event->payment->setChargeId($charge->id);
-
-                  //Update Quote
+      //Update Quote
       $order = $event->payment->getOrder();
       $quote = $order->getQuote();
       $payment = $quote->getPayment();
-      $payment->setOxxoExpiryDate($charge->payment_method->expiry_date);
+      $payment->setOxxoExpiryDate($expiry_date);
       $payment->setOxxoBarcodeUrl($charge->payment_method->barcode_url);
       $payment->setOxxoBarcode($charge->payment_method->barcode);
       $payment->setChargeId($charge->id);

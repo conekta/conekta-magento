@@ -51,10 +51,13 @@ class Conekta_Bank_Model_Observer{
             )
           );
       }
+      $expiry_date = date_create($event->payment->getMethodInstance()->getConfigData('my_date'));
+      $expiry_date = date_format($expiry_date, 'Y-m-d');
       try {
         $charge = Conekta_Charge::create(array(
           'bank'=>array(
-            'type'=>'banorte'
+            'type'=>'banorte',
+            'expires_at'=>$expiry_date
             ),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
@@ -81,6 +84,7 @@ class Conekta_Bank_Model_Observer{
       } catch (Conekta_Error $e){
         throw new Mage_Payment_Model_Info_Exception($e->getMessage());
       }
+      $event->payment->setBankExpiryDate($expiry_date);
       $event->payment->setBankServiceName($charge->payment_method->service_name);
       $event->payment->setBankServiceNumber($charge->payment_method->service_number);
       $event->payment->setBankName($charge->payment_method->type);
@@ -91,6 +95,7 @@ class Conekta_Bank_Model_Observer{
       $order = $event->payment->getOrder();
       $quote = $order->getQuote();
       $payment = $quote->getPayment();
+      $payment->setBankExpiryDate($expiry_date);
       $payment->setBankServiceName($charge->payment_method->service_name);
       $payment->setBankServiceNumber($charge->payment_method->service_number);
       $payment->setBankName($charge->payment_method->type);

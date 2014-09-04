@@ -34,7 +34,7 @@ $service_name = $this->getInfo()->getBankServiceName();
 $service_number = $this->getInfo()->getBankServiceNumber();
 $bank_name = $this->getInfo()->getBankName();
 $reference = $this->getInfo()->getBankReference();
-
+$expiry = $this->getInfo()->getBankExpiryDate();
 ?>
 
 <dl class="bank">
@@ -48,6 +48,7 @@ $reference = $this->getInfo()->getBankReference();
           <th>Service Number: <?php echo $service_number ?></th>
           <th>Bank Name: <?php echo $bank_name ?></th>
           <th>Reference: <?php echo $reference ?></th>
+          <th>Expiry Date: <?php echo $expiry ?></th>
           <?php } else { ?>
           <th>You will receive an invoice via email.</th>
           

@@ -31,3 +31,5 @@
 * Add Oxxo Reference to db and email notifications.
 === 0.2.0 2014-09-03
 * Add dynamic order status when Conekta notifies that the order has been paid.
+=== 0.2.1 2014-09-03
+* Add expiry date for offline payments.

@@ -11,7 +11,8 @@ class Conekta_Bank_Model_Bank extends Mage_Payment_Model_Method_Abstract
 			$data = new Varien_Object($data);
 		}
 		$info = $this->getInfoInstance();
-		$info->setBankServiceName($data->getBankServiceName())
+		$info->setBankExpiryDate($data->getBankExpiryDate())
+		->setBankServiceName($data->getBankServiceName())
 		->setBankServiceNumber($data->getBankServiceNumber())
 		->setBankName($data->getBankName())
 		->setBankReference($data->getBankReference())
