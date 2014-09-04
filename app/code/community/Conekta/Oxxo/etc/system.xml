@@ -39,14 +39,14 @@
                         <show_in_store>0</show_in_store>
                     </webhook_notification_order_status>
                     <my_date translate="label comment">
-                     <label>Expire On</label>
+                     <label>Expiry (# days)</label>
                      <frontend_type>text</frontend_type> <!-- Set the frontend type as Text -->
-                     <frontend_model>oxxo/adminhtml_system_config_date</frontend_model> <!-- Specify our custom model -->
+                     <frontend_model>oxxo/adminhtml_system_config_days</frontend_model> <!-- Specify our custom model -->
                      <sort_order>4</sort_order>
                      <show_in_default>1</show_in_default>
                      <show_in_website>1</show_in_website>
                      <show_in_store>1</show_in_store>
-                     <comment>Set the expiry date for the Feature Tour</comment>
+                     <comment>Set the expiry of this offline payment</comment>
                     </my_date>
                     <title translate="label">
                         <label>Title</label>

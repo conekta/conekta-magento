@@ -51,8 +51,8 @@ class Conekta_Bank_Model_Observer{
             )
           );
       }
-      $expiry_date = date_create($event->payment->getMethodInstance()->getConfigData('my_date'));
-      $expiry_date = date_format($expiry_date, 'Y-m-d');
+      $days = $event->payment->getMethodInstance()->getConfigData('my_date');
+      $expiry_date=Date('Y-m-d', strtotime("+".$days." days"));
       try {
         $charge = Conekta_Charge::create(array(
           'bank'=>array(
