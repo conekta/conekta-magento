@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Bank>
-      <version>0.1.9</version>
+      <version>0.2.0</version>
     </Conekta_Bank>
   </modules>
   <frontend>
@@ -104,6 +104,7 @@
         <active>1</active>
         <model>bank/bank</model>
         <order_status>pending</order_status>
+        <webhook_notification_order_status>processing</webhook_notification_order_status>
         <title>Bank Payment Method</title>
       </bank>
     </payment>

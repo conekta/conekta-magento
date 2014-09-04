@@ -29,3 +29,5 @@
 * Separate JS tokenization logic from card template.
 === 0.1.9 2014-09-03
 * Add Oxxo Reference to db and email notifications.
+=== 0.2.0 2014-09-03
+* Add dynamic order status when Conekta notifies that the order has been paid.
