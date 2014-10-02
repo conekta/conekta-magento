@@ -39,7 +39,7 @@ class Conekta_Card_Model_Observer{
       $shipp = array();
       if (empty($shipping) != true) {
         $shipp = array(
-          'price' => $shipping['grand_total'],
+          #'price' => $shipping['grand_total'],
           'address' => array(
             'street1' => $shipping['street'],
             'city' => $shipping['city'],
