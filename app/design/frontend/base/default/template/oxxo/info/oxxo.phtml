@@ -42,7 +42,7 @@ $expiry = $this->getInfo()->getOxxoExpiryDate();
       <tbody>
         <tr>
           <?php if (empty($barcode) != true) {?>
-          <th><img src='<?php echo $barcode ?>'/></th>
+          <th><img width="270" height="55" style="width:220px;height:50px;" src='<?php echo $barcode ?>'/></th>
           <th>Reference: <?php echo $reference ?></th>
           <th>Expiry Date: <?php echo $expiry ?></th>
           <?php } else { ?>
