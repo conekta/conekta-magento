@@ -35,3 +35,5 @@
 * Add expiry date for offline payments.
 === 0.2.2 2014-09-03
 * Remove grand total from shipping array.
+=== 0.2.3 2014-09-03
+* Standardize barcode url size.
