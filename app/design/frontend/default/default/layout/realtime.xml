@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+  <default>
+  </default>
+  <realtime_index_index>
+    <reference name="content">
+      <block type="realtime/realtime" name="realtime" template="realtime/realtime.phtml" />
+    </reference>
+  </realtime_index_index>
+</layout> 

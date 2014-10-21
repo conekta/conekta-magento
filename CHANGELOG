@@ -37,3 +37,5 @@
 * Remove grand total from shipping array.
 === 0.2.3 2014-09-03
 * Standardize barcode url size.
+=== 0.2.4 2014-10-21
+* Add real time module.

@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Conekta_Realtime>
+      <version>0.2.3</version>
+    </Conekta_Realtime>
+  </modules>
+  <frontend>
+    <routers>
+      <realtime>
+        <use>standard</use>
+        <args>
+          <module>Conekta_Realtime</module>
+          <frontName>realtime</frontName>
+        </args>
+      </realtime>
+    </routers>
+    <layout>
+      <updates>
+        <realtime>
+          <file>realtime.xml</file>
+        </realtime>
+      </updates>
+    </layout>
+  </frontend>
+  <global>
+   <events>
+     <sales_order_payment_place_start>
+       <observers>
+         <realtime>
+           <class>realtime/observer</class>
+           <method>processPayment</method>
+         </realtime>
+       </observers>
+     </sales_order_payment_place_start>
+ </events>
+ <fieldsets>
+   <sales_convert_quote_payment>
+    <realtime_barcode_url>
+     <to_order_payment>*</to_order_payment>
+   </realtime_barcode_url>
+   <realtime_barcode>
+     <to_order_payment>*</to_order_payment>
+   </realtime_barcode>
+   <realtime_store_name>
+     <to_order_payment>*</to_order_payment>
+   </realtime_store_name>
+   <realtime_expiry_date>
+     <to_order_payment>*</to_order_payment>
+   </realtime_expiry_date>
+   <charge_id>
+     <to_order_payment>*</to_order_payment>
+   </charge_id>
+ </sales_convert_quote_payment>
+</fieldsets>
+<models>
+  <realtime>
+    <class>Conekta_Realtime_Model</class>
+    <resourceModel>realtime_mysql4</resourceModel>
+  </realtime>
+  <realtime_mysql4>
+    <class>Conekta_Realtime_Model_Mysql4</class>
+    <entities>
+      <realtime>
+        <table>realtime</table>
+      </realtime>
+    </entities>
+  </realtime_mysql4>
+</models>
+<resources>
+  <realtime_setup>
+    <setup>
+      <module>Conekta_Realtime</module>
+    </setup>
+    <connection>
+      <use>core_setup</use>
+    </connection>
+  </realtime_setup>
+  <realtime_write>
+    <connection>
+      <use>core_write</use>
+    </connection>
+  </realtime_write>
+  <realtime_read>
+    <connection>
+      <use>core_read</use>
+    </connection>
+  </realtime_read>
+</resources>
+<blocks>
+  <realtime>
+    <class>Conekta_Realtime_Block</class>
+  </realtime>
+</blocks>
+<helpers>
+  <realtime>
+    <class>Conekta_Realtime_Helper</class>
+  </realtime>
+</helpers>
+</global>
+<default>
+  <payment>
+    <realtime>
+      <active>1</active>
+      <model>realtime/realtime</model>
+      <order_status>pending</order_status>
+      <webhook_notification_order_status>processing</webhook_notification_order_status>
+      <expiry_date></expiry_date>
+      <title>Realtime Payment Method</title>
+    </realtime>
+  </payment>
+</default>
+</config>
