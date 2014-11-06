@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<config>
+  <modules>
+    <Conekta_Spei>
+      <version>0.2.3</version>
+    </Conekta_Spei>
+  </modules>
+  <frontend>
+    <routers>
+      <spei>
+        <use>standard</use>
+        <args>
+          <module>Conekta_Spei</module>
+          <frontName>spei</frontName>
+        </args>
+      </spei>
+    </routers>
+    <layout>
+      <updates>
+        <spei>
+          <file>spei.xml</file>
+        </spei>
+      </updates>
+    </layout>
+  </frontend>
+  <global>
+   <events>
+     <sales_order_payment_place_start>
+       <observers>
+         <spei>
+           <class>spei/observer</class>
+           <method>processPayment</method>
+         </spei>
+       </observers>
+     </sales_order_payment_place_start>
+ </events>
+ <fieldsets>
+   <sales_convert_quote_payment>
+    <spei_clabe>
+     <to_order_payment>*</to_order_payment>
+   </spei_clabe>
+   <spei_expiry_date>
+     <to_order_payment>*</to_order_payment>
+   </spei_expiry_date>
+   <charge_id>
+     <to_order_payment>*</to_order_payment>
+   </charge_id>
+ </sales_convert_quote_payment>
+</fieldsets>
+<models>
+  <spei>
+    <class>Conekta_Spei_Model</class>
+    <resourceModel>spei_mysql4</resourceModel>
+  </spei>
+  <spei_mysql4>
+    <class>Conekta_Spei_Model_Mysql4</class>
+    <entities>
+      <spei>
+        <table>spei</table>
+      </spei>
+    </entities>
+  </spei_mysql4>
+</models>
+<resources>
+  <spei_setup>
+    <setup>
+      <module>Conekta_Spei</module>
+    </setup>
+    <connection>
+      <use>core_setup</use>
+    </connection>
+  </spei_setup>
+  <spei_write>
+    <connection>
+      <use>core_write</use>
+    </connection>
+  </spei_write>
+  <spei_read>
+    <connection>
+      <use>core_read</use>
+    </connection>
+  </spei_read>
+</resources>
+<blocks>
+  <spei>
+    <class>Conekta_Spei_Block</class>
+  </spei>
+</blocks>
+<helpers>
+  <spei>
+    <class>Conekta_Spei_Helper</class>
+  </spei>
+</helpers>
+</global>
+<default>
+  <payment>
+    <spei>
+      <active>1</active>
+      <model>spei/spei</model>
+      <order_status>pending</order_status>
+      <webhook_notification_order_status>processing</webhook_notification_order_status>
+      <expiry_date></expiry_date>
+      <title>Spei Payment Method</title>
+    </spei>
+  </payment>
+</default>
+</config>
