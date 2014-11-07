@@ -1,6 +1,6 @@
 ![alt tag](https://raw.github.com/conekta/conekta-magento/master/readme_files/cover.png)
 
-Magento Plugin v.0.2.2
+Magento Plugin v.0.2.6
 =======================
 This plugin is an official and stable version of the Conekta Magento extension. It bundles functionality to process credit cards, bank and OXXO payments securely as well as send email notifications to your customers when they complete a successful purchase.
 
@@ -51,10 +51,12 @@ Api Private Key:
 Inventory Notes
 ---------------
 
-For credit card purchases, the order status will change to complete everytime there is a successful purchase from Conekta. This is done using an Obsever inside the Card module and it can be changed to meet more specific requirements. 
+Order status can be changed dynamically via "New order status" and "Order status when Conekta sends payment notification" field using the admin in payment methods configuration.
 
-You can also use the Webhook module to manage orders for offline payments using the following url:
+To receive payment notifications, adjuts your webhook in your Conekta Admin the following url:
     `http://mymagento-store.com/index.php/webhook/ajax/listener`
+
+Where mymagento-store.com is a placeholder and it should be replaced with the your website url.
 
 Included modules
 ----------------
@@ -63,6 +65,7 @@ This version includes the following modules:
 * `Conekta_Bank`
 * `Conekta_Card`
 * `Conekta_Oxxo`
+* `Conekta_Spei`
 * `Conekta_Webhook`
 
 License
