@@ -87,6 +87,7 @@ class Conekta_Spei_Model_Observer{
       }    
       $event->payment->setSpeiExpiryDate($expiry_date);
       $event->payment->setSpeiClabe($charge->payment_method->clabe);
+      $event->payment->setSpeiBank($charge->payment_method->bank);
       $event->payment->setChargeId($charge->id);
       //Update Quote
       $order = $event->payment->getOrder();
@@ -94,6 +95,7 @@ class Conekta_Spei_Model_Observer{
       $payment = $quote->getPayment();
       $payment->setSpeiExpiryDate($expiry_date);
       $payment->setSpeiClabe($charge->payment_method->clabe);
+      $payment->setSpeiBank($charge->payment_method->bank);
       $payment->setChargeId($charge->id);
       $quote->collectTotals();
       $quote->save();

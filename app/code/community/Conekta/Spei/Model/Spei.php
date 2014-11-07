@@ -13,6 +13,7 @@ class Conekta_Spei_Model_Spei extends Mage_Payment_Model_Method_Abstract
 		$info = $this->getInfoInstance();
 		$info->setSpeiExpiryDate($data->getSpeiExpiryDate())
 		->setSpeiClabe($data->getSpeiClabe())
+		->setSpeiBank($data->getSpeiBank())
 		;
 		return $this;
 	}
