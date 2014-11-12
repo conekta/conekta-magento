@@ -19,6 +19,7 @@
 * Send email data to Conekta.
 * Update Webhook listener to send invoices for offline payments.
 === 0.1.6 2014-07-08
+* Add support for AMEX payments (Conekta.js updated).
 * Remove manual status changes from plugin, Magento does this automatically when invoice is generated.
 * Send new order e-mail from Observer and send invoice e-mail from webhook.
 === 0.1.7 2014-07-08
