@@ -7,11 +7,4 @@
       <block type="realtime/realtime" name="realtime" template="realtime/realtime.phtml" />
     </reference>
   </realtime_index_index>
-  <checkout_onepage_success translate="label">
-    <reference name="content">
-      <reference name="checkout.success">
-        <action method="setTemplate"><template>checkout/success.phtml</template></action>
-      </reference>
-    </reference>
-  </checkout_onepage_success>
 </layout> 
