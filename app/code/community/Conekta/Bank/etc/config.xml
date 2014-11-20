@@ -91,9 +91,6 @@
       </bank_read>
     </resources>
     <blocks>
-      <rewrite>
-        <onepage_success>Conekta_Card_Block_Onepage_Success</onepage_success>
-      </rewrite>
       <bank>
         <class>Conekta_Bank_Block</class>
       </bank>

@@ -88,11 +88,6 @@
   </card_read>
 </resources>
 <blocks>
-  <checkout>
-    <rewrite>
-      <onepage_success>Conekta_Card_Block_Onepage_Success</onepage_success>
-    </rewrite>
-  </checkout>
   <card>
     <class>Conekta_Card_Block</class>
   </card>

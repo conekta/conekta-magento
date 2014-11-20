@@ -88,9 +88,6 @@
   </realtime_read>
 </resources>
 <blocks>
-  <rewrite>
-    <onepage_success>Conekta_Realtime_Block_Onepage_Success</onepage_success>
-  </rewrite>
   <realtime>
     <class>Conekta_Realtime_Block</class>
   </realtime>

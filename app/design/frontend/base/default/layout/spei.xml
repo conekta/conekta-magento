@@ -10,7 +10,7 @@
   <checkout_onepage_success translate="label">
     <reference name="content">
       <reference name="checkout.success">
-        <action method="setTemplate"><template>spei/checkout/success.phtml</template></action>
+        <action method="setTemplate"><template>checkout/success.phtml</template></action>
       </reference>
     </reference>
   </checkout_onepage_success>

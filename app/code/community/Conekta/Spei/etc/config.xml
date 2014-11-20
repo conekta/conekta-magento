@@ -82,9 +82,6 @@
   </spei_read>
 </resources>
 <blocks>
-  <rewrite>
-    <onepage_success>Conekta_Spei_Block_Onepage_Success</onepage_success>
-  </rewrite>
   <spei>
     <class>Conekta_Spei_Block</class>
   </spei>
