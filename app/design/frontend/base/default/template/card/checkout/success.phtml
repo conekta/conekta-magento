@@ -25,9 +25,9 @@
  */
 ?>
 <?php
-  $authNumber = $this->getInfo()->getChargeAuthorization();
-  $owner = $this->getInfo()->getCcOwner();
-  $card = $this->getInfo()->getCcLast4();
+  $authNumber = $this->getPayment()->getChargeAuthorization();
+  $owner = $this->getPayment()->getCcOwner();
+  $card = $this->getPayment()->getCcLast4();
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Your order has been received.') ?></h1>

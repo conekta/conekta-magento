@@ -25,10 +25,10 @@
  */
 ?>
 <?php
-  $barcode = $this->getInfo()->getRealtimeBarcodeUrl();
-  $reference = $this->getInfo()->getRealtimeBarcode();
-  $expiry = $this->getInfo()->getRealtimeExpiryDate();
-  $store_name = $this->getInfo()->getRealtimeStoreName();
+  $barcode = $this->getPayment()->getRealtimeBarcodeUrl();
+  $reference = $this->getPayment()->getRealtimeBarcode();
+  $expiry = $this->getPayment()->getRealtimeExpiryDate();
+  $store_name = $this->getPayment()->getRealtimeStoreName();
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Your order has been received.') ?></h1>

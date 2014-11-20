@@ -25,11 +25,11 @@
  */
 ?>
 <?php
-  $service_name = $this->getInfo()->getBankServiceName();
-  $service_number = $this->getInfo()->getBankServiceNumber();
-  $bank_name = $this->getInfo()->getBankName();
-  $reference = $this->getInfo()->getBankReference();
-  $expiry = $this->getInfo()->getBankExpiryDate();
+  $service_name = $this->getPayment()->getBankServiceName();
+  $service_number = $this->getPayment()->getBankServiceNumber();
+  $bank_name = $this->getPayment()->getBankName();
+  $reference = $this->getPayment()->getBankReference();
+  $expiry = $this->getPayment()->getBankExpiryDate();
 ?>
 <div class="page-title">
     <h1><?php echo $this->__('Your order has been received.') ?></h1>
