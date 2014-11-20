@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Spei>
-      <version>0.2.6</version>
+      <version>0.2.7</version>
     </Conekta_Spei>
   </modules>
   <frontend>
@@ -82,6 +82,9 @@
   </spei_read>
 </resources>
 <blocks>
+  <rewrite>
+    <onepage_success>Conekta_Spei_Block_Onepage_Success</onepage_success>
+  </rewrite>
   <spei>
     <class>Conekta_Spei_Block</class>
   </spei>

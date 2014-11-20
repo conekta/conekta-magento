@@ -31,4 +31,11 @@
       <block type="core/template" name="token" template="card/token.phtml" />
     </reference>
   </onestepcheckout_index_index>
+  <checkout_onepage_success translate="label">
+    <reference name="content">
+      <reference name="checkout.success">
+        <action method="setTemplate"><template>card/checkout/success.phtml</template></action>
+      </reference>
+    </reference>
+  </checkout_onepage_success>
 </layout> 

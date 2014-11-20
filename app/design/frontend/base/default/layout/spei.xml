@@ -7,4 +7,11 @@
       <block type="spei/spei" name="spei" template="spei/spei.phtml" />
     </reference>
   </spei_index_index>
+  <checkout_onepage_success translate="label">
+    <reference name="content">
+      <reference name="checkout.success">
+        <action method="setTemplate"><template>spei/checkout/success.phtml</template></action>
+      </reference>
+    </reference>
+  </checkout_onepage_success>
 </layout> 

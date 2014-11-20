@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.2.3</version>
+      <version>0.2.7</version>
     </Conekta_Oxxo>
   </modules>
   <frontend>
@@ -85,6 +85,11 @@
   </oxxo_read>
 </resources>
 <blocks>
+  <checkout>
+    <rewrite>
+      <onepage_success>Conekta_Oxxo_Block_Onepage_Success</onepage_success>
+    </rewrite>
+  </checkout>
   <oxxo>
     <class>Conekta_Oxxo_Block</class>
   </oxxo>

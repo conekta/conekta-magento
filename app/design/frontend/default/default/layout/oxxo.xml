@@ -7,4 +7,11 @@
       <block type="oxxo/oxxo" name="oxxo" template="oxxo/oxxo.phtml" />
     </reference>
   </oxxo_index_index>
+  <checkout_onepage_success translate="label">
+    <reference name="content">
+      <reference name="checkout.success">
+        <action method="setTemplate"><template>oxxo/checkout/success.phtml</template></action>
+      </reference>
+    </reference>
+  </checkout_onepage_success>
 </layout> 

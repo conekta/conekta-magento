@@ -44,3 +44,6 @@
 * Add spei module.
 === 0.2.6 2014-11-07
 * Add bank field to spei payment.
+=== 0.2.7 2014-11-20
+* Add order details on success page.
+* Deprecate bank module.

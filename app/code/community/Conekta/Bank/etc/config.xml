@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Bank>
-      <version>0.2.2</version>
+      <version>0.2.7</version>
     </Conekta_Bank>
   </modules>
   <frontend>
@@ -91,6 +91,9 @@
       </bank_read>
     </resources>
     <blocks>
+      <rewrite>
+        <onepage_success>Conekta_Card_Block_Onepage_Success</onepage_success>
+      </rewrite>
       <bank>
         <class>Conekta_Bank_Block</class>
       </bank>
