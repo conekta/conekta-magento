@@ -50,3 +50,5 @@
 * Remove Amasty Onepage integration because plugin is broken.
 === 0.2.9 2014-11-27
 * Update plugin version.
+=== 0.3.0 2014-11-27
+* Update sql file version.
