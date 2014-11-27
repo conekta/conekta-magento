@@ -1,6 +1,7 @@
 <script type="text/javascript">
     //<![CDATA[
     var oneStepForm = document.getElementById("onestepcheckout-form");
+    var amastyCheckout = completeCheckout;
     var processPayment = function() {
       var currentMethod = (oneStepForm != null) ? payment.currentMethod : payment.lastUsedMethod;
       if(currentMethod == 'card'){
@@ -22,6 +23,7 @@
      if (window["IWD"] && IWD.OPC) {
         conektaTempSave();
       } else if (oneStepForm != null) {
+      } else if (amastyCheckout != null) {
         conektaTempSave();
       } else {
         var request = new Ajax.Request(
@@ -124,6 +126,14 @@
           processPayment();
         });
       });
+    } else if (amastyCheckout != null) {
+      var conektaPaymentSave = completeCheckout;
+      var conektaTempSave = function () {
+        conektaPaymentSave.apply();
+      }
+      completeCheckout = function(){
+        processPayment();
+      }
     } else {
       var conektaPaymentSave = payment.save;
       var conektaTempSave = function () {
