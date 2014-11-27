@@ -46,3 +46,5 @@
 * Add bank field to spei payment.
 === 0.2.7 2014-11-27
 * Add IPN retries in Webhook.
+=== 0.2.8 2014-11-27
+* Remove Amasty Onepage integration because plugin is broken.
