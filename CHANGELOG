@@ -52,3 +52,7 @@
 * Update plugin version.
 === 0.3.0 2014-11-27
 * Update sql file version.
+=== 0.3.1 2014-11-27
+* Fix SPEI db columns.
+* Add dynamic currency.
+* Add dynamic language.

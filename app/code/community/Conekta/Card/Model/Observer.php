@@ -8,6 +8,7 @@ class Conekta_Card_Model_Observer{
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Card_Model_Card')->getCode()){
       Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
+      Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
       $email = $event->payment->getOrder()->getEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
@@ -54,6 +55,7 @@ class Conekta_Card_Model_Observer{
       try {
         $charge = Conekta_Charge::create(array(
           'card' => $_POST['payment']['conekta_token'],
+          'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
           'reference_id' => $event->payment->getOrder()->getIncrementId(),

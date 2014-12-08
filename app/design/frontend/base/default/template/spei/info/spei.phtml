@@ -32,7 +32,6 @@
 <?php
 $clabe = $this->getInfo()->getSpeiClabe();
 $bank = $this->getInfo()->getSpeiBank();
-$expiry = $this->getInfo()->getSpeiExpiryDate();
 ?>
 
 <dl class="spei">
@@ -44,7 +43,6 @@ $expiry = $this->getInfo()->getSpeiExpiryDate();
           <?php if (empty($clabe) != true) {?>
           <th>CLABE: <?php echo $clabe ?></th>
           <th>Bank: <?php echo $bank ?></th>
-          <th>Expiry Date: <?php echo $expiry ?></th>
           <?php } else { ?>
           <th>You will receive an invoice via email.</th>
           

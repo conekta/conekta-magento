@@ -9,6 +9,7 @@ class Conekta_Spei_Model_Observer{
     if($event->payment->getMethod() == Mage::getModel('Conekta_Spei_Model_Spei')->getCode()){
       Conekta::setApiKey(Mage::getStoreConfig('payment/spei/privatekey'));
       Conekta::setApiVersion("1.0.0");
+      Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
       $email = $event->payment->getOrder()->getEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
@@ -53,13 +54,12 @@ class Conekta_Spei_Model_Observer{
           );
       }
       $days = $event->payment->getMethodInstance()->getConfigData('my_date');
-      $expiry_date=Date('Y-m-d', strtotime("+".$days." days"));
       try {
         $charge = Conekta_Charge::create(array(
           'bank'=>array(
-            'type'=>'spei',
-            'expires_at'=>$expiry_date
+            'type'=>'spei'
             ),
+          'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
           'reference_id' => $event->payment->getOrder()->getIncrementId(),
@@ -85,7 +85,6 @@ class Conekta_Spei_Model_Observer{
       } catch (Conekta_Error $e){
         throw new Mage_Payment_Model_Info_Exception($e->getMessage());
       }    
-      $event->payment->setSpeiExpiryDate($expiry_date);
       $event->payment->setSpeiClabe($charge->payment_method->clabe);
       $event->payment->setSpeiBank($charge->payment_method->bank);
       $event->payment->setChargeId($charge->id);
@@ -93,7 +92,6 @@ class Conekta_Spei_Model_Observer{
       $order = $event->payment->getOrder();
       $quote = $order->getQuote();
       $payment = $quote->getPayment();
-      $payment->setSpeiExpiryDate($expiry_date);
       $payment->setSpeiClabe($charge->payment_method->clabe);
       $payment->setSpeiBank($charge->payment_method->bank);
       $payment->setChargeId($charge->id);

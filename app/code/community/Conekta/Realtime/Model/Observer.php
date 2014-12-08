@@ -9,6 +9,7 @@ class Conekta_Realtime_Model_Observer{
     if($event->payment->getMethod() == Mage::getModel('Conekta_Realtime_Model_Realtime')->getCode()){
       Conekta::setApiKey(Mage::getStoreConfig('payment/realtime/privatekey'));
       Conekta::setApiVersion("1.0.0");
+      Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
       $email = $event->payment->getOrder()->getEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
@@ -60,6 +61,7 @@ class Conekta_Realtime_Model_Observer{
             'type'=>'real_time',
             'expires_at'=>$expiry_date
             ),
+          'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
           'reference_id' => $event->payment->getOrder()->getIncrementId(),

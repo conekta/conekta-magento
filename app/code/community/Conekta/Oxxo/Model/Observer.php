@@ -8,6 +8,7 @@ class Conekta_Oxxo_Model_Observer{
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
       Conekta::setApiKey(Mage::getStoreConfig('payment/oxxo/privatekey'));
+      Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
       $email = $event->payment->getOrder()->getEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
@@ -59,6 +60,7 @@ class Conekta_Oxxo_Model_Observer{
             'type'=>'oxxo',
             'expires_at'=>$expiry_date
             ),
+          'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
           'description' => 'Compra en Magento',
           'reference_id' => $event->payment->getOrder()->getIncrementId(),
