@@ -58,3 +58,5 @@
 * Add dynamic language.
 === 0.3.2 2014-11-27
 * Remove Amasty from plugin completely.
+=== 0.3.3 2014-11-27
+* Update version in all modules.
