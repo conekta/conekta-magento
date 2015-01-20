@@ -70,4 +70,4 @@ This version includes the following modules:
 
 License
 -------
-Developed by [Conekta](https://www.conekta.io). Available with [MIT License](LICENSE).
+Developed by [Conekta](https://www.conekta.io). Available under [MIT License](LICENSE).
