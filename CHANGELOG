@@ -60,5 +60,5 @@
 * Remove Amasty from plugin completely.
 === 0.3.3 2014-11-27
 * Update version in all modules.
-=== 0.3.4 2015-02-24
+=== 0.3.5 2015-02-24
 * Update Conekta_Webhook_AjaxController logic.
