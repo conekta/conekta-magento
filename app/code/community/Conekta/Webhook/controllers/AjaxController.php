@@ -6,8 +6,27 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
     $charge = $event->data->object;
     $line_items = $charge->details->line_items;
     sleep(3);
-    $order = Mage::getModel('sales/order')->loadByIncrementId($charge->reference_id);
-    if (strpos($event->type, "charge.paid") !== false) {
+    // search order by charge_id
+    $charge_id = $charge->id;
+    // check charge_id format
+    $charge_id_matches_format = preg_match('/^[a-z_\-0-9]+$/i', $charge_id);
+    if ($charge_id_matches_format) {
+        $resource = Mage::getSingleton('core/resource');
+        $readConnection = $resource->getConnection('core_read');
+        $query = "SELECT parent_id FROM " . $resource->getTableName('sales/order_payment') . " WHERE charge_id = '" . $charge_id . "' LIMIT 1";
+        $entity_id = $readConnection->fetchOne($query);
+    }
+    // check charge_id format
+
+    // check entity_id format
+    $entity_id_matches_format = preg_match('/^[0-9]+$/i', $entity_id);
+    if ($entity_id_matches_format) {
+      $query = 'SELECT increment_id FROM ' . $resource->getTableName('sales/order') . " WHERE entity_id = '" . $entity_id . "' LIMIT 1";
+      $increment_id = $readConnection->fetchOne($query);
+      $order = Mage::getModel('sales/order')->loadByIncrementId($increment_id);
+    }
+    // check entity_id format
+    if ($charge_id_matches_format && $entity_id_matches_format && strpos($event->type, "charge.paid") !== false) {
       if ($order->getId()) {
         if ($order->hasInvoices() != true) {
           $invoice = $order->prepareInvoice();
