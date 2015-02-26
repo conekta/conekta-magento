@@ -84,7 +84,7 @@ class Conekta_Bank_Model_Observer{
           )
         );
       } catch (Conekta_Error $e){
-        throw new Mage_Payment_Model_Info_Exception($e->getMessage());
+        throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
       }
       $event->payment->setBankExpiryDate($expiry_date);
       $event->payment->setBankServiceName($charge->payment_method->service_name);

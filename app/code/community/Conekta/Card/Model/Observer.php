@@ -79,7 +79,7 @@ class Conekta_Card_Model_Observer{
           )
         );
       } catch (Conekta_Error $e){
-        throw new Mage_Payment_Model_Info_Exception($e->getMessage());
+        throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
       }
       $event->payment->setCardToken($_POST['payment']['conekta_token']);
       $event->payment->setChargeAuthorization($charge->payment_method->auth_code);

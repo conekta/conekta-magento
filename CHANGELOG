@@ -62,3 +62,5 @@
 * Update version in all modules.
 === 0.3.7 2015-02-24
 * Update Conekta_Webhook_AjaxController logic.
+=== 0.3.8 2015-02-24
+* Add message to purchaser in observers.

@@ -83,7 +83,7 @@ class Conekta_Spei_Model_Observer{
           )
         );
       } catch (Conekta_Error $e){
-        throw new Mage_Payment_Model_Info_Exception($e->getMessage());
+        throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
       }    
       $event->payment->setSpeiClabe($charge->payment_method->clabe);
       $event->payment->setSpeiBank($charge->payment_method->bank);
