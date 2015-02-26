@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Bank>
-      <version>0.3.8</version>
+      <version>0.3.9</version>
     </Conekta_Bank>
   </modules>
   <frontend>

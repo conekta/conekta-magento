@@ -10,7 +10,7 @@ class Conekta_Card_Model_Observer{
       Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
-      $email = $event->payment->getOrder()->getEmail();
+      $email = $event->payment->getOrder()->getCustomerEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
         $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
       }

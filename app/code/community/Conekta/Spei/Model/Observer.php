@@ -11,7 +11,7 @@ class Conekta_Spei_Model_Observer{
       Conekta::setApiVersion("1.0.0");
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       $billing = $event->payment->getOrder()->getBillingAddress()->getData();
-      $email = $event->payment->getOrder()->getEmail();
+      $email = $event->payment->getOrder()->getCustomerEmail();
       if ($event->payment->getOrder()->getShippingAddress()) {
         $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
       }
