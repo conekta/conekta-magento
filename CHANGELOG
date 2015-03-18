@@ -66,3 +66,5 @@
 * Add message to purchaser in observers.
 === 0.3.9 2015-02-26
 * Deprecate Bank Module and enhance email data collection logic.
+=== 0.4.0 2015-02-26
+* Fix race condition in Conekta_Webhook_AjaxController.

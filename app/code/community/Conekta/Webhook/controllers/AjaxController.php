@@ -26,30 +26,28 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
       $order = Mage::getModel('sales/order')->loadByIncrementId($increment_id);
     }
     // check entity_id format
-    if ($charge_id_matches_format && $entity_id_matches_format && strpos($event->type, "charge.paid") !== false) {
-      if ($order->getId()) {
-        if ($order->hasInvoices() != true) {
-          $invoice = $order->prepareInvoice();
-          $invoice->register();
-          Mage::getModel('core/resource_transaction')
-          ->addObject($invoice)
-          ->addObject($invoice->getOrder())
-          ->save();
-          $invoice->sendEmail(true, '');
-        }
-        $orderStatus = $order->getPayment()->getMethodInstance()->getConfigData('webhook_notification_order_status');
-        if (!(strpos($order->getStatus(), $orderStatus) !== false)) {
-          $order->addStatusToHistory($orderStatus);
-          $order->setData('state', $orderStatus);
-          $order->save();
-        }
-      } else {
-        // Order possible has not been persisted yet. Tell Conekta to retry one hour later.
-        header('HTTP/1.0 404 Not Found');
-        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-        $this->getResponse()->setHeader('Status','404 File not found');
-        $this->_forward('defaultNoRoute');
+    if ($charge_id_matches_format && $entity_id_matches_format && strpos($event->type, "charge.paid") !== false && $order->getId()) {   
+      if ($order->hasInvoices() != true) {
+        $invoice = $order->prepareInvoice();
+        $invoice->register();
+        Mage::getModel('core/resource_transaction')
+        ->addObject($invoice)
+        ->addObject($invoice->getOrder())
+        ->save();
+        $invoice->sendEmail(true, '');
       }
+      $orderStatus = $order->getPayment()->getMethodInstance()->getConfigData('webhook_notification_order_status');
+      if (!(strpos($order->getStatus(), $orderStatus) !== false)) {
+        $order->addStatusToHistory($orderStatus);
+        $order->setData('state', $orderStatus);
+        $order->save();
+      }
+    } else {
+      // Order possible has not been persisted yet. Tell Conekta to retry one hour later.
+      header('HTTP/1.0 404 Not Found');
+      $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
+      $this->getResponse()->setHeader('Status','404 File not found');
+      $this->_forward('defaultNoRoute');
     }
   }
 }
