@@ -14,19 +14,15 @@ class Conekta_Card_Model_Observer{
       if ($event->payment->getOrder()->getShippingAddress()) {
         $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
       }
-      $items_collection = $event->payment->getOrder()->getItemsCollection(array(), true);
+      $items = $event->payment->getOrder()->getAllVisibleItems();
       $line_items = array();
-      for ($i = 0; $i < count($items_collection->getColumnValues('sku')); $i ++) {
-        $name = $items_collection->getColumnValues('name');
-        $name = $name[$i];
-        $sku = $items_collection->getColumnValues('sku');
-        $sku = $sku[$i];
-        $price = $items_collection->getColumnValues('price');
-        $price = $price[$i];
-        $description = $items_collection->getColumnValues('description');
-        $description = $description[$i];
-        $product_type = $items_collection->getColumnValues('product_type');
-        $product_type = $product_type[$i];
+      $i = 0;
+      foreach ($items as $itemId => $item){
+        $name = $item->getName();
+        $sku = $item->getSku();
+        $price = $item->getPrice();
+        $description = $item->getDescription();
+        $product_type = $item->getProductType();
         $line_items = array_merge($line_items, array(array(
           'name' => $name,
           'sku' => $sku,
@@ -36,6 +32,7 @@ class Conekta_Card_Model_Observer{
           'type' => $product_type
           ))
         );
+        $i = $i + 1;
       }
       $shipp = array();
       if (empty($shipping) != true) {
@@ -53,7 +50,7 @@ class Conekta_Card_Model_Observer{
           );
       }
       try {
-        $charge = Conekta_Charge::create(array(
+        $params = array(
           'card' => $_POST['payment']['conekta_token'],
           'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
           'amount' => intval(((float) $event->payment->getOrder()->grandTotal) * 100),
@@ -76,12 +73,16 @@ class Conekta_Card_Model_Observer{
             'line_items' => $line_items,
             'shipment' => $shipp
             )
-          )
-        );
+          );
+        if ($_POST['payment']['monthly_installments'] != 0) {
+          $params['monthly_installments'] = $_POST['payment']['monthly_installments'];
+        }
+        $charge = Conekta_Charge::create($params);
       } catch (Conekta_Error $e){
         throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
       }
       $event->payment->setCardToken($_POST['payment']['conekta_token']);
+      $event->payment->setCardMonthlyInstallments($charge->monthly_installments);
       $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
       $event->payment->setChargeId($charge->id);
       $event->payment->setCcOwner($charge->payment_method->name);
@@ -92,6 +93,7 @@ class Conekta_Card_Model_Observer{
       $quote = $order->getQuote();
       $payment = $quote->getPayment();
       $payment->setCardToken($_POST['payment']['conekta_token']);
+      $payment->setCardMonthlyInstallments($charge->monthly_installments);
       $payment->setChargeAuthorization($charge->payment_method->auth_code);
 
       $payment->setCcOwner($charge->payment_method->name);

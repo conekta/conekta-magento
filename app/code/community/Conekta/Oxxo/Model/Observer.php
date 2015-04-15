@@ -14,19 +14,15 @@ class Conekta_Oxxo_Model_Observer{
       if ($event->payment->getOrder()->getShippingAddress()) {
         $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
       }
-      $items_collection = $event->payment->getOrder()->getItemsCollection(array(), true);
+      $items = $event->payment->getOrder()->getAllVisibleItems();
       $line_items = array();
-      for ($i = 0; $i < count($items_collection->getColumnValues('sku')); $i ++) {
-        $name = $items_collection->getColumnValues('name');
-        $name = $name[$i];
-        $sku = $items_collection->getColumnValues('sku');
-        $sku = $sku[$i];
-        $price = $items_collection->getColumnValues('price');
-        $price = $price[$i];
-        $description = $items_collection->getColumnValues('description');
-        $description = $description[$i];
-        $product_type = $items_collection->getColumnValues('product_type');
-        $product_type = $product_type[$i];
+      $i = 0;
+      foreach ($items as $itemId => $item){
+        $name = $item->getName();
+        $sku = $item->getSku();
+        $price = $item->getPrice();
+        $description = $item->getDescription();
+        $product_type = $item->getProductType();
         $line_items = array_merge($line_items, array(array(
           'name' => $name,
           'sku' => $sku,
@@ -36,6 +32,7 @@ class Conekta_Oxxo_Model_Observer{
           'type' => $product_type
           ))
         );
+        $i = $i + 1;
       }
       $shipp = array();
       if (empty($shipping) != true) {

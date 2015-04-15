@@ -30,6 +30,16 @@
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
+   <li> 
+    <label for="<?php echo $_code ?>_monthly_installments" class="required"><em>*</em><?php echo $this->__('Meses sin intereses') ?></label>
+     <select id="<?php echo $_code ?>_card_monthly_installments" name="payment[monthly_installments]" class="required-entry">
+         <option selected="selected" value="0">Cargo en una sola exhibición</option>
+         <option value="3">3 Meses sin intereses</option>
+         <option value="6">6 Meses sin intereses</option>
+         <option value="9">9 Meses sin intereses</option>
+         <option value="12">12 Meses sin intereses</option>
+       </select>
+   </li>
    <li>
     <div class="input-box">
       <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>

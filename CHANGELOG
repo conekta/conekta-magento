@@ -68,3 +68,5 @@
 * Deprecate Bank Module and enhance email data collection logic.
 === 0.4.0 2015-02-26
 * Fix race condition in Conekta_Webhook_AjaxController.
+=== 0.4.1 2015-04-15
+* Update line items logic and add MSI for Card module.
