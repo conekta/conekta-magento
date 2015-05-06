@@ -70,3 +70,5 @@
 * Fix race condition in Conekta_Webhook_AjaxController.
 === 0.4.1 2015-04-15
 * Update line items logic and add MSI for Card module.
+=== 0.4.2 2015-05-06
+* Add conekta.js to all pages for fraud detection purposes.

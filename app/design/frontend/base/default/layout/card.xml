@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <layout version="0.1.0">
   <default>
+    <reference name="head">
+        <block type="core/text" name="conekta">
+            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+        </block>
+    </reference>
   </default>
   <card_index_index>
     <reference name="content">
@@ -8,25 +13,16 @@
     </reference>
   </card_index_index>
   <checkout_onepage_index>
-    <reference name="head">
-      <action method="addExternalItem"><type>external_js</type><name>https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js</name><params/></action>
-    </reference>
     <reference name="before_body_end">
       <block type="core/template" name="token" template="card/token.phtml" />
     </reference>
   </checkout_onepage_index>
   <opc_index_index translate="label">
-    <reference name="head">   
-      <action method="addExternalItem"><type>external_js</type><name>https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js</name><params/></action>
-    </reference>
     <reference name="before_body_end">
       <block type="core/template" name="token" template="card/token.phtml" />
     </reference>
   </opc_index_index>
   <onestepcheckout_index_index>
-    <reference name="head">   
-      <action method="addExternalItem"><type>external_js</type><name>https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js</name><params/></action>
-    </reference>
     <reference name="before_body_end">
       <block type="core/template" name="token" template="card/token.phtml" />
     </reference>
