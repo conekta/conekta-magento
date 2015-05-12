@@ -30,6 +30,13 @@
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
+   <?php $amount_installments = floatval(Mage::getStoreConfig('payment/card/amount_installments')); ?>
+
+   <?php $activate_installments = Mage::getStoreConfig('payment/card/activate_installments'); ?>
+
+   <?php $amount = Mage::getModel('checkout/cart')->getQuote()->getGrandTotal(); ?>
+   
+   <?php if ($amount_installments <= $amount && $activate_installments) { ?>
    <li> 
     <label for="<?php echo $_code ?>_monthly_installments" class="required"><em>*</em><?php echo $this->__('Meses sin intereses') ?></label>
      <select id="<?php echo $_code ?>_card_monthly_installments" name="payment[monthly_installments]" class="required-entry">
@@ -40,6 +47,9 @@
          <option value="12">12 Meses sin intereses</option>
        </select>
    </li>
+   <?php } else { ?>
+   <input id="<?php echo $_code ?>_monthly_installments" name="payment[monthly_installments]" type="hidden" value="0">
+   <?php } ?>
    <li>
     <div class="input-box">
       <label for="<?php echo $_code ?>_cc_owner" class="required"><em>*</em><?php echo $this->__('Name on Card') ?></label>
