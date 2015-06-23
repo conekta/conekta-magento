@@ -72,3 +72,5 @@
 * Update line items logic and add MSI for Card module.
 === 0.4.2 2015-05-06
 * Add conekta.js to all pages for fraud detection purposes.
+=== 0.4.4 2015-06-23
+* Add custom fields for anti fraud purposes in card observer.
