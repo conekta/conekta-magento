@@ -76,3 +76,5 @@
 * Add MSI config.
 === 0.4.4 2015-06-23
 * Add custom fields for anti fraud purposes in card observer.
+=== 0.4.5 2015-06-23
+* Remove Conflicts in Webhook config.
