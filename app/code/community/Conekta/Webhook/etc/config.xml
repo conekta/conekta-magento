@@ -2,7 +2,11 @@
 <config>
   <modules>
     <Conekta_Webhook>
+<<<<<<< HEAD
       <version>0.4.4</version>
+=======
+      <version>0.4.3</version>
+>>>>>>> e81157d419dea68d84c866c416386518ab16a229
     </Conekta_Webhook>
   </modules>
   <frontend>
