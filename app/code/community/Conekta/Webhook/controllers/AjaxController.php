@@ -43,11 +43,13 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
         $order->save();
       }
     } else {
-      // Order possible has not been persisted yet. Tell Conekta to retry one hour later.
-      header('HTTP/1.0 404 Not Found');
-      $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
-      $this->getResponse()->setHeader('Status','404 File not found');
-      $this->_forward('defaultNoRoute');
+      if (strpos($event->type, "charge.paid") !== false) {
+        // Order possible has not been persisted yet. Tell Conekta to retry one hour later.
+        header('HTTP/1.0 404 Not Found');
+        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
+        $this->getResponse()->setHeader('Status','404 File not found');
+        $this->_forward('defaultNoRoute');
+      }
     }
   }
 }

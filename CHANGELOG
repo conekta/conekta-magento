@@ -78,3 +78,5 @@
 * Add custom fields for anti fraud purposes in card observer.
 === 0.4.5 2015-06-23
 * Remove Conflicts in Webhook config.
+=== 0.4.6 2015-06-23
+* Return 404 only for charge.paid type events.
