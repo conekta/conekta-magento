@@ -16,6 +16,8 @@ class Conekta_Card_Model_Card extends Mage_Payment_Model_Method_Abstract
 			->setCardMonthlyInstallments($data->getCardMonthlyInstallments())
 			->setCcOwner($data->getCcOwner())
 			->setCcLast4($data->getCcLast4())
+			->setCcType($data->getCcType())
+			->setCardBin($data->getCardBin())
 		;
 		
 		return $this;

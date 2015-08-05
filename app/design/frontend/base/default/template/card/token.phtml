@@ -59,6 +59,7 @@
       var expYear = document.getElementById('card_expiration_yr').value;
       var cardNumber = document.getElementById('card_cc_number').value;
       var type = Conekta.card.getBrand(cardNumber);
+      document.getElementById('card_card_bin').value = cardNumber.substring(0,6);
       return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
     }
 

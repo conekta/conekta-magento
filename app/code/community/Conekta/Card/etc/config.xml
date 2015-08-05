@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Card>
-      <version>0.4.6</version>
+      <version>0.4.7</version>
     </Conekta_Card>
   </modules>
   <frontend>
@@ -42,15 +42,24 @@
      <cc_last4>
        <to_order_payment>*</to_order_payment>
      </cc_last4>
+     <cc_type>
+       <to_order_payment>*</to_order_payment>
+     </cc_type>
      <card_token>
        <to_order_payment>*</to_order_payment>
      </card_token>
+     <card_bin>
+       <to_order_payment>*</to_order_payment>
+     </card_bin>
      <charge_authorization>
        <to_order_payment>*</to_order_payment>
      </charge_authorization>
      <charge_id>
        <to_order_payment>*</to_order_payment>
      </charge_id>
+     <card_monthly_installments>
+       <to_order_payment>*</to_order_payment>
+     </card_monthly_installments>
    </sales_convert_quote_payment>
  </fieldsets>
  <models>

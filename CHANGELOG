@@ -80,3 +80,5 @@
 * Remove Conflicts in Webhook config.
 === 0.4.6 2015-06-23
 * Return 404 only for charge.paid type events.
+=== 0.4.7 2015-06-23
+* Add fields to Card module for Riskified compatibility.

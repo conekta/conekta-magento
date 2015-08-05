@@ -121,6 +121,8 @@ class Conekta_Card_Model_Observer{
       $event->payment->setChargeId($charge->id);
       $event->payment->setCcOwner($charge->payment_method->name);
       $event->payment->setCcLast4($charge->payment_method->last4);
+      $event->payment->setCcType($charge->payment_method->brand);
+      $event->payment->setCardBin($_POST['card']['bin']);
 
       //Update Quote
       $quote = $order->getQuote();
@@ -131,6 +133,8 @@ class Conekta_Card_Model_Observer{
 
       $payment->setCcOwner($charge->payment_method->name);
       $payment->setCcLast4($charge->payment_method->last4);
+      $payment->setCcType($charge->payment_method->brand);
+      $payment->setCardBin($_POST['card']['bin']);
 
       $payment->setChargeId($charge->id);
       $quote->collectTotals();
