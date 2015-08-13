@@ -82,3 +82,5 @@
 * Return 404 only for charge.paid type events.
 === 0.4.7 2015-08-05
 * Add fields to Card module for Riskified compatibility.
+=== 0.4.8 2015-08-13
+* Remove unused cc_type input from card form.

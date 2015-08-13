@@ -30,7 +30,6 @@
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
-   <input id="<?php echo $_code ?>_cc_type" type="hidden" value="">
    <input id="<?php echo $_code ?>_card_bin" name="card[bin]" type="hidden" value="">
    <?php $amount_installments = floatval(Mage::getStoreConfig('payment/card/amount_installments')); ?>
 
