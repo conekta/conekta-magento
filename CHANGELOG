@@ -84,3 +84,5 @@
 * Add fields to Card module for Riskified compatibility.
 === 0.4.8 2015-08-13
 * Remove unused cc_type input from card form.
+=== 0.4.9 2015-08-18
+* Remove constraints for max PHP version supported.
