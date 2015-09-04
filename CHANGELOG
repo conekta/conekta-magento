@@ -86,3 +86,5 @@
 * Remove unused cc_type input from card form.
 === 0.4.9 2015-08-18
 * Remove constraints for max PHP version supported.
+=== 0.5.0 2015-09-04
+* Add shipment fields for payment methods.

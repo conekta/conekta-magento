@@ -7,8 +7,8 @@ class Conekta_Card_Model_Observer{
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Card_Model_Card')->getCode()){
-
       Conekta::setApiKey(Mage::getStoreConfig('payment/card/privatekey'));
+      Conekta::setApiVersion("1.0.0");
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
       $order = $event->payment->getOrder();
@@ -17,7 +17,7 @@ class Conekta_Card_Model_Observer{
 
       $billing = $order->getBillingAddress()->getData();
       $email = $order->getCustomerEmail();
-      if ($order->getShippingAddress()) {
+      if ($shipping_address) {
         $shipping_data = $shipping_address->getData();
       }
       $items = $order->getAllVisibleItems();
@@ -43,7 +43,9 @@ class Conekta_Card_Model_Observer{
       $shipp = array();
       if (empty($shipping_data) != true) {
         $shipp = array(
-          #'price' => $shipping_data['grand_total'],
+          'price' => intval(((float) $order->getShippingAmount()) * 100),
+          'service' => $order->getShippingMethod(),
+          'carrier' => $order->getShippingDescription(),
           'address' => array(
             'street1' => $shipping_data['street'],
             'city' => $shipping_data['city'],
@@ -55,6 +57,7 @@ class Conekta_Card_Model_Observer{
             )
           );
       }
+      
       try {
         $params = array(
           'card' => $_POST['payment']['conekta_token'],
@@ -112,7 +115,7 @@ class Conekta_Card_Model_Observer{
           $params['monthly_installments'] = $_POST['payment']['monthly_installments'];
         }
         $charge = Conekta_Charge::create($params);
-      } catch (Conekta_Error $e){
+      } catch (Conekta_Error $e) {
         throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
       }
       $event->payment->setCardToken($_POST['payment']['conekta_token']);

@@ -9,12 +9,17 @@ class Conekta_Bank_Model_Observer{
     if($event->payment->getMethod() == Mage::getModel('Conekta_Bank_Model_Bank')->getCode()){
       Conekta::setApiKey(Mage::getStoreConfig('payment/bank/privatekey'));
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
-      $billing = $event->payment->getOrder()->getBillingAddress()->getData();
-      $email = $event->payment->getOrder()->getCustomerEmail();
-      if ($event->payment->getOrder()->getShippingAddress()) {
-        $shipping = $event->payment->getOrder()->getShippingAddress()->getData();
+      
+      $order = $event->payment->getOrder();
+      $customer = $order->getCustomer();
+      $shipping_address = $order->getShippingAddress();
+
+      $billing = $order->getBillingAddress()->getData();
+      $email = $order->getCustomerEmail();
+      if ($shipping_address) {
+        $shipping_data = $shipping_address->getData();
       }
-      $items = $event->payment->getOrder()->getAllVisibleItems();
+      $items = $order->getAllVisibleItems();
       $line_items = array();
       $i = 0;
       foreach ($items as $itemId => $item){
@@ -35,16 +40,18 @@ class Conekta_Bank_Model_Observer{
         $i = $i + 1;
       }
       $shipp = array();
-      if (empty($shipping) != true) {
+      if (empty($shipping_data) != true) {
         $shipp = array(
-          #'price' => $shipping['grand_total'],
+          'price' => intval(((float) $order->getShippingAmount()) * 100),
+          'service' => $order->getShippingMethod(),
+          'carrier' => $order->getShippingDescription(),
           'address' => array(
-            'street1' => $shipping['street'],
-            'city' => $shipping['city'],
-            'state' => $shipping['region'],
-            'country' => $shipping['country_id'],
-            'zip' => $shipping['postcode'],
-            'phone' =>$shipping['telephone'],
+            'street1' => $shipping_data['street'],
+            'city' => $shipping_data['city'],
+            'state' => $shipping_data['region'],
+            'country' => $shipping_data['country_id'],
+            'zip' => $shipping_data['postcode'],
+            'phone' =>$shipping_data['telephone'],
             'email' =>$email
             )
           );
@@ -77,6 +84,34 @@ class Conekta_Bank_Model_Observer{
               ),
             'line_items' => $line_items,
             'shipment' => $shipp
+            ),
+            'coupon_code' => $order->getCouponCode(),
+            'custom_fields' => array(
+              'customer' => array(
+                'website_id' => $customer->getWebsiteId(),
+                'entity_id' => $customer->getEntityId(),
+                'entity_type_id' => $customer->getEntityTypeId(),
+                'attribute_set_id' => $customer->getAttributeSetId(),
+                'email' => $customer->getEmail(),
+                'group_id' => $customer->getGroupId(),
+                'store_id' => $customer->getStoreId(),
+                'created_at' => $customer->getCreatedAt(),
+                'updated_at' => $customer->getUpdatedAt(),
+                'is_active' => $customer->getIsActive(),
+                'disable_auto_group_change' => $customer->getDisableAutoGroupChange(),
+                'get_tax_vat' => $customer->getTaxvat(),
+                'created_in' => $customer->getCreatedIn(),
+                'gender' => $customer->getGender(),
+                'default_billing' => $customer->getDefaultBilling(),
+                'default_shipping' => $customer->getDefaultShipping(),
+                'dob' => $customer->getDob(),
+                'tax_class_id' => $customer->getTaxClassId()
+              ),
+              'discount_description' => $order->getDiscountDescription(),
+              'discount_amount' => $order->getDiscountAmount(),
+              'shipping_amount' => $shipping_address->getShippingAmount(),
+              'shipping_description' => $shipping_address->getShippingDescription(),
+              'shipping_method' => $shipping_address->getShippingMethod()
             )
           )
         );
