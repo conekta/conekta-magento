@@ -90,3 +90,5 @@
 * Add shipment fields for payment methods.
 === 0.5.1 2015-12-4
 * Add support for newer Magento versions to get description from line item.
+=== 0.5.2 2015-12-4
+* Add support for newer Magento versions to get description from line item.
