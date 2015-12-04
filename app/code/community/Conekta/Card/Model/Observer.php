@@ -27,7 +27,7 @@ class Conekta_Card_Model_Observer{
         $name = $item->getName();
         $sku = $item->getSku();
         $price = $item->getPrice();
-        $description = $item->getDescription();
+        $description = Mage::getModel('catalog/product')->load($item->getProductId())->getDescription();
         $product_type = $item->getProductType();
         $line_items = array_merge($line_items, array(array(
           'name' => $name,
