@@ -44,13 +44,13 @@ $expiry = $this->getInfo()->getBankExpiryDate();
       <tbody>
         <tr>
           <?php if (empty($reference) != true) {?>
-          <th>Service Name: <?php echo $service_name ?></th>
-          <th>Service Number: <?php echo $service_number ?></th>
-          <th>Bank Name: <?php echo $bank_name ?></th>
-          <th>Reference: <?php echo $reference ?></th>
-          <th>Expiry Date: <?php echo $expiry ?></th>
+          <th><?php echo $this->__('Service Name: %s', $service_name) ?></th>
+          <th><?php echo $this->__('Service Number: %s', $service_number) ?></th>
+          <th><?php echo $this->__('Bank Name: %s', $bank_name) ?></th>
+          <th><?php echo $this->__('Reference Number: %s', $reference) ?></th>
+          <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></th>
           <?php } else { ?>
-          <th>You will receive an invoice via email.</th>
+          <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
           <?php } ?>
         </tr>

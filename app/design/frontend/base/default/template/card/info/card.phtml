@@ -42,11 +42,11 @@ $card = $this->getInfo()->getCcLast4();
       <tbody>
         <tr>
           <?php if (empty($authNumber) != true) {?>
-          <th>Cardholder: <?php echo $owner ?></th>
-          <th>Card: <?php echo $card ?></th>
-          <th>Authorization Number: <?php echo $authNumber ?></th>
+          <th><?php echo $this->__('Cardholder Name: %s', $owner) ?></th>
+          <th><?php echo $this->__('Card Last 4: %s', $card) ?></th>
+          <th><?php echo $this->__('Authorization Number: %s', $authNumber) ?></th>
           <?php } else { ?>
-          <th>You will receive an invoice via email.</th>
+          <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
           <?php } ?>
         </tr>

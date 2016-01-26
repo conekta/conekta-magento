@@ -66,7 +66,7 @@ class Conekta_Card_Model_Observer{
           'description' => 'Compra en Magento',
           'reference_id' => $order->getIncrementId(),
           'details' => array(
-            'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['firstname']),
+            'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']),
             'email' => $email,
             'phone' => $billing['telephone'],
             'billing_address' => array(

@@ -98,3 +98,6 @@
 * Better logic to enable MSI.
 * Better API keys management.
 * Add webhook management.
+=== 0.5.4 2016-01-26
+* Add detailed payment information in admin.
+* Add detailed payment information on successful payment.
