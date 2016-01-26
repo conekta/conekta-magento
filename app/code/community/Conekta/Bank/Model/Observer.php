@@ -7,7 +7,7 @@ class Conekta_Bank_Model_Observer{
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Bank_Model_Bank')->getCode()){
-      Conekta::setApiKey(Mage::getStoreConfig('payment/bank/privatekey'));
+      Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       
       $order = $event->payment->getOrder();

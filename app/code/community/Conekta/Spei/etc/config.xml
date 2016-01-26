@@ -2,10 +2,30 @@
 <config>
   <modules>
     <Conekta_Spei>
-      <version>0.5.2</version>
+      <version>0.5.3</version>
     </Conekta_Spei>
   </modules>
+  <adminhtml>
+    <translate>
+      <modules>
+        <Conekta_Card>
+          <files>
+            <default>Conekta_Card.csv</default>
+          </files>
+        </Conekta_Card>
+      </modules>
+    </translate>
+  </adminhtml>
   <frontend>
+    <translate>
+      <modules>
+        <Conekta_Card>
+          <files>
+            <default>Conekta_Spei.csv</default>
+          </files>
+        </Conekta_Card>
+      </modules>
+    </translate>
     <routers>
       <spei>
         <use>standard</use>
@@ -101,6 +121,7 @@
       <webhook_notification_order_status>processing</webhook_notification_order_status>
       <expiry_date></expiry_date>
       <title>Spei Payment Method</title>
+      <sort_order>0</sort_order>
     </spei>
   </payment>
 </default>

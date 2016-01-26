@@ -18,13 +18,26 @@
   </frontend>
   <global>
     <blocks>
+      <webhook>
+        <class>Conekta_Webhook_Block</class>
+      </webhook>
       <adminhtml>
         <rewrite>
           <sales_order_view_tab_info>Conekta_Webhook_Block_Adminhtml_Sales_Order_View_Tab_Info</sales_order_view_tab_info>
         </rewrite>
       </adminhtml>
     </blocks>
+    <helpers>
+      <webhook>
+        <class>Conekta_Webhook_Helper</class>
+      </webhook>
+    </helpers>
   </global>
   <default>
+    <payment>
+      <webhook>
+        <url>http://mymagento-store.com/index.php/webhook/ajax/listener</url>
+      </webhook>
+    </payment>
   </default>
 </config>

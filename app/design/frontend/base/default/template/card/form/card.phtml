@@ -26,26 +26,37 @@
 ?>
 <?php $_code=$this->getMethodCode() ?>
 <script>
-  Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/card/publickey');?>');
+  Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/webhook/publickey');?>');
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
    <input id="<?php echo $_code ?>_card_bin" name="card[bin]" type="hidden" value="">
    <?php $amount_installments = floatval(Mage::getStoreConfig('payment/card/amount_installments')); ?>
 
-   <?php $activate_installments = Mage::getStoreConfig('payment/card/activate_installments'); ?>
+   <?php $activate_installments_3 = Mage::getStoreConfig('payment/card/activate_installments_3'); ?>
+   <?php $activate_installments_6 = Mage::getStoreConfig('payment/card/activate_installments_6'); ?>
+   <?php $activate_installments_9 = Mage::getStoreConfig('payment/card/activate_installments_9'); ?>
+   <?php $activate_installments_12 = Mage::getStoreConfig('payment/card/activate_installments_12'); ?>
 
    <?php $amount = Mage::getModel('checkout/cart')->getQuote()->getGrandTotal(); ?>
    
-   <?php if ($amount_installments <= $amount && $activate_installments) { ?>
+   <?php if ($amount_installments <= $amount && ($activate_installments_3 || $activate_installments_6 || $activate_installments_9 || $activate_installments_12)) { ?>
    <li> 
-    <label for="<?php echo $_code ?>_monthly_installments" class="required"><em>*</em><?php echo $this->__('Meses sin intereses') ?></label>
+    <label for="<?php echo $_code ?>_monthly_installments" class="required"><em>*</em><?php echo $this->__('Monthly Intallments') ?></label>
      <select id="<?php echo $_code ?>_card_monthly_installments" name="payment[monthly_installments]" class="required-entry">
-         <option selected="selected" value="0">Cargo en una sola exhibición</option>
-         <option value="3">3 Meses sin intereses</option>
-         <option value="6">6 Meses sin intereses</option>
-         <option value="9">9 Meses sin intereses</option>
-         <option value="12">12 Meses sin intereses</option>
+         <option selected="selected" value="0"><?php echo $this->__('1 Installment Charge') ?></option>
+         <?php if ($activate_installments_3) {?>
+           <option value="3"><?php echo $this->__('3 Installment Charge') ?></option>
+         <?php } ?>
+         <?php if ($activate_installments_6) {?>
+           <option value="6"><?php echo $this->__('6 Installment Charge') ?></option>
+         <?php } ?>
+         <?php if ($activate_installments_9) {?>
+           <option value="9"><?php echo $this->__('9 Installment Charge') ?></option>
+         <?php } ?>
+         <?php if ($activate_installments_12) {?>
+           <option value="12"><?php echo $this->__('12 Installment Charge') ?></option>
+         <?php } ?>
        </select>
    </li>
    <?php } else { ?>
@@ -58,7 +69,7 @@
     </div>
   </li>
   <li>
-    <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit/Debit Card Number') ?></label>
+    <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
     <div class="input-box">
       <input type="text" id="<?php echo $_code ?>_cc_number" data-conekta="card[number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type required-entry" value="" />
     </div>
@@ -68,7 +79,7 @@
     <div class="input-box">
       <div class="v-fix">
         <select id="<?php echo $_code ?>_expiration" data-conekta="card[exp_month]" class="month validate-cc-exp required-entry">
-         <option selected="selected" value="">Month</option>
+         <option selected="selected" value=""><?php echo $this->__('Month') ?></option>
          <option value="1">01 - January</option>
          <option value="2">02 - February</option>
          <option value="3">03 - March</option>
@@ -86,7 +97,7 @@
       <div class="v-fix">
         <?php $_ccExpYear = $this->getInfoData('cc_exp_year') ?>
         <select id="<?php echo $_code ?>_expiration_yr" data-conekta="card[exp_year]" class="year required-entry">
-          <option selected="selected" value="">Year</option>
+          <option selected="selected" value=""><?php echo $this->__('Year') ?></option>
           <option value="2014">2014</option>
           <option value="2015">2015</option>
           <option value="2016">2016</option>

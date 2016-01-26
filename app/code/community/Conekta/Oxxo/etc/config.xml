@@ -2,10 +2,30 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.5.2</version>
+      <version>0.5.3</version>
     </Conekta_Oxxo>
   </modules>
+  <adminhtml>
+    <translate>
+      <modules>
+        <Conekta_Card>
+          <files>
+            <default>Conekta_Card.csv</default>
+          </files>
+        </Conekta_Card>
+      </modules>
+    </translate>
+  </adminhtml>
   <frontend>
+    <translate>
+      <modules>
+        <Conekta_Card>
+          <files>
+            <default>Conekta_Oxxo.csv</default>
+          </files>
+        </Conekta_Card>
+      </modules>
+    </translate>
     <routers>
       <oxxo>
         <use>standard</use>
@@ -104,6 +124,7 @@
       <webhook_notification_order_status>processing</webhook_notification_order_status>
       <expiry_date></expiry_date>
       <title>Oxxo Payment Method</title>
+      <sort_order>0</sort_order>
     </oxxo>
   </payment>
 </default>

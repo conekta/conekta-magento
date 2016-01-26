@@ -7,7 +7,7 @@ class Conekta_Spei_Model_Observer{
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Spei_Model_Spei')->getCode()){
-      Conekta::setApiKey(Mage::getStoreConfig('payment/spei/privatekey'));
+      Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
       Conekta::setApiVersion("1.0.0");
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 

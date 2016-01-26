@@ -7,7 +7,7 @@ class Conekta_Oxxo_Model_Observer{
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
-      Conekta::setApiKey(Mage::getStoreConfig('payment/oxxo/privatekey'));
+      Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
       Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
       $order = $event->payment->getOrder();

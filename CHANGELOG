@@ -92,3 +92,9 @@
 * Add support for newer Magento versions to get description from line item.
 === 0.5.2 2015-12-4
 * Add support for newer Magento versions to get description from line item.
+=== 0.5.3 2016-01-26
+* Add locale to plugin.
+* Sort Conekta Payment Method.
+* Better logic to enable MSI.
+* Better API keys management.
+* Add webhook management.
