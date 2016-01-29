@@ -101,3 +101,5 @@
 === 0.5.4 2016-01-26
 * Add detailed payment information in admin.
 * Add detailed payment information on successful payment.
+=== 0.5.5 2016-01-29
+* Fix bug stated in https://github.com/conekta/conekta-magento/issues/11.
