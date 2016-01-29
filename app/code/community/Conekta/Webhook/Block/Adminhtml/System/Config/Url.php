@@ -19,16 +19,17 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
       );
     $url->setData($data);
     $webhook_url = Mage::getBaseUrl() . "index.php/webhook/ajax/listener";
-    
-    if (!empty($element->getValue())) {
+
+		$elementValue = $element->getValue();
+    if (!empty($elementValue)) {
       $url_string = $element->getValue();
     } else {
       $url_string = $webhook_url;
     }
-    
+
     $url->setValue($url_string);
 
-    $events = array("events" => 
+    $events = array("events" =>
         array("charge.created", "charge.paid", "charge.under_fraud_review",
         "charge.fraudulent", "charge.refunded", "charge.created", "customer.created",
         "customer.updated", "customer.deleted", "webhook.created", "webhook.updated",
