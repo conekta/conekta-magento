@@ -103,3 +103,6 @@
 * Add detailed payment information on successful payment.
 === 0.5.5 2016-01-29
 * Fix bug stated in https://github.com/conekta/conekta-magento/issues/11.
+=== 0.5.6 2016-01-29
+* Fix bug stated in https://github.com/conekta/conekta-magento/issues/13.
+* Example of success.phtml located in frontend/base/default.

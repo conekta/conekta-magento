@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Card>
-      <version>0.5.5</version>
+      <version>0.5.6</version>
     </Conekta_Card>
   </modules>
   <adminhtml>
