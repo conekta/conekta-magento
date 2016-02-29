@@ -106,3 +106,5 @@
 === 0.5.6 2016-01-29
 * Fix bug stated in https://github.com/conekta/conekta-magento/issues/13.
 * Example of success.phtml located in frontend/base/default.
+=== 0.5.7 2016-02-29
+* Enhance email retrieval logic.

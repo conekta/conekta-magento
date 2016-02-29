@@ -16,7 +16,12 @@ class Conekta_Card_Model_Observer{
       $shipping_address = $order->getShippingAddress();
 
       $billing = $order->getBillingAddress()->getData();
-      $email = $order->getCustomerEmail();
+      // $email = $event->payment->getOrder()->getEmail();
+
+      $quote = $event->payment->getOrder()->getQuote();
+      $email = $quote->getBillingAddress()->getEmail();
+      if (!$email) $email = $quote->getCustomerEmail();
+      
       if ($shipping_address) {
         $shipping_data = $shipping_address->getData();
       }
