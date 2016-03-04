@@ -62,7 +62,14 @@ class Conekta_Card_Model_Observer{
             )
           );
       }
-      
+      $shipping_amount = null;
+      $shipping_description = null;
+      $shipping_method = null;
+      if (empty($shipping_address) != true) {
+        $shipping_amount = $shipping_address->getShippingAmount();
+        $shipping_description = $shipping_address->getShippingDescription();
+        $shipping_method = $shipping_address->getShippingMethod();
+      }
       try {
         $params = array(
           'card' => $_POST['payment']['conekta_token'],
@@ -111,9 +118,9 @@ class Conekta_Card_Model_Observer{
               ),
               'discount_description' => $order->getDiscountDescription(),
               'discount_amount' => $order->getDiscountAmount(),
-              'shipping_amount' => $shipping_address->getShippingAmount(),
-              'shipping_description' => $shipping_address->getShippingDescription(),
-              'shipping_method' => $shipping_address->getShippingMethod()
+              'shipping_amount' => $shipping_amount,
+              'shipping_description' => $shipping_description,
+              'shipping_method' => $shipping_method
             )
           );
         if ($_POST['payment']['monthly_installments'] != 0) {

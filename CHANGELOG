@@ -108,3 +108,5 @@
 * Example of success.phtml located in frontend/base/default.
 === 0.5.7 2016-02-29
 * Enhance email retrieval logic.
+=== 0.5.8 2016-03-4
+* Do not send shipping info if empty.

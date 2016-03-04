@@ -62,6 +62,14 @@ class Conekta_Spei_Model_Observer{
             )
           );
       }
+      $shipping_amount = null;
+      $shipping_description = null;
+      $shipping_method = null;
+      if (empty($shipping_address) != true) {
+        $shipping_amount = $shipping_address->getShippingAmount();
+        $shipping_description = $shipping_address->getShippingDescription();
+        $shipping_method = $shipping_address->getShippingMethod();
+      }
       $days = $event->payment->getMethodInstance()->getConfigData('my_date');
       try {
         $charge = Conekta_Charge::create(array(
@@ -73,7 +81,7 @@ class Conekta_Spei_Model_Observer{
           'description' => 'Compra en Magento',
           'reference_id' => $order->getIncrementId(),
           'details' => array(
-            'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['firstname']),
+            'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']),
             'email' => $email,
             'phone' => $billing['telephone'],
             'billing_address' => array(
@@ -113,9 +121,9 @@ class Conekta_Spei_Model_Observer{
               ),
               'discount_description' => $order->getDiscountDescription(),
               'discount_amount' => $order->getDiscountAmount(),
-              'shipping_amount' => $shipping_address->getShippingAmount(),
-              'shipping_description' => $shipping_address->getShippingDescription(),
-              'shipping_method' => $shipping_address->getShippingMethod()
+              'shipping_amount' => $shipping_amount,
+              'shipping_description' => $shipping_description,
+              'shipping_method' => $shipping_method
             )
           )
         );
