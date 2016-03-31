@@ -110,3 +110,5 @@
 * Enhance email retrieval logic.
 === 0.5.8 2016-03-4
 * Do not send shipping info if empty.
+=== 0.5.9 2016-03-31
+* Add BANORTE CEP again.
