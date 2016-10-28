@@ -29,23 +29,26 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
 
     $url->setValue($url_string);
 
-    $events = array("events" => array("charge.paid"));
+    $events = array("events" => array("charge.paid"), "production_enabled" => 1, "development_enabled" => 1);
     $error = false;
     $error_message = null;
-    try {
-      $different = true;
-      $webhooks = Conekta_Webhook::where();
-      foreach ($webhooks as $webhook) {
-        if (strpos($webhook->webhook_url, $url_string) !== false) {
-          $different = false;
+    if (!empty(Mage::getStoreConfig('payment/webhook/privatekey'))) {
+      try {
+        $different = true;
+        $webhooks = Conekta_Webhook::where();
+        $urls = array();
+
+        foreach ($webhooks as $webhook) {
+           array_push($urls, $webhook->webhook_url);
         }
+
+       if (!in_array($url_string, $urls)){
+          $webhook = Conekta_Webhook::create(array_merge(array("url"=>$url_string), $events));
+       } 
+      } catch(Exception $e) {
+        $error = true;
+        $error_message = $e->getMessage();
       }
-      if ($different) {
-        $webhook = Conekta_Webhook::create(array_merge(array("url"=>$url_string), $events));
-      }
-    } catch(Exception $e) {
-      $error = true;
-      $error_message = $e->getMessage();
     }
 
     $url->setForm($element->getForm());

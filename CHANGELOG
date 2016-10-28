@@ -112,3 +112,6 @@
 * Do not send shipping info if empty.
 === 0.5.9 2016-03-31
 * Add BANORTE CEP again.
+=== 0.6.0 2016-03-31
+* Enhance Webhook creation logic.
+* Remove Realtime module.
