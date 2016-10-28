@@ -39,11 +39,6 @@
     $bank_name = $_payment->getBankName();
     $reference = $_payment->getBankReference();
     $expiry = $_payment->getBankExpiryDate();
-  } else if ($_method == "realtime") {
-    $barcode = $_payment->getRealtimeBarcodeUrl();
-    $reference = $_payment->getRealtimeBarcode();
-    $expiry = $_payment->getRealtimeExpiryDate();
-    $store_name = $_payment->getRealtimeStoreName();
   } else if ($_method == "spei") {
     $clabe = $_payment->getSpeiClabe();
     $bank = $_payment->getSpeiBank();
@@ -118,16 +113,6 @@
                 </tr>
                 <tr>
                   <td><?php echo $this->__('Bank Name: %s', $bank) ?></td>
-                </tr>
-                <?php } else if ($_method == "realtime") { ?>
-                <tr>
-                  <td><img width="270" height="55" style="width:220px;height:50px;" src='<?php echo $barcode ?>'/></td>
-                </tr>
-                <tr>
-                  <td><?php echo $this->__('Reference Number: %s', $reference) ?></td>
-                </tr>
-                <tr>
-                  <td><?php echo $this->__('Expiry Date: %s', $expiry) ?></td>
                 </tr>
                 <?php } ?>
               </tr>
