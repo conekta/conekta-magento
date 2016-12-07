@@ -4,13 +4,14 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
 {
   protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
   {
-    if (!class_exists('Conekta')) {
+    if (!class_exists('Conekta\Conekta')) {
       error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
-    Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
-    Conekta::setApiVersion("1.0.0");
-    Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
+    \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
+    \Conekta\Conekta::setApiVersion("1.1.0");
+    \Conekta\Conekta::setPlugin("Magento 1");
+    \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
     $url = new Varien_Data_Form_Element_Text;
     $data = array(
@@ -35,7 +36,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
     if (!empty(Mage::getStoreConfig('payment/webhook/privatekey'))) {
       try {
         $different = true;
-        $webhooks = Conekta_Webhook::where();
+        $webhooks = \Conekta\Webhook::where();
         $urls = array();
 
         foreach ($webhooks as $webhook) {
@@ -43,11 +44,11 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
         }
 
        if (!in_array($url_string, $urls)){
-          $webhook = Conekta_Webhook::create(array_merge(array("url"=>$url_string), $events));
+          $webhook = \Conekta\Webhook::create(array_merge(array("url"=>$url_string), $events));
        } 
-      } catch(Exception $e) {
+      } catch (\Conekta\ErrorList $e){
         $error = true;
-        $error_message = $e->getMessage();
+        $error_message = $e->details[0]->message_to_purchaser;
       }
     }
 
