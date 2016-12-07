@@ -2,134 +2,35 @@
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
 class Conekta_Spei_Model_Observer{
   public function processPayment($event){
-    if (!class_exists('Conekta')) {
+    if (!class_exists('Conekta\Conekta')) {
       error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Spei_Model_Spei')->getCode()){
-      Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
-      Conekta::setApiVersion("1.0.0");
-      Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
-
-      $order = $event->payment->getOrder();
-      $customer = $order->getCustomer();
-      $shipping_address = $order->getShippingAddress();
-
-      $billing = $order->getBillingAddress()->getData();
-      // $email = $event->payment->getOrder()->getEmail();
-
-      $quote = $event->payment->getOrder()->getQuote();
-      $email = $quote->getBillingAddress()->getEmail();
-      if (!$email) $email = $quote->getCustomerEmail();
+      \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
+      \Conekta\Conekta::setApiVersion("1.1.0");
+      \Conekta\Conekta::setPlugin("Magento 1");
+      \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       
-      if ($shipping_address) {
-        $shipping_data = $shipping_address->getData();
-      }
-      $items = $order->getAllVisibleItems();
-      $line_items = array();
-      $i = 0;
-      foreach ($items as $itemId => $item){
-        $name = $item->getName();
-        $sku = $item->getSku();
-        $price = $item->getPrice();
-        $description = $item->getDescription();
-        $product_type = $item->getProductType();
-        $line_items = array_merge($line_items, array(array(
-          'name' => $name,
-          'sku' => $sku,
-          'unit_price' => $price,
-          'description' =>$description,
-          'quantity' => 1,
-          'type' => $product_type
-          ))
-        );
-        $i = $i + 1;
-      }
-      $shipp = array();
-      if (empty($shipping_data) != true) {
-        $shipp = array(
-          'price' => intval(((float) $order->getShippingAmount()) * 100),
-          'service' => $order->getShippingMethod(),
-          'carrier' => $order->getShippingDescription(),
-          'address' => array(
-            'street1' => $shipping_data['street'],
-            'city' => $shipping_data['city'],
-            'state' => $shipping_data['region'],
-            'country' => $shipping_data['country_id'],
-            'zip' => $shipping_data['postcode'],
-            'phone' =>$shipping_data['telephone'],
-            'email' =>$email
-            )
-          );
-      }
-      $shipping_amount = null;
-      $shipping_description = null;
-      $shipping_method = null;
-      if (empty($shipping_address) != true) {
-        $shipping_amount = $shipping_address->getShippingAmount();
-        $shipping_description = $shipping_address->getShippingDescription();
-        $shipping_method = $shipping_address->getShippingMethod();
-      }
+      $order = $event->payment->getOrder();
+      $order_params = array();
       $days = $event->payment->getMethodInstance()->getConfigData('my_date');
+      $order_params["currency"]       = Mage::app()->getStore()->getCurrentCurrencyCode();
+      $order_params["charges"]        = self::getCharges(intval(((float) $order->grandTotal) * 100), strtotime("+".$days." days"));
+      $order_params["line_items"]     = self::getLineItems($order);
+      $order_params["shipping_lines"] = self::getShippingLines($order);
+      $order_params["discount_lines"] = self::getDiscountLines($order);
+      $order_params["tax_lines"]      = self::getTaxLines($order);
+      $order_params["customer_info"]  = self::getCustomerInfo($order);
+      $order_params["shipping_contact"] = self::getShippingContact($order);
+
+      
       try {
-        $charge = Conekta_Charge::create(array(
-          'bank'=>array(
-            'type'=>'spei'
-            ),
-          'currency' => Mage::app()->getStore()->getCurrentCurrencyCode(),
-          'amount' => intval(((float) $order->grandTotal) * 100),
-          'description' => 'Compra en Magento',
-          'reference_id' => $order->getIncrementId(),
-          'details' => array(
-            'name' => preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']),
-            'email' => $email,
-            'phone' => $billing['telephone'],
-            'billing_address' => array(
-              'company_name' => $billing['company'],
-              'street1' => $billing['street'],
-              'city' =>$billing['city'],
-              'state' =>$billing['region'],
-              'country' =>$billing['country_id'],
-              'zip' =>$billing['postcode'],
-              'phone' =>$billing['telephone'],
-              'email' =>$email
-              ),
-            'line_items' => $line_items,
-            'shipment' => $shipp
-            ),
-            'coupon_code' => $order->getCouponCode(),
-            'custom_fields' => array(
-              'customer' => array(
-                'website_id' => $customer->getWebsiteId(),
-                'entity_id' => $customer->getEntityId(),
-                'entity_type_id' => $customer->getEntityTypeId(),
-                'attribute_set_id' => $customer->getAttributeSetId(),
-                'email' => $customer->getEmail(),
-                'group_id' => $customer->getGroupId(),
-                'store_id' => $customer->getStoreId(),
-                'created_at' => $customer->getCreatedAt(),
-                'updated_at' => $customer->getUpdatedAt(),
-                'is_active' => $customer->getIsActive(),
-                'disable_auto_group_change' => $customer->getDisableAutoGroupChange(),
-                'get_tax_vat' => $customer->getTaxvat(),
-                'created_in' => $customer->getCreatedIn(),
-                'gender' => $customer->getGender(),
-                'default_billing' => $customer->getDefaultBilling(),
-                'default_shipping' => $customer->getDefaultShipping(),
-                'dob' => $customer->getDob(),
-                'tax_class_id' => $customer->getTaxClassId()
-              ),
-              'discount_description' => $order->getDiscountDescription(),
-              'discount_amount' => $order->getDiscountAmount(),
-              'shipping_amount' => $shipping_amount,
-              'shipping_description' => $shipping_description,
-              'shipping_method' => $shipping_method
-            )
-          )
-        );
-      } catch (Conekta_Error $e){
-        throw new Mage_Payment_Model_Info_Exception($e->message_to_purchaser);
-      }    
+        $conekta_order = \Conekta\Order::create($order_params);
+        $charge = $conekta_order->charges[0];
+      } catch (\Conekta\ErrorList $e){
+        throw new Mage_Payment_Model_Info_Exception($e->details[0]->message_to_purchaser);
+      }  
       $event->payment->setSpeiClabe($charge->payment_method->clabe);
       $event->payment->setSpeiBank($charge->payment_method->bank);
       $event->payment->setChargeId($charge->id);
@@ -146,5 +47,114 @@ class Conekta_Spei_Model_Observer{
       $order->save();
     }
     return $event;
+  }
+
+  public function getCharges($amount, $expiry_date) {
+    $charges = array(
+      array(
+        'source' => array(
+            'type' => 'spei',
+            'expires_at' => $expiry_date
+        ),
+        'amount' => $amount
+      )
+    );
+    return $charges;
+  }
+
+  public function getLineItems($order) {
+    $items = $order->getAllVisibleItems();
+    $line_items = array();
+    $i = 0;
+    foreach ($items as $itemId => $item){
+      $name = $item->getName();
+      $sku = $item->getSku();
+      $price = intval($item->getPrice() * 100) * $item->getQtyOrdered();
+      $description = $item->getDescription();
+      if (!$description) $description = $name;
+      $product_type = $item->getProductType();
+      $line_items = array_merge($line_items, array(array(
+        'name'        => $name,
+        'description' => $description,
+        'unit_price'  => $price,
+        'quantity'    => 1,
+        'sku'         => $sku,
+        'type'        => "physical",
+        'tags'        => [$product_type]
+        ))
+      );
+      $i = $i + 1;
+    }
+    return $line_items;
+  }
+
+  public function getShippingContact($order) {
+    $shipping_contact = array();
+    $quote = $order->getQuote();
+    $email = $quote->getBillingAddress()->getEmail();
+    if (!$email) $email = $quote->getCustomerEmail();
+    $billing = $order->getBillingAddress()->getData();
+    $shipping_address = $order->getShippingAddress();
+    $shipping_data = $shipping_address->getData();
+
+    $shipping_contact["email"] = $email;
+    $shipping_contact["phone"] = $billing['telephone'];
+    $shipping_contact["receiver"] = preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
+    $address = array();
+    $address["street1"] = $shipping_data['street'];
+    $address["city"] = $shipping_data['city'];
+    $address["state"] = $shipping_data['region'];
+    $address["country"] = $shipping_data['country_id'];
+    $address["zip"] = $shipping_data['postcode'];
+    $shipping_contact["address"] = $address;
+    return $shipping_contact;
+  }
+
+  public function getShippingLines($order) {
+    $shipping_lines = array();
+    if ($order->getShippingAmount() > 0) {
+      $shipping_line = array();
+      $shipping_line["amount"] = intval(($order->getShippingAmount()+$order->getShippingTaxAmount()) * 100);
+      $shipping_line["description"] = "Shipping total amount";
+      $shipping_line["method"] = "custom";
+      $shipping_lines = array_merge($shipping_lines, array($shipping_line));
+    }
+    return $shipping_lines;
+  }
+
+  public function getDiscountLines($order) {
+    $discount_lines = array();
+    if ($order->getDiscountAmount() > 0) {
+      $discount_line = array();
+      $discount_line["description"] = $order->getDiscountDescription();
+      $discount_line["kind"] = $order->getCouponCode();
+      $discount_line["amount"] = $order->getDiscountAmount();
+      $discount_lines = array_merge($discount_lines, $discount_line);
+    }
+    return $discount_lines;
+  }
+
+  public function getTaxLines($order) {
+    $customer = $order->getCustomer();
+    $tax_lines = array();
+    if ($customer->getTaxvat() > 0) {
+      $tax_line = array();
+      $tax_line["description"] = $customer->getTaxClassId();
+      $tax_line["amount"] = $customer->getTaxvat();
+      $tax_lines = array_merge($tax_lines, $tax_line);
+    }
+    return $tax_lines;
+  }
+
+  public function getCustomerInfo($order) {
+    $quote = $order->getQuote();
+    $email = $quote->getBillingAddress()->getEmail();
+    if (!$email) $email = $quote->getCustomerEmail();
+    $billing = $order->getBillingAddress()->getData();
+    $customer_info = array();
+    $customer_info["name"] = preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
+    $customer_info["email"] = $email;
+    $customer_info["phone"] = $billing['telephone'];
+    return $customer_info;
   }
 }
