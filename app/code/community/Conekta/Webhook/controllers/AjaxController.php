@@ -2,6 +2,7 @@
 class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
   public function listenerAction() {
     $body = @file_get_contents('php://input');
+    self::authenticateEvent($body, $_SERVER['HTTP_DIGEST']);
     $event = json_decode($body);
     $charge = $event->data->object;
     $line_items = $charge->details->line_items;
@@ -49,6 +50,24 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
         $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
         $this->getResponse()->setHeader('Status','404 File not found');
         $this->_forward('defaultNoRoute');
+      }
+    }
+  }
+
+  public function authenticateEvent($body, $digest) {
+    $private_key_string = Mage::getStoreConfig('payment/webhook/signature_key');
+    if (!empty($private_key_string) && !empty($body)) {
+      if (!empty($digest)) {
+        $private_key = openssl_pkey_get_private($private_key_string);
+        $encrypted_message = base64_decode($digest);
+        $sha256_message = "";
+        $bool = openssl_private_decrypt($encrypted_message, $sha256_message, $private_key);
+        if (hash("sha256", $body) != $sha256_message) {
+          throw new Exception("Event not authenticated");
+        }
+      } else {
+        // this should not happen!
+        throw new Exception("Empty digest!!");
       }
     }
   }
