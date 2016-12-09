@@ -15,22 +15,37 @@ class Conekta_Bank_Model_Observer{
       $order = $event->payment->getOrder();
       $order_params = array();
       $days = $event->payment->getMethodInstance()->getConfigData('my_date');
-      $order_params["currency"]       = Mage::app()->getStore()->getCurrentCurrencyCode();
-      $order_params["charges"]        = self::getCharges(intval(((float) $order->grandTotal) * 100), strtotime("+".$days." days"));
-      $order_params["line_items"]     = self::getLineItems($order);
-      $order_params["shipping_lines"] = self::getShippingLines($order);
-      $order_params["discount_lines"] = self::getDiscountLines($order);
-      $order_params["tax_lines"]      = self::getTaxLines($order);
-      $order_params["customer_info"]  = self::getCustomerInfo($order);
+      $order_params["currency"]         = Mage::app()->getStore()->getCurrentCurrencyCode();
+      $order_params["line_items"]       = self::getLineItems($order);
+      $order_params["shipping_lines"]   = self::getShippingLines($order);
+      $order_params["discount_lines"]   = self::getDiscountLines($order);
+      $order_params["tax_lines"]        = self::getTaxLines($order);
+      $order_params["customer_info"]    = self::getCustomerInfo($order);
       $order_params["shipping_contact"] = self::getShippingContact($order);
-
+      $order_params["contextual_data"]  = array("checkout_id" => $order->getIncrementId());
+      $charge_params                    = self::getCharge(intval(((float) $order->grandTotal) * 100), strtotime("+".$days." days"));
       
       try {
-        $conekta_order = \Conekta\Order::create($order_params);
+        $create_order = true;
+        
+        $conekta_order_id = Mage::getSingleton('core/session')->getConektaOrderID();
+        if (!empty($conekta_order_id)) {
+          $conekta_order = \Conekta\Order::find($conekta_order_id);
+          $create_order = ($conekta_order->contextual_data->checkout_id != $order_params["contextual_data"]["checkout_id"]);
+        }
+
+        if ($create_order) {
+          $conekta_order = \Conekta\Order::create($order_params);
+          $conekta_order_id = Mage::getSingleton('core/session')->setConektaOrderID($conekta_order->id);
+        }
+        
+        $conekta_order->createCharge($charge_params);
         $charge = $conekta_order->charges[0];
       } catch (\Conekta\ErrorList $e){
         throw new Mage_Payment_Model_Info_Exception($e->details[0]->message_to_purchaser);
       }
+
+      Mage::getSingleton('core/session')->unsConektaOrderID();
       $event->payment->setBankExpiryDate($expiry_date);
       $event->payment->setBankServiceName($charge->payment_method->service_name);
       $event->payment->setBankServiceNumber($charge->payment_method->service_number);
@@ -56,17 +71,15 @@ class Conekta_Bank_Model_Observer{
     return $event;
   }
 
-  public function getCharges($amount, $expiry_date) {
-    $charges = array(
-      array(
-        'source' => array(
-            'type' => 'banorte',
-            'expires_at' => $expiry_date
-        ),
-        'amount' => $amount
-      )
+  public function getCharge($amount, $expiry_date) {
+    $charge = array(
+      'source' => array(
+          'type' => 'banorte',
+          'expires_at' => $expiry_date
+      ),
+      'amount' => $amount
     );
-    return $charges;
+    return $charge;
   }
 
   public function getLineItems($order) {
