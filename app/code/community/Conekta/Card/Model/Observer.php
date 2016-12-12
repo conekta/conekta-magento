@@ -83,8 +83,7 @@ class Conekta_Card_Model_Observer{
     $charge = array(
       'source' => array(
           'type' => 'card',
-          'token_id' => $token_id,
-          'monthly_installments'
+          'token_id' => $token_id
       ),
       'amount' => $amount
     );
