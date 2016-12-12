@@ -115,3 +115,5 @@
 === 0.6.0 2016-03-31
 * Enhance Webhook creation logic.
 * Remove Realtime module.
+=== 0.7.0 2016-12-12
+* Use Orders to create charges.
