@@ -9,7 +9,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
     \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
-    \Conekta\Conekta::setApiVersion("1.1.0");
+    \Conekta\Conekta::setApiVersion("2.0.0");
     \Conekta\Conekta::setPlugin("Magento 1");
     \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
@@ -48,7 +48,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
        } 
       } catch (\Conekta\ErrorList $e){
         $error = true;
-        $error_message = $e->details[0]->message_to_purchaser;
+        $error_message = $e->details[0]->message;
       }
     }
 

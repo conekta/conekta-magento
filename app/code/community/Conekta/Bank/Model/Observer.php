@@ -8,7 +8,7 @@ class Conekta_Bank_Model_Observer{
     }
     if($event->payment->getMethod() == Mage::getModel('Conekta_Bank_Model_Bank')->getCode()){
       \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
-      \Conekta\Conekta::setApiVersion("1.1.0");
+      \Conekta\Conekta::setApiVersion("2.0.0");
       \Conekta\Conekta::setPlugin("Magento 1");
       \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
       
@@ -22,7 +22,7 @@ class Conekta_Bank_Model_Observer{
       $order_params["tax_lines"]        = self::getTaxLines($order);
       $order_params["customer_info"]    = self::getCustomerInfo($order);
       $order_params["shipping_contact"] = self::getShippingContact($order);
-      $order_params["contextual_data"]  = array("checkout_id" => $order->getIncrementId());
+      $order_params["metadata"]  = array("checkout_id" => $order->getIncrementId());
       $charge_params                    = self::getCharge(intval(((float) $order->grandTotal) * 100), strtotime("+".$days." days"));
       
       try {
@@ -31,7 +31,7 @@ class Conekta_Bank_Model_Observer{
         $conekta_order_id = Mage::getSingleton('core/session')->getConektaOrderID();
         if (!empty($conekta_order_id)) {
           $conekta_order = \Conekta\Order::find($conekta_order_id);
-          $create_order = ($conekta_order->contextual_data->checkout_id != $order_params["contextual_data"]["checkout_id"]);
+          $create_order = ($conekta_order->metadata->checkout_id != $order_params["metadata"]["checkout_id"]);
         }
 
         if ($create_order) {
@@ -42,7 +42,7 @@ class Conekta_Bank_Model_Observer{
         $conekta_order->createCharge($charge_params);
         $charge = $conekta_order->charges[0];
       } catch (\Conekta\ErrorList $e){
-        throw new Mage_Payment_Model_Info_Exception($e->details[0]->message_to_purchaser);
+        throw new Mage_Payment_Model_Info_Exception($e->details[0]->getMessage());
       }
 
       Mage::getSingleton('core/session')->unsConektaOrderID();
@@ -73,7 +73,7 @@ class Conekta_Bank_Model_Observer{
 
   public function getCharge($amount, $expiry_date) {
     $charge = array(
-      'source' => array(
+      'payment_source' => array(
           'type' => 'banorte',
           'expires_at' => $expiry_date
       ),
@@ -125,7 +125,7 @@ class Conekta_Bank_Model_Observer{
     $address["city"] = $shipping_data['city'];
     $address["state"] = $shipping_data['region'];
     $address["country"] = $shipping_data['country_id'];
-    $address["zip"] = $shipping_data['postcode'];
+    $address["postal_code"] = $shipping_data['postcode'];
     $shipping_contact["address"] = $address;
     return $shipping_contact;
   }
@@ -137,6 +137,7 @@ class Conekta_Bank_Model_Observer{
       $shipping_line["amount"] = intval(($order->getShippingAmount()+$order->getShippingTaxAmount()) * 100);
       $shipping_line["description"] = "Shipping total amount";
       $shipping_line["method"] = "custom";
+      $shipping_line["carrier"] = "custom";
       $shipping_lines = array_merge($shipping_lines, array($shipping_line));
     }
     return $shipping_lines;

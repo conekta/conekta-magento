@@ -13,6 +13,8 @@ class Conekta_Webhook_Block_Adminhtml_Sales_Order_View_Tab_Info extends Mage_Adm
           "<p>". $this->__("Order amount %s", $grandTotal) ."</p>" .
           "<p>". $this->__("Conekta Id %s", $charge_id) ."</p>";
           return $html;
+        } else {
+          return parent::getPaymentHtml();
         }
     }
 }
