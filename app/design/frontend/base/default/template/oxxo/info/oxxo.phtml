@@ -30,7 +30,6 @@
 <?php endif;?>
 
 <?php
-$barcode = $this->getInfo()->getOxxoBarcodeUrl();
 $reference = $this->getInfo()->getOxxoBarcode();
 $expiry = $this->getInfo()->getOxxoExpiryDate();
 ?>
@@ -41,8 +40,7 @@ $expiry = $this->getInfo()->getOxxoExpiryDate();
     <table class="info-table">
       <tbody>
         <tr>
-          <?php if (empty($barcode) != true) {?>
-          <th><img width="270" height="55" style="width:220px;height:50px;" src='<?php echo $barcode ?>'/></th>
+          <?php if (empty($reference) != true) {?>
           <th><?php echo $this->__('Reference Number: %s', $reference) ?></th>
           <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></th>
           <?php } else { ?>
