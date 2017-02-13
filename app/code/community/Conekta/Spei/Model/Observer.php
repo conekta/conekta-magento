@@ -32,6 +32,7 @@ class Conekta_Spei_Model_Observer{
         $conekta_order_id = Mage::getSingleton('core/session')->getConektaOrderID();
         if (!empty($conekta_order_id)) {
           $conekta_order = \Conekta\Order::find($conekta_order_id);
+          $conekta_order->update($order_params);
           $create_order = ($conekta_order->metadata->checkout_id != $order_params["metadata"]["checkout_id"]);
         }
 
@@ -141,9 +142,9 @@ class Conekta_Spei_Model_Observer{
     $discount_lines = array();
     if ($order->getDiscountAmount() > 0) {
       $discount_line = array();
-      $discount_line["description"] = $order->getDiscountDescription();
-      $discount_line["kind"] = $order->getCouponCode();
-      $discount_line["amount"] = $order->getDiscountAmount();
+      $discount_line["code"] = $order->getDiscountDescription();
+      $discount_line["type"] = $order->getCouponCode();
+      $discount_line["amount"] = intval($order->getDiscountAmount() * 100);
       $discount_lines = array_merge($discount_lines, $discount_line);
     }
     return $discount_lines;
