@@ -117,3 +117,5 @@
 * Remove Realtime module.
 === 0.7.0 2016-12-12
 * Use Orders to create charges.
+=== 0.7.1 2017-02-13
+* Use Order line items.
