@@ -43,6 +43,16 @@ $expiry = $this->getInfo()->getOxxoExpiryDate();
           <?php if (empty($reference) != true) {?>
           <th><?php echo $this->__('Reference Number: %s', $reference) ?></th>
           <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></th>
+          <th>
+          <ol>
+            <li><?php echo $this->__('Instructions1') ?><a href="https://www.google.com.mx/maps/search/oxxo/" target="_blank"><?php echo $this->__('Instructions2') ?></a>.</li>
+            <li><?php echo $this->__('Instructions3') ?><strong>OXXOPay</strong>.</li>
+            <li><?php echo $this->__('Instructions4') ?></li>
+            <li><?php echo $this->__('Instructions5') ?></li>
+            <li><?php echo $this->__('Instructions6') ?><strong><?php echo $this->__('Instructions7') ?></strong><?php echo $this->__('Instructions8') ?></li>
+          </ol>
+          <div class="opps-footnote"><?php echo $this->__('Instructions9') ?></div>
+          </th>
           <?php } else { ?>
           <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
