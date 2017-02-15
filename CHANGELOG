@@ -119,3 +119,5 @@
 * Use Orders to create charges.
 === 0.7.1 2017-02-13
 * Use Order line items.
+=== 0.7.2 2017-02-13
+* Stable version of API 2.0.0.
