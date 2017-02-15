@@ -82,7 +82,7 @@ class Conekta_Card_Model_Observer{
 
   public function getCharge($amount, $token_id) {
     $charge = array(
-      'payment_source' => array(
+      'payment_method' => array(
           'type' => 'card',
           'token_id' => $token_id
       ),

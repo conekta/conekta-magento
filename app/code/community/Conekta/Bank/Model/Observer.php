@@ -74,7 +74,7 @@ class Conekta_Bank_Model_Observer{
 
   public function getCharge($amount, $expiry_date) {
     $charge = array(
-      'payment_source' => array(
+      'payment_method' => array(
           'type' => 'banorte',
           'expires_at' => $expiry_date
       ),
