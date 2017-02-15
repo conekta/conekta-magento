@@ -67,7 +67,7 @@ class Conekta_Oxxo_Model_Observer{
 
   public function getCharge($amount, $expiry_date) {
     $charge = array(
-      'payment_source' => array(
+      'payment_method' => array(
           'type' => 'oxxo_cash',
           'expires_at' => $expiry_date
       ),

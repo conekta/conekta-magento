@@ -68,7 +68,7 @@ class Conekta_Spei_Model_Observer{
 
   public function getCharge($amount, $expiry_date) {
     $charge = array(
-      'payment_source' => array(
+      'payment_method' => array(
           'type' => 'spei',
           'expires_at' => $expiry_date
       ),
