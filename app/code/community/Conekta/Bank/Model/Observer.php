@@ -146,12 +146,13 @@ class Conekta_Bank_Model_Observer{
 
   public function getDiscountLines($order) {
     $discount_lines = array();
-    if ($order->getDiscountAmount() > 0) {
+    
+    foreach ($order->getAllItems() as $item){
       $discount_line = array();
       $discount_line["code"] = $order->getDiscountDescription();
-      $discount_line["type"] = $order->getCouponCode();
-      $discount_line["amount"] = intval($order->getDiscountAmount() * 100);
-      $discount_lines = array_merge($discount_lines, $discount_line);
+      $discount_line["type"] = "coupon";
+      $discount_line["amount"] = intval($item->getDiscountAmount() * 100);
+      $discount_lines = array_merge($discount_lines, array($discount_line));
     }
     return $discount_lines;
   }
