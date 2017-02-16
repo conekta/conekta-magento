@@ -121,3 +121,5 @@
 * Use Order line items.
 === 0.7.2 2017-02-13
 * Stable version of API 2.0.0.
+=== 0.7.3 2017-02-16
+* Fix order coupons.
