@@ -18,7 +18,10 @@ class Conekta_Oxxo_Model_Observer{
       $order_params["currency"]         = Mage::app()->getStore()->getCurrentCurrencyCode();
       $order_params["line_items"]       = self::getLineItems($order);
       $order_params["shipping_lines"]   = self::getShippingLines($order);
-      $order_params["discount_lines"]   = self::getDiscountLines($order);
+      $discount_lines                   = self::getDiscountLines($order);
+      if (!empty($discount_lines)) {
+        $order_params["discount_lines"]   = $discount_lines;
+      }
       $order_params["tax_lines"]        = self::getTaxLines($order);
       $order_params["customer_info"]    = self::getCustomerInfo($order);
       $order_params["shipping_contact"] = self::getShippingContact($order);
@@ -140,12 +143,18 @@ class Conekta_Oxxo_Model_Observer{
   public function getDiscountLines($order) {
     $discount_lines = array();
     
-    foreach ($order->getAllItems() as $item){
-      $discount_line = array();
-      $discount_line["code"] = $order->getDiscountDescription();
-      $discount_line["type"] = "coupon";
-      $discount_line["amount"] = intval($item->getDiscountAmount() * 100);
-      $discount_lines = array_merge($discount_lines, array($discount_line));
+    foreach ($order->getAllItems() as $item) {
+      if (floatval($item->getDiscountAmount()) > 0.0) {
+        $description = $order->getDiscountDescription();
+        if (!empty($description)) {
+          $description = "discount_code";
+        }
+        $discount_line = array();
+        $discount_line["code"] = $description;
+        $discount_line["type"] = "coupon";
+        $discount_line["amount"] = intval($item->getDiscountAmount() * 100);
+        $discount_lines = array_merge($discount_lines, array($discount_line));
+      }
     }
     return $discount_lines;
   }
