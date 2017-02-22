@@ -125,5 +125,9 @@
 * Fix order coupons.
 === 0.7.4 2017-02-16
 * Fix Oxxo translations.
-=== 0.7.5 2017-02-16
+=== 0.7.5 2017-02-20
 * Fix Discount items.
+=== 0.7.6 2017-02-21
+* Add soft validations.
+=== 0.7.7 2017-02-21
+* Fallback to total discount if coupons have complicated rules.
