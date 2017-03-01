@@ -43,7 +43,7 @@ $bank = $this->getInfo()->getSpeiBank();
           <?php if (empty($clabe) != true) {?>
           <th><?php echo $this->__('CLABE: %s', $clabe) ?></th>
           <th><?php echo $this->__('Bank Name: %s', $bank) ?></th>
-          <?php } else if (get_class($this) == "Conekta_Spei_Block_Info_Oxxo") { ?>
+          <?php } else if (get_class($this) == "Conekta_Spei_Block_Info_Spei") { ?>
           <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
           <?php } ?>

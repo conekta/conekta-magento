@@ -135,3 +135,5 @@
 * Delete discount lines when necessary.
 === 0.7.9 2017-03-01
 * Fix email translations.
+=== 0.8.0 2017-03-01
+* Fix email translations.

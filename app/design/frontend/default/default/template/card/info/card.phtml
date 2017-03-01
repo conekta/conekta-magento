@@ -45,7 +45,7 @@ $card = $this->getInfo()->getCcLast4();
 					<th><?php echo $this->__('Cardholder Name: %s', $owner) ?></th>
           <th><?php echo $this->__('Card Last 4: %s', $card) ?></th>
           <th><?php echo $this->__('Authorization Number: %s', $authNumber) ?></th>
-					<?php } else if (get_class($this) == "Conekta_Card_Block_Info_Oxxo") { ?>
+					<?php } else if (get_class($this) == "Conekta_Card_Block_Info_Card") { ?>
 					<th><?php echo $this->__('You will receive an invoice via email.') ?></th>
 					
 					<?php } ?>

@@ -49,7 +49,7 @@ $expiry = $this->getInfo()->getBankExpiryDate();
           <th><?php echo $this->__('Bank Name: %s', $bank_name) ?></th>
           <th><?php echo $this->__('Reference Number: %s', $reference) ?></th>
           <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></th>
-          <?php } else if (get_class($this) == "Conekta_Bank_Block_Info_Oxxo") { ?>
+          <?php } else if (get_class($this) == "Conekta_Bank_Block_Info_Bank") { ?>
           <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
           <?php } ?>
