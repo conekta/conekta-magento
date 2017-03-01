@@ -2,28 +2,28 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.7.7</version>
+      <version>0.7.9</version>
     </Conekta_Oxxo>
   </modules>
   <adminhtml>
     <translate>
       <modules>
-        <Conekta_Card>
+        <Conekta_Oxxo>
           <files>
-            <default>Conekta_Card.csv</default>
+            <default>Conekta_Oxxo.csv</default>
           </files>
-        </Conekta_Card>
+        </Conekta_Oxxo>
       </modules>
     </translate>
   </adminhtml>
   <frontend>
     <translate>
       <modules>
-        <Conekta_Card>
+        <Conekta_Oxxo>
           <files>
             <default>Conekta_Oxxo.csv</default>
           </files>
-        </Conekta_Card>
+        </Conekta_Oxxo>
       </modules>
     </translate>
     <routers>

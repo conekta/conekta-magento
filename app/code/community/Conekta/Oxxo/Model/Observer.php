@@ -21,6 +21,8 @@ class Conekta_Oxxo_Model_Observer{
       $discount_lines                   = self::getDiscountLines($order);
       if (!empty($discount_lines)) {
         $order_params["discount_lines"]   = $discount_lines;
+      } else {
+        $order_params["discount_lines"]   = array();
       }
       $order_params["tax_lines"]        = self::getTaxLines($order);
       $order_params["customer_info"]    = self::getCustomerInfo($order);

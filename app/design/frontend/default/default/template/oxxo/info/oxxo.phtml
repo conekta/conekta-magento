@@ -53,7 +53,7 @@ $expiry = $this->getInfo()->getOxxoExpiryDate();
           </ol>
           <div class="opps-footnote"><?php echo $this->__('Instructions9') ?></div>
           </th>
-          <?php } else { ?>
+          <?php } else if (get_class($this) == "Conekta_Oxxo_Block_Info_Oxxo") { ?>
           <th><?php echo $this->__('You will receive an invoice via email.') ?></th>
           
           <?php } ?>
