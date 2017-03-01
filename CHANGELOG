@@ -137,3 +137,5 @@
 * Fix email translations.
 === 0.8.0 2017-03-01
 * Fix email translations.
+=== 0.8.1 2017-03-01
+* Change SPEI reference to receiving_account_number.
