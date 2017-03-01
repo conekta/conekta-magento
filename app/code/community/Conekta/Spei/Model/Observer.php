@@ -53,14 +53,14 @@ class Conekta_Spei_Model_Observer{
       }
 
       Mage::getSingleton('core/session')->unsConektaOrderID();
-      $event->payment->setSpeiClabe($charge->payment_method->reference);
+      $event->payment->setSpeiClabe($charge->payment_method->receiving_account_number);
       $event->payment->setSpeiBank($charge->payment_method->bank);
       $event->payment->setChargeId($charge->id);
       //Update Quote
       $order = $order;
       $quote = $order->getQuote();
       $payment = $quote->getPayment();
-      $payment->setSpeiClabe($charge->payment_method->reference);
+      $payment->setSpeiClabe($charge->payment_method->receiving_account_number);
       $payment->setSpeiBank($charge->payment_method->bank);
       $payment->setChargeId($charge->id);
       $quote->collectTotals();
