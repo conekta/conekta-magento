@@ -8,7 +8,8 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
       error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);
       throw new Mage_Payment_Model_Info_Exception("Payment module unavailable. Please contact system administrator.");
     }
-    \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
+    $privateKey = Mage::getStoreConfig('payment/webhook/privatekey');
+    \Conekta\Conekta::setApiKey($privateKey);
     \Conekta\Conekta::setApiVersion("2.0.0");
     \Conekta\Conekta::setPlugin("Magento 1");
     \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
@@ -33,7 +34,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
     $events = array("events" => array("charge.paid"), "production_enabled" => 1, "development_enabled" => 1);
     $error = false;
     $error_message = null;
-    if (!empty(Mage::getStoreConfig('payment/webhook/privatekey'))) {
+    if (!empty($privateKey)) {
       try {
         $different = true;
         $webhooks = \Conekta\Webhook::where();

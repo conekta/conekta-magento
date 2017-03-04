@@ -139,3 +139,5 @@
 * Fix email translations.
 === 0.8.1 2017-03-01
 * Change SPEI reference to receiving_account_number.
+=== 0.8.2 2017-03-04
+* Avoid using empty on return functions.
