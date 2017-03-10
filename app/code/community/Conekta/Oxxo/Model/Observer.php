@@ -188,7 +188,7 @@ class Conekta_Oxxo_Model_Observer{
       $tax_line = array();
       $tax_line["description"] = "tax amount";
       $tax_line["amount"] = intval($item->getTaxAmount() * 100);
-      $tax_lines = array_merge($tax_lines, array($tax_line);
+      $tax_lines = array_merge($tax_lines, array($tax_line));
     }
     return $tax_lines;
   }
