@@ -115,18 +115,19 @@ class Conekta_Spei_Model_Observer{
     if (!$email) $email = $quote->getCustomerEmail();
     $billing = $order->getBillingAddress()->getData();
     $shipping_address = $order->getShippingAddress();
-    $shipping_data = $shipping_address->getData();
-
-    $shipping_contact["email"] = $email;
-    $shipping_contact["phone"] = $billing['telephone'];
-    $shipping_contact["receiver"] = preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
-    $address = array();
-    $address["street1"] = $shipping_data['street'];
-    $address["city"] = $shipping_data['city'];
-    $address["state"] = $shipping_data['region'];
-    $address["country"] = $shipping_data['country_id'];
-    $address["postal_code"] = $shipping_data['postcode'];
-    $shipping_contact["address"] = $address;
+    if ($shipping_address) {
+      $shipping_data = $shipping_address->getData();
+      $shipping_contact["email"] = $email;
+      $shipping_contact["phone"] = $billing['telephone'];
+      $shipping_contact["receiver"] = preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
+      $address = array();
+      $address["street1"] = $shipping_data['street'];
+      $address["city"] = $shipping_data['city'];
+      $address["state"] = $shipping_data['region'];
+      $address["country"] = $shipping_data['country_id'];
+      $address["postal_code"] = $shipping_data['postcode'];
+      $shipping_contact["address"] = $address;
+    }
     return $shipping_contact;
   }
 
@@ -179,13 +180,16 @@ class Conekta_Spei_Model_Observer{
   }
 
   public function getTaxLines($order) {
-    $customer = $order->getCustomer();
     $tax_lines = array();
-    if ($customer->getTaxvat() > 0) {
+
+    $totalDiscount = abs(intval($order->getDiscountAmount() * 100));
+    $totalDiscountCoupons = 0;
+
+    foreach ($order->getAllItems() as $item) {
       $tax_line = array();
-      $tax_line["description"] = $customer->getTaxClassId();
-      $tax_line["amount"] = $customer->getTaxvat();
-      $tax_lines = array_merge($tax_lines, $tax_line);
+      $tax_line["description"] = "tax amount";
+      $tax_line["amount"] = intval($item->getTaxAmount() * 100);
+      $tax_lines = array_merge($tax_lines, array($tax_line);
     }
     return $tax_lines;
   }

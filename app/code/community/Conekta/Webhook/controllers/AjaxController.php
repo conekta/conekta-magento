@@ -5,7 +5,6 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
     self::authenticateEvent($body, $_SERVER['HTTP_DIGEST']);
     $event = json_decode($body);
     $charge = $event->data->object;
-    $line_items = $charge->details->line_items;
     sleep(3);
     // search order by charge_id
     $charge_id = $charge->id;
