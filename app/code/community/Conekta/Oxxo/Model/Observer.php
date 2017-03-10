@@ -132,6 +132,7 @@ class Conekta_Oxxo_Model_Observer{
 
   public function getShippingLines($order) {
     $shipping_lines = array();
+    $shipping_address = $order->getShippingAddress();
     if ($order->getShippingAmount() > 0) {
       $shipping_line = array();
       $shipping_line["amount"] = intval(($order->getShippingAmount()+$order->getShippingTaxAmount()) * 100);
@@ -139,7 +140,15 @@ class Conekta_Oxxo_Model_Observer{
       $shipping_line["method"] = "custom";
       $shipping_line["carrier"] = "custom";
       $shipping_lines = array_merge($shipping_lines, array($shipping_line));
+    } elseif ($shipping_address) {
+      $shipping_line = array();
+      $shipping_line["amount"] = 0;
+      $shipping_line["description"] = "Shipping total amount";
+      $shipping_line["method"] = "custom";
+      $shipping_line["carrier"] = "custom";
+      $shipping_lines = array_merge($shipping_lines, array($shipping_line));
     }
+
     return $shipping_lines;
   }
 

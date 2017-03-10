@@ -143,3 +143,5 @@
 * Avoid using empty on return functions.
 === 0.8.5 2017-03-10
 * Fix tax lines.
+=== 0.8.6 2017-03-10
+* Default shipping line.
