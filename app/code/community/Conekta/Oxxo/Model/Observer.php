@@ -63,8 +63,8 @@ class Conekta_Oxxo_Model_Observer{
             $event->payment->setOxxoExpiryDate($expiry_date);
             $event->payment->setOxxoBarcode($charge->payment_method->reference);
             $event->payment->setChargeId($charge->id);
+
             //Update Quote
-            $order   = $order;
             $quote   = $order->getQuote();
             $payment = $quote->getPayment();
             $payment->setOxxoExpiryDate($expiry_date);

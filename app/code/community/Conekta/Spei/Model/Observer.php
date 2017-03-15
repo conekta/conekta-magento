@@ -63,8 +63,8 @@ class Conekta_Spei_Model_Observer{
             $event->payment->setSpeiClabe($charge->payment_method->receiving_account_number);
             $event->payment->setSpeiBank($charge->payment_method->bank);
             $event->payment->setChargeId($charge->id);
+
             //Update Quote
-            $order   = $order;
             $quote   = $order->getQuote();
             $payment = $quote->getPayment();
             $payment->setSpeiClabe($charge->payment_method->receiving_account_number);
