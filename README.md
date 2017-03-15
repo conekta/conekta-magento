@@ -66,7 +66,6 @@ Included modules
 ----------------
 This version includes the following modules:
 
-* `Conekta_Bank`
 * `Conekta_Card`
 * `Conekta_Oxxo`
 * `Conekta_Spei`
