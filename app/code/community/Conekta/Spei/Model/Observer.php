@@ -36,6 +36,8 @@ class Conekta_Spei_Model_Observer{
             $order_params      = self::checkBalance($order_params, $charge_amount);
 
             try {
+                $create_order = true;
+
                 $conekta_order_id =
                     Mage::getSingleton('core/session')->getConektaOrderID();
 
