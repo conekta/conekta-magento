@@ -5,7 +5,6 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
     self::authenticateEvent($body, $_SERVER['HTTP_DIGEST']);
     $event = json_decode($body);
     $charge = $event->data->object;
-    sleep(2);
     $charge_id = $charge->metadata->checkout_id;
     if($event->type == "order.paid" && isset($event->data)){
       $conekta_order = Mage::getModel('sales/order')->loadByIncrementId($charge_id); 
