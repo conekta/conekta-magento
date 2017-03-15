@@ -33,12 +33,6 @@
     $authNumber = $_payment->getChargeAuthorization();
     $owner = $_payment->getCcOwner();
     $card = $_payment->getCcLast4();
-  } else if ($_method == "bank") {
-    $service_number = $_payment->getBankServiceNumber();
-    $service_name = $_payment->getBankServiceName();
-    $bank_name = $_payment->getBankName();
-    $reference = $_payment->getBankReference();
-    $expiry = $_payment->getBankExpiryDate();
   } else if ($_method == "spei") {
     $clabe = $_payment->getSpeiClabe();
     $bank = $_payment->getSpeiBank();
@@ -91,21 +85,6 @@
                 </tr>
                 <tr>
                   <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></td>
-                  </tr>
-                <?php } else if ($_method == "bank") { ?>
-                <tr>
-                  <td><?php echo $this->__('Service Name: %s', $service_name) ?></td>
-                </tr>
-                <tr>
-                  <td><?php echo $this->__('Service Number: %s', $service_number) ?></td>
-                </tr>
-                <tr>
-                  <td><?php echo $this->__('Bank Name: %s', $bank_name) ?></td>
-                </tr>
-                <tr>
-                  <td><?php echo $this->__('Reference Number: %s', $reference) ?></td>
-                </tr>
-                <th><?php echo $this->__('Expiry Date: %s', $expiry) ?></td>
                   </tr>
                 <?php } else if ($_method == "spei") { ?>
                 <tr>
