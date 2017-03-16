@@ -16,6 +16,7 @@ class Conekta_Oxxo_Model_Observer{
             $order_params = array();
             $days         =
                 $event->payment->getMethodInstance()->getConfigData('my_date');
+            $expiry_date  = Date('Y-m-d', strtotime("+".$days." days"));
             $order_params["line_items"]     = self::getLineItems($order);
             $order_params["shipping_lines"] = self::getShippingLines($order);
             $order_params["currency"]       =
