@@ -191,13 +191,14 @@ class Conekta_Card_Model_Observer{
             $shipping_contact["phone"]   = $billing['telephone'];
             $shipping_contact["receiver"] = preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
 
-            $address                     = array();
-            $address["street1"]          = $shipping_data['street'];
-            $address["city"]             = $shipping_data['city'];
-            $address["state"]            = $shipping_data['region'];
-            $address["country"]          = $shipping_data['country_id'];
-            $address["postal_code"]      = $shipping_data['postcode'];
-            $shipping_contact["address"] = $address;
+            $address                      = array();
+            $address["street1"]           = $shipping_data['street'];
+            $address["city"]              = $shipping_data['city'];
+            $address["state"]             = $shipping_data['region'];
+            $address["country"]           = $shipping_data['country_id'];
+            $address["postal_code"]       = $shipping_data['postcode'];
+            $shipping_contact["address"]  = $address;
+            $shipping_contact["metadata"] = array("soft_validations" => true);
         }
 
         return $shipping_contact;
@@ -303,6 +304,7 @@ class Conekta_Card_Model_Observer{
         $customer_info["phone"] = $billing['telephone'];
         $customer_info["name"]  =
             preg_replace('!\s+!', ' ', $billing['firstname'] . ' ' . $billing['middlename'] . ' ' . $billing['lastname']);
+        $customer_info["metadata"] = array("soft_validations" => true);    
 
         return $customer_info;
     }
