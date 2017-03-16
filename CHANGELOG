@@ -149,3 +149,6 @@
 * Bank (Bancomer) Payment Method removed.
 * Workaround for tax round bug.
 * Fix for monthly installments.
+=== 0.9.1 2017-03-16
+* Adding soft validations for shipping contact and contact info
+* Adding fix on webhooks listener
