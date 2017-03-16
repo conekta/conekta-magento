@@ -10,6 +10,13 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
     if($event->type == "order.paid" && isset($event->data)){
       $conekta_order = Mage::getModel('sales/order')->loadByIncrementId($charge_id); 
       $conekta_order->addStatusHistoryComment('','complete') ->setIsVisibleOnFront(false) ->setIsCustomerNotified(false); $conekta_order->save();
+      $invoice = $conekta_order->prepareInvoice();
+        $invoice->register();
+        Mage::getModel('core/resource_transaction')
+        ->addObject($invoice)
+        ->addObject($invoice->getOrder())
+        ->save();
+      $invoice->sendEmail(true, '');
     }
     
     $charge_id_matches_format = preg_match('/^[a-z_\-0-9]+$/i', $charge_id);
@@ -27,7 +34,7 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
       $order = Mage::getModel('sales/order')->loadByIncrementId($increment_id);
     }
 
-    if ($charge_id_matches_format && $entity_id_matches_format && strpos($event->type, "order.paid") !== false && $order->getId()) {   
+    if ($charge_id_matches_format && $entity_id_matches_format && $event->type == "order.paid" && $order->getId()) {   
       if ($order->hasInvoices() != true) {
         $invoice = $order->prepareInvoice();
         $invoice->register();
