@@ -265,7 +265,9 @@ class Conekta_Oxxo_Model_Observer{
         $tax_class_id   = $_product->getTaxClassId();
         $tax_class      = Mage::getModel('tax/class')->load($tax_class_id);
         $tax_class_name = $tax_class->getClassName();
-
+        if(empty($tax_class_name)){
+            $tax_class_name = "tax";
+        }
         return $tax_class_name;
     }
 
