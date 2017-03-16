@@ -2,7 +2,7 @@
 <config>
   <modules>
     <Conekta_Oxxo>
-      <version>0.9.0</version>
+      <version>0.9.1</version>
     </Conekta_Oxxo>
   </modules>
   <adminhtml>
