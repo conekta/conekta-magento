@@ -172,7 +172,7 @@ class Conekta_Spei_Model_Observer{
             $address                      = array();
             $address["street1"]           = $shipping_data['street'];
             $address["city"]              = $shipping_data['city'];
-            $address["state"]             = $shipping_data['region'];
+            $address["state"]             = isset($shipping_data['region']) ? $shipping_data['region'] : "";
             $address["country"]           = $shipping_data['country_id'];
             $address["postal_code"]       = $shipping_data['postcode'];
             $shipping_contact["address"]  = $address;
