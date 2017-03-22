@@ -158,3 +158,5 @@
 * Fixing when state is not set
 === 0.9.4 2017-03-21
 * The order status was set incorrectly after webhook notification
+=== 0.9.5 2017-03-22
+* Webhooks configurations in Admin screen are working again, now the user decides what to do with the order status' when the webhook is received.
