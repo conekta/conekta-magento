@@ -63,7 +63,7 @@ class Conekta_Oxxo_Model_Observer{
             Mage::getSingleton('core/session')->unsConektaOrderID();
             $event->payment->setOxxoExpiryDate($expiry_date);
             $event->payment->setOxxoBarcode($charge->payment_method->reference);
-            $event->payment->setChargeId($charge->id);
+            $event->payment->setChargeId($order->getIncrementId());
 
             //Update Quote
             $quote   = $order->getQuote();
