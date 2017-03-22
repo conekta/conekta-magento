@@ -7,18 +7,6 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
     $charge = $event->data->object;
     sleep(2);
     $charge_id = $charge->metadata->checkout_id;
-    if($event->type == "order.paid" && isset($event->data)){
-      $conekta_order = Mage::getModel('sales/order')->loadByIncrementId($charge_id); 
-      $conekta_order->addStatusHistoryComment('','processing') ->setIsVisibleOnFront(false) ->setIsCustomerNotified(false); $conekta_order->save();
-      $invoice = $conekta_order->prepareInvoice();
-        $invoice->register();
-        Mage::getModel('core/resource_transaction')
-        ->addObject($invoice)
-        ->addObject($invoice->getOrder())
-        ->save();
-      $invoice->sendEmail(true, '');
-    }
-    
     $charge_id_matches_format = preg_match('/^[a-z_\-0-9]+$/i', $charge_id);
     if ($charge_id_matches_format) {
         $resource = Mage::getSingleton('core/resource');

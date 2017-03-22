@@ -68,7 +68,7 @@ class Conekta_Card_Model_Observer{
             $event->payment->setCardToken($_POST['payment']['conekta_token']);
             $event->payment->setCardMonthlyInstallments($charge->monthly_installments);
             $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
-            $event->payment->setChargeId($charge->id);
+            $event->payment->setChargeId($order->getIncrementId());
             $event->payment->setCcOwner($charge->payment_method->name);
             $event->payment->setCcLast4($charge->payment_method->last4);
             $event->payment->setCcType($charge->payment_method->brand);
