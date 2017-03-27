@@ -38,6 +38,13 @@ class Conekta_Webhook_AjaxController extends Mage_Core_Controller_Front_Action {
         $order->setData('state', $orderStatus);
         $order->save();
       }
+    } else {
+      if (strpos($event->type, "order.paid") !== false) {
+        header('HTTP/1.0 404 Not Found');
+        $this->getResponse()->setHeader('HTTP/1.1','404 Not Found');
+        $this->getResponse()->setHeader('Status','404 File not found');
+        $this->_forward('defaultNoRoute');
+      }
     }
   }
 
