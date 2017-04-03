@@ -28,7 +28,7 @@ Current version features:
 Magento Version Compatibility
 -----------------------------
 The plugin has been tested in Magento 1.7, 1.8, and 1.9. Support is not guaranteed for untested versions.
-
+This extension supports PHP version >= 5.6.9 and < 7.0.0
 Installation
 -----------
 
