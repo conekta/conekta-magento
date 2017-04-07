@@ -161,4 +161,5 @@
 === 0.9.5 2017-03-22
 * Webhooks configurations in Admin screen are working again, now the user decides what to do with the order status' when the webhook is received.
 === 0.9.6 2017-03-27
-* Removing 404 response when charge.paid is not true.
+* The 404 response was updated to also check "order.paid" event type.
+* Avoiding to send null when shipping contact does not exists.
