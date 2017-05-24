@@ -60,8 +60,8 @@ class Conekta_Oxxo_Model_Observer{
                 $conekta_order->createCharge($charge_params);
 
                 $charge = $conekta_order->charges[0];
-            } catch (\Conekta\ErrorList $e){
-                throw new Mage_Payment_Model_Info_Exception($e->details[0]->getMessage());
+            } catch (\Conekta\Handler $e){
+                throw new Mage_Payment_Model_Info_Exception($e->getMessage());
             }
 
             Mage::getSingleton('core/session')->unsConektaOrderID();
