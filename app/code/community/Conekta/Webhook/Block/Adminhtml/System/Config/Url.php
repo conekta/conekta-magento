@@ -47,9 +47,9 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
        if (!in_array($url_string, $urls)){
           $webhook = \Conekta\Webhook::create(array_merge(array("url"=>$url_string), $events));
        } 
-      } catch (\Conekta\ErrorList $e){
+      } catch (\Conekta\Handler $e){
         $error = true;
-        $error_message = $e->details[0]->message;
+        $error_message = $e->getMessage();
       }
     }
 

@@ -30,16 +30,18 @@ class Conekta_Card_Model_Observer{
             if (!empty($shipping_contact)) {
                 $order_params["shipping_contact"] = $shipping_contact;
             }
+            $charge_amount     = (intval(((float) $order->grandTotal) * 10000)) / 100;
             $order_params["metadata"]         = array(
                 "checkout_id"      => $order->getIncrementId(),
-                "soft_validations" => true
+                "soft_validations" => true,
+                "total_charge"      => $charge_amount
             );
-            $charge_amount     = intval(((float) $order->grandTotal) * 100);
+            $data = Mage::app()->getRequest()->getParam('payment');
             $charge_expiration = strtotime("+".$days." days");
             $charge_params     = self::getCharge(
-                intval(((float) $order->grandTotal) * 100),
-                $_POST['payment']['conekta_token'],
-                $_POST['payment']['monthly_installments']
+                $charge_amount,
+                $data['conekta_token'],
+                $data['monthly_installments']
             );
 
             $order_params = self::checkBalance($order_params, $charge_amount);
@@ -67,28 +69,28 @@ class Conekta_Card_Model_Observer{
             } catch (\Conekta\Handler $e){
                 throw new Mage_Payment_Model_Info_Exception($e->getMessage());
             }
-
+            $card = Mage::app()->getRequest()->getParam('card');
             Mage::getSingleton('core/session')->unsConektaOrderID();
-            $event->payment->setCardToken($_POST['payment']['conekta_token']);
+            $event->payment->setCardToken($data['conekta_token']);
             $event->payment->setCardMonthlyInstallments($charge->monthly_installments);
             $event->payment->setChargeAuthorization($charge->payment_method->auth_code);
             $event->payment->setChargeId($order->getIncrementId());
             $event->payment->setCcOwner($charge->payment_method->name);
             $event->payment->setCcLast4($charge->payment_method->last4);
             $event->payment->setCcType($charge->payment_method->brand);
-            $event->payment->setCardBin($_POST['card']['bin']);
+            $event->payment->setCardBin($card['bin']);
 
             //Update Quote
             $quote   = $order->getQuote();
             $payment = $quote->getPayment();
-            $payment->setCardToken($_POST['payment']['conekta_token']);
+            $payment->setCardToken($data['conekta_token']);
             $payment->setCardMonthlyInstallments($charge->monthly_installments);
             $payment->setChargeAuthorization($charge->payment_method->auth_code);
 
             $payment->setCcOwner($charge->payment_method->name);
             $payment->setCcLast4($charge->payment_method->last4);
             $payment->setCcType($charge->payment_method->brand);
-            $payment->setCardBin($_POST['card']['bin']);
+            $payment->setCardBin($card['bin']);
 
             $payment->setChargeId($charge->id);
             $quote->collectTotals();
@@ -141,10 +143,10 @@ class Conekta_Card_Model_Observer{
             ),
             'amount' => $amount
         );
-
-        if ($_POST['payment']['monthly_installments'] != 0) {
+        $data = Mage::app()->getRequest()->getParam('payment');
+        if ($data['monthly_installments'] != 0) {
             $charge["payment_method"]["monthly_installments"] =
-                $_POST['payment']['monthly_installments'];
+                $data['monthly_installments'];
         }
 
         return $charge;
@@ -164,14 +166,14 @@ class Conekta_Card_Model_Observer{
             if (empty($description)) {
                 $description = $name;
             }
-
+            $product_type = array(product_type);
             $line_items = array_merge($line_items, array(array(
                 'name'        => $name,
                 'description' => $description,
                 'unit_price'  => intval(round(floatval($unit_price) / 10), 2),
                 'quantity'    => intval($item->getQtyOrdered()),
                 'sku'         => $sku,
-                'tags'        => [$product_type]
+                'tags'        => $product_type
             ))
             );
         }
@@ -248,7 +250,7 @@ class Conekta_Card_Model_Observer{
                 $discount_line           = array();
                 $discount_line["code"]   = $description;
                 $discount_line["type"]   = "coupon";
-                $discount_line["amount"] = intval($item->getDiscountAmount() * 100);
+                $discount_line["amount"] = abs(intval($order->getDiscountAmount() * 100));
                 $discount_lines          =
                     array_merge($discount_lines, array($discount_line));
 
@@ -277,7 +279,7 @@ class Conekta_Card_Model_Observer{
             $tax_line                = array();
             $tax_description         = self::getTaxName($item);
             $tax_line["description"] = $tax_description;
-            $tax_line["amount"]      = intval($item->getTaxAmount() * 100);
+            $tax_line["amount"]      = (intval($item->getTaxAmount() * 10000 )/ 100);
             $tax_lines               = array_merge($tax_lines, array($tax_line));
         }
 

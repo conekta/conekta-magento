@@ -31,11 +31,12 @@ class Conekta_Oxxo_Model_Observer{
             if (!empty($shipping_contact)) {
                 $order_params["shipping_contact"] = $shipping_contact;
             }
+            $charge_amount     = (intval(((float) $order->grandTotal) * 10000)) / 100;
             $order_params["metadata"]         = array(
                 "checkout_id"      => $order->getIncrementId(),
-                "soft_validations" => true
+                "soft_validations" => true,
+                "total_charge"      => $charge_amount
             );
-            $charge_amount     = intval(((float) $order->grandTotal) * 100);
             $charge_expiration = strtotime("+".$days." days");
             $charge_params     = self::getCharge($charge_amount, $charge_expiration);
             $order_params      = self::checkBalance($order_params, $charge_amount);
@@ -143,14 +144,14 @@ class Conekta_Oxxo_Model_Observer{
             if (empty($description)) {
                 $description = $name;
             }
-
+            $product_type = array(product_type);
             $line_items = array_merge($line_items, array(array(
                 'name'        => $name,
                 'description' => $description,
                 'unit_price'  => intval(round(floatval($unit_price) / 10), 2),
                 'quantity'    => intval($item->getQtyOrdered()),
                 'sku'         => $sku,
-                'tags'        => [$product_type]
+                'tags'        => $product_type
             ))
             );
         }
@@ -227,7 +228,7 @@ class Conekta_Oxxo_Model_Observer{
                 $discount_line           = array();
                 $discount_line["code"]   = $description;
                 $discount_line["type"]   = "coupon";
-                $discount_line["amount"] = intval($item->getDiscountAmount() * 100);
+                $discount_line["amount"] = abs(intval($order->getDiscountAmount() * 10000)/100);
                 $discount_lines          =
                     array_merge($discount_lines, array($discount_line));
 
@@ -256,7 +257,7 @@ class Conekta_Oxxo_Model_Observer{
             $tax_line                = array();
             $tax_description         = self::getTaxName($item);
             $tax_line["description"] = $tax_description;
-            $tax_line["amount"]      = intval($item->getTaxAmount() * 100);
+            $tax_line["amount"]      = (intval($item->getTaxAmount() * 10000 )/ 100);
             $tax_lines               = array_merge($tax_lines, array($tax_line));
         }
 
