@@ -30,12 +30,13 @@ class Conekta_Spei_Model_Observer{
             if (!empty($shipping_contact)) {
                 $order_params["shipping_contact"] = $shipping_contact;
             }
-            $charge_amount     = intval(((float) $order->grandTotal) * 100);
+            $charge_amount     = (intval(((float) $order->grandTotal) * 10000)) / 100;
             $order_params["metadata"]         = array(
                 "checkout_id"      => $order->getIncrementId(),
                 "soft_validations" => true,
                 "total_charge"      => $charge_amount
             );
+            
             $charge_expiration = strtotime("+".$days." days");
             $charge_params     = self::getCharge($charge_amount, $charge_expiration);
             $order_params      = self::checkBalance($order_params, $charge_amount);
