@@ -30,11 +30,13 @@ class Conekta_Spei_Model_Observer{
             if (!empty($shipping_contact)) {
                 $order_params["shipping_contact"] = $shipping_contact;
             }
+            $charge_amount     = (intval(((float) $order->grandTotal) * 10000)) / 100;
             $order_params["metadata"]         = array(
                 "checkout_id"      => $order->getIncrementId(),
-                "soft_validations" => true
+                "soft_validations" => true,
+                "total_charge"      => $charge_amount
             );
-            $charge_amount     = intval(((float) $order->grandTotal) * 100);
+            
             $charge_expiration = strtotime("+".$days." days");
             $charge_params     = self::getCharge($charge_amount, $charge_expiration);
             $order_params      = self::checkBalance($order_params, $charge_amount);
@@ -59,8 +61,8 @@ class Conekta_Spei_Model_Observer{
                 $conekta_order->createCharge($charge_params);
 
                 $charge = $conekta_order->charges[0];
-            } catch (\Conekta\ErrorList $e){
-                throw new Mage_Payment_Model_Info_Exception($e->details[0]->getMessage());
+            } catch (\Conekta\Handler $e){
+                throw new Mage_Payment_Model_Info_Exception($e->getMessage());
             }
 
             Mage::getSingleton('core/session')->unsConektaOrderID();
@@ -255,7 +257,7 @@ class Conekta_Spei_Model_Observer{
             $tax_line                = array();
             $tax_description         = self::getTaxName($item);
             $tax_line["description"] = $tax_description;
-            $tax_line["amount"]      = intval($item->getTaxAmount() * 100);
+            $tax_line["amount"]      = (intval($item->getTaxAmount() * 10000 )/ 100);
             $tax_lines               = array_merge($tax_lines, array($tax_line));
         }
 
