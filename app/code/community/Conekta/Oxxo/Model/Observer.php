@@ -144,7 +144,7 @@ class Conekta_Oxxo_Model_Observer{
             if (empty($description)) {
                 $description = $name;
             }
-            $product_type = array(product_type);
+            $product_type = array($product_type);
             $line_items = array_merge($line_items, array(array(
                 'name'        => $name,
                 'description' => $description,
