@@ -12,6 +12,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
     \Conekta\Conekta::setApiKey($privateKey);
     \Conekta\Conekta::setApiVersion("2.0.0");
     \Conekta\Conekta::setPlugin("Magento 1");
+    \Conekta\Conekta::setPluginVersion("0.9.2");
     \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
     $url = new Varien_Data_Form_Element_Text;
