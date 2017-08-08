@@ -10,6 +10,7 @@ class Conekta_Spei_Model_Observer{
             \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
             \Conekta\Conekta::setApiVersion("2.0.0");
             \Conekta\Conekta::setPlugin("Magento 1");
+            \Conekta\Conekta::setPluginVersion("0.9.2");
             \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
             $order        = $event->payment->getOrder();
