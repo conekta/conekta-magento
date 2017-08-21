@@ -31,7 +31,7 @@ class Conekta_Webhook_Block_Adminhtml_System_Config_Url extends Mage_Adminhtml_B
 
     $url->setValue($url_string);
 
-    $events = array("events" => array("charge.paid"), "production_enabled" => 1, "development_enabled" => 1);
+    $events = array("events" => array("charge.paid", "order.paid"), "production_enabled" => 1, "development_enabled" => 1);
     $error = false;
     $error_message = null;
     if (!empty($privateKey)) {
