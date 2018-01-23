@@ -3,14 +3,14 @@
   <default>
     <reference name="head">
         <block type="core/text" name="conekta">
-            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+            <action method="setText"><text><![CDATA[<script src="https://cdn.conekta.io/iframe/latest/index.js"></script>]]></text></action>
         </block>
     </reference>
   </default>
   <card_index_index>
     <reference name="head">
         <block type="core/text" name="conekta">
-            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+            <action method="setText"><text><![CDATA[<script src="https://cdn.conekta.io/iframe/latest/index.js"></script>]]></text></action>
         </block>
     </reference>
     <reference name="content">
@@ -20,7 +20,7 @@
   <checkout_onepage_index>
     <reference name="head">
         <block type="core/text" name="conekta">
-            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+            <action method="setText"><text><![CDATA[<script src="https://cdn.conekta.io/iframe/latest/index.js"></script>]]></text></action>
         </block>
     </reference>
     <reference name="before_body_end">
@@ -30,7 +30,7 @@
   <opc_index_index translate="label">
     <reference name="head">
         <block type="core/text" name="conekta">
-            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+            <action method="setText"><text><![CDATA[<script src="https://cdn.conekta.io/iframe/latest/index.js"></script>]]></text></action>
         </block>
     </reference>
     <reference name="before_body_end">
@@ -40,7 +40,7 @@
   <onestepcheckout_index_index>
     <reference name="head">
         <block type="core/text" name="conekta">
-            <action method="setText"><text><![CDATA[<script src="https://conektaapi.s3.amazonaws.com/v0.3.2/js/conekta.js"></script>]]></text></action>
+            <action method="setText"><text><![CDATA[<script src="https://cdn.conekta.io/iframe/latest/index.js"></script>]]></text></action>
         </block>
     </reference>
     <reference name="before_body_end">
