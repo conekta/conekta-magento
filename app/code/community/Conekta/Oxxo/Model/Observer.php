@@ -1,6 +1,18 @@
 <?php
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
 class Conekta_Oxxo_Model_Observer{
+    
+    public function checkCartAmount($event){
+        if ($event->getMethodInstance()->getCode() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
+            $result = $event->getResult();
+            $total = $event->getQuote()->getGrandTotal();
+                if ($total<=10000) {                                 
+                    $result->isAvailable = true;
+                } else {
+                    $result->isAvailable = false;
+                }
+        }
+    }
     public function processPayment($event){
         if (!class_exists('Conekta\Conekta')) {
             error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);
@@ -10,7 +22,7 @@ class Conekta_Oxxo_Model_Observer{
             \Conekta\Conekta::setApiKey(Mage::getStoreConfig('payment/webhook/privatekey'));
             \Conekta\Conekta::setApiVersion("2.0.0");
             \Conekta\Conekta::setPlugin("Magento 1");
-            \Conekta\Conekta::setPluginVersion("0.9.2");     
+            \Conekta\Conekta::setPluginVersion("0.9.8");     
             \Conekta\Conekta::setLocale(Mage::app()->getLocale()->getLocaleCode());
 
             $order        = $event->payment->getOrder();
