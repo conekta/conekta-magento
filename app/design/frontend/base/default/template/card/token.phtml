@@ -4,14 +4,21 @@
     var processPayment = function() {
       var currentMethod = (oneStepForm != null) ? payment.currentMethod : payment.lastUsedMethod;
       if(currentMethod == 'card'){
-        if(_validateCard()) {
-          document.getElementById('card_expiration').setAttribute("data-conekta", "card[exp_month]");
-          document.getElementById('card_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
+          var owner = document.getElementById('card_cc_owner').value
+          var month = document.getElementById('card_expiration').value
+          var year  = document.getElementById('card_expiration_yr').value
           var form = document.getElementById("payment_form_card");
-          Conekta.token.create(form, successResponseHandler, errorResponseHandler);
-        } else {
-          conektaTempSave();
-        }
+          Conekta.tokenize({ 
+              name: owner,
+              expMonth: month,
+              expYear: year}
+            ,function(err, token){
+                if(err){
+                  errorResponseHandler(err)
+                }else if (token){
+                  successResponseHandler(token)
+                }
+            });
       } else {
         conektaTempSave();
       }
@@ -54,14 +61,6 @@
       }
     }
   
-    var _validateCard = function(){
-      var expMonth = document.getElementById('card_expiration').value;
-      var expYear = document.getElementById('card_expiration_yr').value;
-      var cardNumber = document.getElementById('card_cc_number').value;
-      var type = Conekta.card.getBrand(cardNumber);
-      document.getElementById('card_card_bin').value = cardNumber.substring(0,6);
-      return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
-    }
 
     if (window["IWD"] && IWD.OPC) {
       var initSaveOrder = function() {   
