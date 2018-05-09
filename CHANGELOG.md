@@ -1,3 +1,13 @@
+## [0.9.8]() - 2018-05-09
+
+### Fix
+
+- Order without associated charges 
+- Cardholder name validation
+- Cvc number validation
+- Card number validation
+- Card expiration date validation
+
 ## [0.9.7]() - 2017-04-17
 ### Fix
 - Avoiding to send null when shipping contact does not exists
