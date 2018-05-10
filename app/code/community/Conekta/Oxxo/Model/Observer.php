@@ -1,6 +1,18 @@
 <?php
 include_once(Mage::getBaseDir('lib') . DS . 'Conekta' . DS . 'lib' . DS . 'Conekta.php');
 class Conekta_Oxxo_Model_Observer{
+    
+    public function checkCartAmount($event){
+        if ($event->getMethodInstance()->getCode() == Mage::getModel('Conekta_Oxxo_Model_Oxxo')->getCode()){
+            $result = $event->getResult();
+            $total = $event->getQuote()->getGrandTotal();
+                if ($total<=10000) {                                 
+                    $result->isAvailable = true;
+                } else {
+                    $result->isAvailable = false;
+                }
+        }
+    }
     public function processPayment($event){
         if (!class_exists('Conekta\Conekta')) {
             error_log("Plugin miss Conekta PHP lib dependency. Clone the repository using 'git clone --recursive git@github.com:conekta/conekta-magento.git'", 0);

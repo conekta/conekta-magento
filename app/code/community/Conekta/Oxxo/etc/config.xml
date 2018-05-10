@@ -45,6 +45,14 @@
   </frontend>
   <global>
    <events>
+      <payment_method_is_active>
+        <observers>
+         <card>
+           <class>oxxo/observer</class>
+           <method>checkCartAmount</method>
+         </card>
+       </observers>
+     </payment_method_is_active>
      <sales_order_payment_place_start>
        <observers>
          <oxxo>
