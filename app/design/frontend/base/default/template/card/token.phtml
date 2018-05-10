@@ -4,13 +4,12 @@
     var processPayment = function() {
       var currentMethod = (oneStepForm != null) ? payment.currentMethod : payment.lastUsedMethod;
       if(currentMethod == 'card'){
-        if(_validateCard()) {
-          document.getElementById('card_expiration').setAttribute("data-conekta", "card[exp_month]");
-          document.getElementById('card_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
+        if(_validateData()) {
+          _setAttrbutes();
           var form = document.getElementById("payment_form_card");
           Conekta.token.create(form, successResponseHandler, errorResponseHandler);
         } else {
-          conektaTempSave();
+          alert(_getError());
         }
       } else {
         conektaTempSave();
@@ -53,16 +52,53 @@
         payment.resetLoadWaiting();
       }
     }
-  
-    var _validateCard = function(){
-      var expMonth = document.getElementById('card_expiration').value;
-      var expYear = document.getElementById('card_expiration_yr').value;
-      var cardNumber = document.getElementById('card_cc_number').value;
-      var type = Conekta.card.getBrand(cardNumber);
-      document.getElementById('card_card_bin').value = cardNumber.substring(0,6);
-      return Conekta.card.validateNumber(cardNumber) && Conekta.card.validateExpirationDate(expMonth, expYear) && type != 'unknown';
+    var _validateName = function(name){
+      // regex should match with more than one word up to six e.j
+      // FIRST SECOND SEPARATOR MIDDLE AND LAST
+      return typeof name == 'string' && name.match('^((?:[A-Za-zÀ-ÿ]+ ?){1,6})$') != null
     }
+    var _setAttrbutes = function() {
+        document.getElementById('card_expiration').setAttribute("data-conekta", "card[exp_month]");
+        document.getElementById('card_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
+    }
+    var _validateData = function(){
+      var expYear    = document.getElementById('card_expiration_yr').value;
+      var expMonth   = document.getElementById('card_expiration').value;
+      var cardNumber = document.getElementById('card_cc_number').value;
+      var cardName   = document.getElementById('card_cc_owner').value;
+      var cvcNumber  = document.getElementById('card_cc_cid').value;
 
+      document.getElementById('card_card_bin').value = cardNumber.substring(0,6);
+
+      cvcValidation        = Conekta.card.validateCVC(cvcNumber)
+      expirationValidation = Conekta.card.validateExpirationDate(expMonth, expYear)
+      cardValidation       = Conekta.card.validateNumber(cardNumber)
+      nameValidation       = _validateName(cardName)
+      
+      return cvcValidation && expirationValidation && cardValidation && nameValidation
+    }
+    var _getError = function(){
+      var expYear    = document.getElementById('card_expiration_yr').value;
+      var expMonth   = document.getElementById('card_expiration').value;
+      var cardNumber = document.getElementById('card_cc_number').value;
+      var cardName   = document.getElementById('card_cc_owner').value;
+      var cvcNumber  = document.getElementById('card_cc_cid').value;
+
+      if (!Conekta.card.validateCVC(cvcNumber)) {
+        return 'validation error on cvc'
+      }
+      if (!Conekta.card.validateExpirationDate(expMonth, expYear)){
+        return 'validation error on expiration date'
+      }
+      if (!Conekta.card.validateNumber(cardNumber)) {
+        return 'validation error on card number'
+      } 
+      if (!_validateName(cardName)){
+        return 'validation error on card holder name'
+      } 
+      return 'unknown error'
+    }
+    
     if (window["IWD"] && IWD.OPC) {
       var initSaveOrder = function() {   
         IWD.OPC.saveOrderStatus = true;
