@@ -26,7 +26,32 @@
 ?>
 <?php $_code=$this->getMethodCode() ?>
 <script>
-  Conekta.setPublishableKey('<?php echo Mage::getStoreConfig('payment/webhook/publickey');?>');
+  var cardComponent = {
+    style: {
+      'padding': '5px 10px',
+      'border': '1px solid rgb(204, 204, 204)',
+      'font-family': 'Helvetica Neue',
+      'font-size': '15px',
+      'width': '100%'
+    },
+    placeholder: '',
+    animation: true,
+    idElement: "form-card-1"
+  };
+  var cvcComponent = {
+    style: {
+      'padding': '5px 10px',
+      'border': '1px solid rgb(204, 204, 204)',
+      'font-family': 'Helvetica Neue',
+      'font-size': '15px',
+      'width': '100%'
+    },
+    placeholder: '',
+    animation: true,
+    idElement: "form-cvc-1"
+  };
+  renderComponents('<?php echo Mage::getStoreConfig('payment/webhook/publickey');?>', cardComponent, cvcComponent);
+
 </script>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
    <input id="<?php echo $_code ?>_card_token" name="payment[conekta_token]" type="hidden" value="">
@@ -70,8 +95,7 @@
   </li>
   <li>
     <label for="<?php echo $_code ?>_cc_number" class="required"><em>*</em><?php echo $this->__('Credit Card Number') ?></label>
-    <div class="input-box">
-      <input type="text" id="<?php echo $_code ?>_cc_number" data-conekta="card[number]" title="<?php echo $this->__('Credit Card Number') ?>" class="input-text validate-cc-number validate-cc-type required-entry" value="" />
+    <div id="form-card-1" class="input-box" style="height: 50px; width: 365px;">
     </div>
   </li>
   <li id="<?php echo $_code ?>_cc_type_exp_div">
@@ -121,10 +145,9 @@
   <li id="<?php echo $_code ?>_cc_type_cvv_div">
     <label for="<?php echo $_code ?>_cc_cid" class="required"><em>*</em><?php echo $this->__('Card Verification Number') ?></label>
     <div class="input-box">
-      <div class="v-fix">
-        <input type="text" title="<?php echo $this->__('Card Verification Number') ?>" class="input-text cvv required-entry validate-cc-cvn" id="<?php echo $_code ?>_cc_cid" data-conekta="card[cvc]" value="" />
+      <div id="form-cvc-1" class="v-fix" style="height: 50px; width: 4em;">
       </div>
-      <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
+       <a href="#" class="cvv-what-is-this"><?php echo $this->__('What is this?') ?></a>
     </div>
   </li>
 </ul>

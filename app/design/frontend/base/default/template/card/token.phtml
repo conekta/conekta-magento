@@ -1,15 +1,33 @@
 <script type="text/javascript">
     //<![CDATA[
+
+    function callBack(token){
+      if(!token.id){
+        errorResponseHandler(token);
+      }else {
+        successResponseHandler(token);
+      }
+    }
+
+    var _validateName = function(name){
+      return typeof name == 'string' && name.match('^((?:[A-Za-zÀ-ÿ]+ ?){1,6})$') != null
+    }
+    
     var oneStepForm = document.getElementById("onestepcheckout-form");
     var processPayment = function() {
       var currentMethod = (oneStepForm != null) ? payment.currentMethod : payment.lastUsedMethod;
       if(currentMethod == 'card'){
-        if(_validateData()) {
-          _setAttrbutes();
-          var form = document.getElementById("payment_form_card");
-          Conekta.token.create(form, successResponseHandler, errorResponseHandler);
+        if(_validateName(document.getElementById('card_cc_owner').value)){
+          var owner = document.getElementById('card_cc_owner').value
+          var month = document.getElementById('card_expiration').value
+          var year  = document.getElementById('card_expiration_yr').value
+          createToken('form-card-1', callBack, {
+            name: owner,
+            expMonth: month,
+            expYear: year
+          });
         } else {
-          alert(_getError());
+          alert('Error en el nombre del titular');
         }
       } else {
         conektaTempSave();
@@ -36,8 +54,18 @@
       }
     }
 
+    var getError = function(response){
+      if(!response.card)
+        return 'Error en numero de Tarjeta'
+      if(!response.date)
+        return 'Error en fecha de expiración'
+      if(!response.cvc)
+        return 'Error en codigo de seguridad'
+    }
+
     var errorResponseHandler = function(response) {
-      alert(response.message);
+      document.getElementById('card_card_token').value = '';
+      alert(getError(response));
       if (window["IWD"] && IWD.OPC) {
         IWD.OPC.Checkout.unlockPlaceOrder();
       } else if (oneStepForm != null) {
@@ -52,53 +80,7 @@
         payment.resetLoadWaiting();
       }
     }
-    var _validateName = function(name){
-      // regex should match with more than one word up to six e.j
-      // FIRST SECOND SEPARATOR MIDDLE AND LAST
-      return typeof name == 'string' && name.match('^((?:[A-Za-zÀ-ÿ]+ ?){1,6})$') != null
-    }
-    var _setAttrbutes = function() {
-        document.getElementById('card_expiration').setAttribute("data-conekta", "card[exp_month]");
-        document.getElementById('card_expiration_yr').setAttribute("data-conekta", "card[exp_year]");
-    }
-    var _validateData = function(){
-      var expYear    = document.getElementById('card_expiration_yr').value;
-      var expMonth   = document.getElementById('card_expiration').value;
-      var cardNumber = document.getElementById('card_cc_number').value;
-      var cardName   = document.getElementById('card_cc_owner').value;
-      var cvcNumber  = document.getElementById('card_cc_cid').value;
-
-      document.getElementById('card_card_bin').value = cardNumber.substring(0,6);
-
-      cvcValidation        = Conekta.card.validateCVC(cvcNumber)
-      expirationValidation = Conekta.card.validateExpirationDate(expMonth, expYear)
-      cardValidation       = Conekta.card.validateNumber(cardNumber)
-      nameValidation       = _validateName(cardName)
-      
-      return cvcValidation && expirationValidation && cardValidation && nameValidation
-    }
-    var _getError = function(){
-      var expYear    = document.getElementById('card_expiration_yr').value;
-      var expMonth   = document.getElementById('card_expiration').value;
-      var cardNumber = document.getElementById('card_cc_number').value;
-      var cardName   = document.getElementById('card_cc_owner').value;
-      var cvcNumber  = document.getElementById('card_cc_cid').value;
-
-      if (!Conekta.card.validateCVC(cvcNumber)) {
-        return 'validation error on cvc'
-      }
-      if (!Conekta.card.validateExpirationDate(expMonth, expYear)){
-        return 'validation error on expiration date'
-      }
-      if (!Conekta.card.validateNumber(cardNumber)) {
-        return 'validation error on card number'
-      } 
-      if (!_validateName(cardName)){
-        return 'validation error on card holder name'
-      } 
-      return 'unknown error'
-    }
-    
+  
     if (window["IWD"] && IWD.OPC) {
       var initSaveOrder = function() {   
         IWD.OPC.saveOrderStatus = true;
